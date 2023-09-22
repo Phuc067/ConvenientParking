@@ -23,10 +23,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "priceTickets")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class PriceTicket implements Serializable{
 	/**
 	 * 

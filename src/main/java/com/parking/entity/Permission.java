@@ -16,10 +16,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "permissions")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class Permission implements Serializable{
 	
 	/**

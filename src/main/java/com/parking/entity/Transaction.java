@@ -24,10 +24,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "`transactions`")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class Transaction implements Serializable{
 	/**
 	 * 
