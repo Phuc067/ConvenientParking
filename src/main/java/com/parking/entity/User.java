@@ -19,10 +19,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "endUsers")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class User implements Serializable{
 		
 	/**
@@ -55,5 +52,69 @@ public class User implements Serializable{
 	private String email;
 	@Column
 	private String zalopayId;
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public User(int id,
+			@NotBlank(message = "First name should not be empty") @Size(max = 50, message = "First name shouldn't be exceed 50 character") String firstName,
+			@NotBlank(message = "Last name should not be empty") @Size(max = 50, message = "Last name shouldn't be exceed 50 character") String lastName,
+			@NotBlank(message = "Gender should not be empty") Boolean gender, String phone, @Email String email,
+			String zalopayId) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.gender = gender;
+		this.phone = phone;
+		this.email = email;
+		this.zalopayId = zalopayId;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	public Boolean getGender() {
+		return gender;
+	}
+	public void setGender(Boolean gender) {
+		this.gender = gender;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getZalopayId() {
+		return zalopayId;
+	}
+	public void setZalopayId(String zalopayId) {
+		this.zalopayId = zalopayId;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
 	
 }

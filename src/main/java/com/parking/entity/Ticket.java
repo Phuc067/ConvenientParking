@@ -25,10 +25,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "tickets")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class Ticket implements Serializable{
 	
 	/**
@@ -64,4 +61,65 @@ public class Ticket implements Serializable{
 	@JoinColumn(name = "parkingLotId", referencedColumnName = "id")
 	@JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
 	private ParkingLot parkingLot;
+	public Ticket() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public Ticket(Long id, Timestamp checkInTime, Timestamp checkOutTime, String liciensePlate, VehicleType vehicleType,
+			User user, ParkingLot parkingLot) {
+		super();
+		this.id = id;
+		this.checkInTime = checkInTime;
+		this.checkOutTime = checkOutTime;
+		this.liciensePlate = liciensePlate;
+		this.vehicleType = vehicleType;
+		this.user = user;
+		this.parkingLot = parkingLot;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public Timestamp getCheckInTime() {
+		return checkInTime;
+	}
+	public void setCheckInTime(Timestamp checkInTime) {
+		this.checkInTime = checkInTime;
+	}
+	public Timestamp getCheckOutTime() {
+		return checkOutTime;
+	}
+	public void setCheckOutTime(Timestamp checkOutTime) {
+		this.checkOutTime = checkOutTime;
+	}
+	public String getLiciensePlate() {
+		return liciensePlate;
+	}
+	public void setLiciensePlate(String liciensePlate) {
+		this.liciensePlate = liciensePlate;
+	}
+	public VehicleType getVehicleType() {
+		return vehicleType;
+	}
+	public void setVehicleType(VehicleType vehicleType) {
+		this.vehicleType = vehicleType;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	public ParkingLot getParkingLot() {
+		return parkingLot;
+	}
+	public void setParkingLot(ParkingLot parkingLot) {
+		this.parkingLot = parkingLot;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
 }

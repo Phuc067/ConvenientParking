@@ -12,17 +12,10 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name="merchants")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class Merchant implements Serializable {
 
 	/**
@@ -46,5 +39,54 @@ public class Merchant implements Serializable {
 	private String email;
 	@Column
 	private String phone;
+	public Merchant() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public Merchant(Long id,
+			@Size(max = 50, message = "Name shouldn't be exceed 50 character") @NotBlank(message = "Name should not be empty") String name,
+			@Size(max = 50, message = "Represent shouldn't be exceed 50 character") @NotBlank(message = "Represent should not be empty") String represent,
+			@Email String email, String phone) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.represent = represent;
+		this.email = email;
+		this.phone = phone;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getRepresent() {
+		return represent;
+	}
+	public void setRepresent(String represent) {
+		this.represent = represent;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
 	
 }

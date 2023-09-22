@@ -54,4 +54,52 @@ public class PriceTicket implements Serializable{
 	@Column
 	@Min(0)
 	private Long price;
+	public PriceTicket() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public PriceTicket(Long id, ParkingLot parkingLot, VehicleType vehicleType,
+			@NotBlank(message = "Period time shouldn't be empty") Long periodTime, @Min(0) Long price) {
+		super();
+		this.id = id;
+		this.parkingLot = parkingLot;
+		this.vehicleType = vehicleType;
+		this.periodTime = periodTime;
+		this.price = price;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public ParkingLot getParkingLot() {
+		return parkingLot;
+	}
+	public void setParkingLot(ParkingLot parkingLot) {
+		this.parkingLot = parkingLot;
+	}
+	public VehicleType getVehicleType() {
+		return vehicleType;
+	}
+	public void setVehicleType(VehicleType vehicleType) {
+		this.vehicleType = vehicleType;
+	}
+	public Long getPeriodTime() {
+		return periodTime;
+	}
+	public void setPeriodTime(Long periodTime) {
+		this.periodTime = periodTime;
+	}
+	public Long getPrice() {
+		return price;
+	}
+	public void setPrice(Long price) {
+		this.price = price;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
+	
 }

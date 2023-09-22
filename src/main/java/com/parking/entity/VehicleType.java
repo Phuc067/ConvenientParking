@@ -7,17 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name = "vehicleTypes")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class VehicleType implements Serializable{
 
 	/**
@@ -30,4 +23,36 @@ public class VehicleType implements Serializable{
 	
 	@Column
 	private String typeName;
+
+	public VehicleType() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public VehicleType(Long id, String typeName) {
+		super();
+		this.id = id;
+		this.typeName = typeName;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getTypeName() {
+		return typeName;
+	}
+
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
 }

@@ -20,10 +20,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "parkingLotImages")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class ParkingLotImage implements Serializable{
 	
 	/**
@@ -40,7 +37,47 @@ public class ParkingLotImage implements Serializable{
 	private ParkingLot parkingLot;
 	
 	@Column
-	
 	private String url;
+
+	public ParkingLotImage() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public ParkingLotImage(Long id, ParkingLot parkingLot, String url) {
+		super();
+		this.id = id;
+		this.parkingLot = parkingLot;
+		this.url = url;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public ParkingLot getParkingLot() {
+		return parkingLot;
+	}
+
+	public void setParkingLot(ParkingLot parkingLot) {
+		this.parkingLot = parkingLot;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
 	
 }

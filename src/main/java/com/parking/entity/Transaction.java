@@ -52,4 +52,65 @@ public class Transaction implements Serializable{
 	
 	@Column
 	private String tLog;
+
+	public Transaction() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Transaction(Long id, @NotBlank(message = "Type shouldn't be empty") String type, Ticket ticket,
+			Timestamp tDate, String tLog) {
+		super();
+		this.id = id;
+		this.type = type;
+		this.ticket = ticket;
+		this.tDate = tDate;
+		this.tLog = tLog;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public Ticket getTicket() {
+		return ticket;
+	}
+
+	public void setTicket(Ticket ticket) {
+		this.ticket = ticket;
+	}
+
+	public Timestamp gettDate() {
+		return tDate;
+	}
+
+	public void settDate(Timestamp tDate) {
+		this.tDate = tDate;
+	}
+
+	public String gettLog() {
+		return tLog;
+	}
+
+	public void settLog(String tLog) {
+		this.tLog = tLog;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
+	
 }
