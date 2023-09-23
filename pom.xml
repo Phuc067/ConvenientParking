@@ -69,9 +69,23 @@
 		<dependency>
 			<groupId>com.google.cloud.sql</groupId>
 			<artifactId>cloud-sql-connector-jdbc-sqlserver</artifactId>
-			<version>1.13.1</version>
+			<version>1.14.0</version>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
