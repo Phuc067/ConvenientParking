@@ -1,6 +1,7 @@
 package com.parking.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,5 +20,12 @@ public class MerchantServiceImpl implements MerchantService {
 		List<Merchant> merchants = repo.findAll();
 		return merchants;
 	}
+	@Override
+	public Merchant getById(Long id) {
+		Optional<Merchant> oMerchant =  repo.findById(id);
+		return oMerchant.get();
+	}
+	
+	
 	
 }

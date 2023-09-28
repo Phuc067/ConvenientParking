@@ -10,8 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -35,18 +37,19 @@ public class ParkingLot implements Serializable {
 	@Min(0)
 	private Long numberSlotRemaining;
 	@Column
-	private Boolean status;
+	@Max(10)
+	private Long status;
 	//merchantId
 	@ManyToOne
 	@JoinColumn(name = "merchantId", referencedColumnName = "id")
 	@JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
 	private Merchant merchant;
 	@Column
-	@NotBlank(message = "Latitude shouldn't be empty")
+	@NotNull(message = "Latitude shouldn't be empty")
 	private Double lat;
 	@Column
-	@NotBlank(message = "Longitude shouldn't be empty")
-	private Double Lng;
+	@NotNull(message = "Longitude shouldn't be empty")
+	private Double lng;
 	@Column
 	private String timeOpen;
 	@Column
@@ -67,9 +70,9 @@ public class ParkingLot implements Serializable {
 	}
 	public ParkingLot(Long id,
 			@Size(max = 50, message = "Name shouldn't be exceed 50 character") @NotBlank(message = "Name should not be empty") String parkingLotName,
-			@Min(0) Long numberSlot, @Min(0) Long numberSlotRemaining, Boolean status, Merchant merchant,
-			@NotBlank(message = "Latitude shouldn't be empty") Double lat,
-			@NotBlank(message = "Longitude shouldn't be empty") Double lng, String timeOpen, String timeClose,
+			@Min(0) Long numberSlot, @Min(0) Long numberSlotRemaining, Long status, Merchant merchant,
+			@NotNull(message = "Latitude shouldn't be empty") Double lat,
+			@NotNull(message = "Longitude shouldn't be empty") Double lng, String timeOpen, String timeClose,
 			String city, String district, String ward, String street, String number) {
 		super();
 		this.id = id;
@@ -79,7 +82,7 @@ public class ParkingLot implements Serializable {
 		this.status = status;
 		this.merchant = merchant;
 		this.lat = lat;
-		Lng = lng;
+		this.lng = lng;
 		this.timeOpen = timeOpen;
 		this.timeClose = timeClose;
 		this.city = city;
@@ -112,10 +115,10 @@ public class ParkingLot implements Serializable {
 	public void setNumberSlotRemaining(Long numberSlotRemaining) {
 		this.numberSlotRemaining = numberSlotRemaining;
 	}
-	public Boolean getStatus() {
+	public Long getStatus() {
 		return status;
 	}
-	public void setStatus(Boolean status) {
+	public void setStatus(Long status) {
 		this.status = status;
 	}
 	public Merchant getMerchant() {
@@ -131,10 +134,10 @@ public class ParkingLot implements Serializable {
 		this.lat = lat;
 	}
 	public Double getLng() {
-		return Lng;
+		return lng;
 	}
 	public void setLng(Double lng) {
-		Lng = lng;
+		this.lng = lng;
 	}
 	public String getTimeOpen() {
 		return timeOpen;
