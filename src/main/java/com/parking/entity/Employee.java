@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -33,11 +34,7 @@ public class Employee implements Serializable {
 	private static final long serialVersionUID = 854919399257520818L;
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
-	
 	private Long id;
-	@Column
-	@Size(max = 50, message = "User name shouldn't be exceed 50 character")
-	private String username;
 	@Column
 	@NotBlank(message = "First name should not be empty")
 	@Size(max = 50, message = "First name exceed 50 characters")
@@ -50,14 +47,16 @@ public class Employee implements Serializable {
 	@NotEmpty(message = "Gender must not be empty")
 	private Boolean gender;
 	@Column
-	private String password;
-	@Column
 	@Email
 	private String email;
 	@Column
 	private String phone;
 	@Column
 	private String avatar;
+	
+	@OneToOne
+	@JoinColumn(name = "loginId",referencedColumnName = "id")
+	private Login login;
 	
 	//permissionId
 	@ManyToOne
@@ -79,21 +78,20 @@ public class Employee implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Employee(Long id, @Size(max = 50, message = "User name shouldn't be exceed 50 character") String username,
+	public Employee(Long id,
 			@NotBlank(message = "First name should not be empty") @Size(max = 50, message = "First name exceed 50 characters") String firstName,
 			@NotBlank(message = "First name should not be empty") @Size(max = 50, message = "Last name exceed 50 characters") String lastName,
-			@NotEmpty(message = "Gender must not be empty") Boolean gender, String password, @Email String email,
-			String phone, String avatar, Permission permission, Boolean status, ParkingLot parkingLot) {
+			@NotEmpty(message = "Gender must not be empty") Boolean gender, @Email String email, String phone,
+			String avatar, Login login, Permission permission, Boolean status, ParkingLot parkingLot) {
 		super();
 		this.id = id;
-		this.username = username;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.gender = gender;
-		this.password = password;
 		this.email = email;
 		this.phone = phone;
 		this.avatar = avatar;
+		this.login = login;
 		this.permission = permission;
 		this.status = status;
 		this.parkingLot = parkingLot;
@@ -105,14 +103,6 @@ public class Employee implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
 	}
 
 	public String getFirstName() {
@@ -139,14 +129,6 @@ public class Employee implements Serializable {
 		this.gender = gender;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 	public String getEmail() {
 		return email;
 	}
@@ -169,6 +151,14 @@ public class Employee implements Serializable {
 
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
+	}
+
+	public Login getLogin() {
+		return login;
+	}
+
+	public void setLogin(Login login) {
+		this.login = login;
 	}
 
 	public Permission getPermission() {
@@ -198,7 +188,5 @@ public class Employee implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
-	
 	
 }

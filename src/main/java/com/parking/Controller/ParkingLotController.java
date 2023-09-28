@@ -25,8 +25,6 @@ public class ParkingLotController {
 	@Autowired
 	private ParkingLotService parkingLotService;
 	
-	@Autowired 
-	private MerchantService merchantService;
 	
 	@GetMapping(value = "/parkingLots")
 	public ResponseEntity<?> doGetAllParkingLot()
@@ -37,30 +35,9 @@ public class ParkingLotController {
 	}
 	@PostMapping(value = "/add/parkingLot")
 	public ResponseEntity<ResponseObject> doAddParkingLot(@RequestBody ParkingLotDto parkingLotDto)
-	{
-		ParkingLot parkingLot = new ParkingLot();
-		
-		Long id = parkingLotService.getMaxId() + 1;
-		System.out.println(id);
-		parkingLot.setId(id);
-		parkingLot.setParkingLotName(parkingLotDto.getParkingLotName());
-		parkingLot.setNumberSlot(parkingLotDto.getNumberSlot());
-		parkingLot.setNumberSlotRemaining(parkingLotDto.getNumberSlot());
-		Merchant merchant = merchantService.getById(parkingLotDto.getMerchantId());
-		parkingLot.setMerchant(merchant);
-		parkingLot.setStatus(1l);
-		parkingLot.setLat(parkingLotDto.getLat());
-		parkingLot.setLng(parkingLotDto.getLng());
-		parkingLot.setTimeClose(parkingLotDto.getTimeClose());
-		parkingLot.setTimeOpen(parkingLotDto.getTimeOpen());
-		parkingLot.setCity(parkingLotDto.getCity());
-		parkingLot.setDistrict(parkingLotDto.getDistrict());
-		parkingLot.setWard(parkingLotDto.getWard());
-		parkingLot.setStreet(parkingLotDto.getStreet());
-		parkingLot.setNumber(parkingLotDto.getNumber());
-		
+	{	
 		try {
-			parkingLotService.add(parkingLot);
+			parkingLotService.add(parkingLotDto);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseObject(e.getMessage(),null ));
 		}

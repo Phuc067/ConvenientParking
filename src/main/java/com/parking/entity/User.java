@@ -7,6 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -51,7 +54,11 @@ public class User implements Serializable{
 	@Email
 	private String email;
 	@Column
-	private String zalopayId;
+	private String momoId;
+	
+	@OneToOne
+	@JoinColumn(name = "loginId", referencedColumnName = "id")
+	private Login login;
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -60,7 +67,7 @@ public class User implements Serializable{
 			@NotBlank(message = "First name should not be empty") @Size(max = 50, message = "First name shouldn't be exceed 50 character") String firstName,
 			@NotBlank(message = "Last name should not be empty") @Size(max = 50, message = "Last name shouldn't be exceed 50 character") String lastName,
 			@NotBlank(message = "Gender should not be empty") Boolean gender, String phone, @Email String email,
-			String zalopayId) {
+			String momoId, Login login) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -68,7 +75,8 @@ public class User implements Serializable{
 		this.gender = gender;
 		this.phone = phone;
 		this.email = email;
-		this.zalopayId = zalopayId;
+		this.momoId = momoId;
+		this.login = login;
 	}
 	public int getId() {
 		return id;
@@ -94,6 +102,12 @@ public class User implements Serializable{
 	public void setGender(Boolean gender) {
 		this.gender = gender;
 	}
+	public Login getLogin() {
+		return login;
+	}
+	public void setLogin(Login login) {
+		this.login = login;
+	}
 	public String getPhone() {
 		return phone;
 	}
@@ -106,11 +120,11 @@ public class User implements Serializable{
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getZalopayId() {
-		return zalopayId;
+	public String getMomoId() {
+		return momoId;
 	}
-	public void setZalopayId(String zalopayId) {
-		this.zalopayId = zalopayId;
+	public void setMomoId(String momoId) {
+		this.momoId = momoId;
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;

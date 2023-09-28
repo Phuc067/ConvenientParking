@@ -25,7 +25,4 @@ public class MerchantServiceImpl implements MerchantService {
 		Optional<Merchant> oMerchant =  repo.findById(id);
 		return oMerchant.get();
 	}
-	
-	
-	
 }
