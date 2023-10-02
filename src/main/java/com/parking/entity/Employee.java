@@ -44,7 +44,6 @@ public class Employee implements Serializable {
 	@Size(max = 50, message = "Last name exceed 50 characters")
 	private String lastName;
 	@Column
-	@NotEmpty(message = "Gender must not be empty")
 	private Boolean gender;
 	@Column
 	@Email
@@ -58,11 +57,6 @@ public class Employee implements Serializable {
 	@JoinColumn(name = "loginId",referencedColumnName = "id")
 	private Login login;
 	
-	//permissionId
-	@ManyToOne
-	@JoinColumn(name = "permissionId", referencedColumnName = "id")
-	@JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
-	private Permission permission;
 	
 	@Column
 	private Boolean status;
@@ -78,11 +72,13 @@ public class Employee implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
+	
+
 	public Employee(Long id,
 			@NotBlank(message = "First name should not be empty") @Size(max = 50, message = "First name exceed 50 characters") String firstName,
 			@NotBlank(message = "First name should not be empty") @Size(max = 50, message = "Last name exceed 50 characters") String lastName,
 			@NotEmpty(message = "Gender must not be empty") Boolean gender, @Email String email, String phone,
-			String avatar, Login login, Permission permission, Boolean status, ParkingLot parkingLot) {
+			String avatar, Login login, Boolean status, ParkingLot parkingLot) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -92,10 +88,11 @@ public class Employee implements Serializable {
 		this.phone = phone;
 		this.avatar = avatar;
 		this.login = login;
-		this.permission = permission;
 		this.status = status;
 		this.parkingLot = parkingLot;
 	}
+
+
 
 	public Long getId() {
 		return id;
@@ -161,13 +158,6 @@ public class Employee implements Serializable {
 		this.login = login;
 	}
 
-	public Permission getPermission() {
-		return permission;
-	}
-
-	public void setPermission(Permission permission) {
-		this.permission = permission;
-	}
 
 	public Boolean getStatus() {
 		return status;

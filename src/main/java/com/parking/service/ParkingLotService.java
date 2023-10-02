@@ -9,4 +9,5 @@ public interface ParkingLotService {
 	List<ParkingLot> getAllParkingLot();
 	void add(ParkingLotDto parkingLotDto);
 	Long getMaxId();
+	List<ParkingLot> getParkingLotByMerchantId(Long id);
 }

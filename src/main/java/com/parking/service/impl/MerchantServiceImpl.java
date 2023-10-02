@@ -3,6 +3,9 @@ package com.parking.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+import javax.transaction.Transactional.TxType;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,5 +27,10 @@ public class MerchantServiceImpl implements MerchantService {
 	public Merchant getById(Long id) {
 		Optional<Merchant> oMerchant =  repo.findById(id);
 		return oMerchant.get();
+	}
+	@Override
+	@Transactional(value = TxType.REQUIRED)
+	public void edit(Merchant merchant) {
+		repo.edit(merchant);
 	}
 }

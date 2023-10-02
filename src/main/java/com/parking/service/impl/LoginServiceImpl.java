@@ -1,6 +1,7 @@
 package com.parking.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.parking.constant.RoleConstant;
 import com.parking.dto.LoginDto;
@@ -28,11 +29,13 @@ public class LoginServiceImpl implements LoginService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	private BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 	@Override
 	public ResponseLoginDto doLogin(LoginDto loginDto) {
 		Login login = loginRepository.findByUsername(loginDto.getUsername());
-
-		if (login.getPassword().equals(loginDto.getPassword())) {
+		System.out.println(bcrypt.encode(loginDto.getPassword()));
+		if (bcrypt.matches(loginDto.getPassword(), login.getPassword())) {
 			
 			if (login.getRole().getName().equals(RoleConstant.ADMIN)) {
 				Merchant merchant = merchantRepository.findByLoginId(login.getId());

@@ -60,4 +60,10 @@ public class ParkingLotServiceImpl implements ParkingLotService{
 		return parkingLotRepository.getMaxId();
 	}
 
+	@Override
+	public List<ParkingLot> getParkingLotByMerchantId(Long id) {
+		
+		return parkingLotRepository.findByMerchantId(id);
+	}
+
 }

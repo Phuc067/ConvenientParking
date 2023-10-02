@@ -23,7 +23,6 @@ public class LoginController {
 
 	@Autowired
 	private LoginService loginService;
-//	BCryptPasswordEncoder bCrypt= new BCryptPasswordEncoder();
 
 	@PostMapping(value = "/login")
 	public ResponseEntity<ResponseObject> doLogin(@RequestBody LoginDto loginDto, HttpSession session) {
@@ -36,4 +35,5 @@ public class LoginController {
 		}
 		else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseObject("Login failed", null));
 	}
+	
 }

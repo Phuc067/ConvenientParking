@@ -15,5 +15,5 @@ public interface ParkingLotRepository extends JpaRepository<ParkingLot, Long>{
 	@Query(value = "SELECT MAX(ID) FROM PARKINGLOTS", nativeQuery = true)
 	Long getMaxId();
 	
-
+	List<ParkingLot> findByMerchantId(Long id);
 }

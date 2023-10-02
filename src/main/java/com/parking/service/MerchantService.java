@@ -8,4 +8,5 @@ public interface MerchantService {
 
 	public List<Merchant> getAll();
 	public Merchant getById(Long id);
+	public void edit(Merchant merchant);
 }
