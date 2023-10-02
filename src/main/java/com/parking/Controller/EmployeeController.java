@@ -9,12 +9,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.parking.constant.ConfigConstant;
 import com.parking.dto.EmployeeDto;
 import com.parking.model.ResponseObject;
 import com.parking.service.EmployeeService;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = ConfigConstant.urlFEConnectionString)
 @RequestMapping("/api")
 public class EmployeeController {
 	

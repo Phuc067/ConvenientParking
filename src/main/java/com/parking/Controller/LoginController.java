@@ -7,26 +7,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.parking.constant.ConfigConstant;
 import com.parking.constant.SessionConstant;
 import com.parking.dto.LoginDto;
 import com.parking.dto.ResponseLoginDto;
 import com.parking.model.ResponseObject;
 import com.parking.service.LoginService;
 
+
 @RestController
-@CrossOrigin
 @RequestMapping(value = "/api")
 public class LoginController {
 
 	@Autowired
 	private LoginService loginService;
 
+	
 	@PostMapping(value = "/login")
+	@CrossOrigin(origins = "http://localhost:3000")
 	public ResponseEntity<ResponseObject> doLogin(@RequestBody LoginDto loginDto, HttpSession session) {
 		if(ObjectUtils.isNotEmpty(session.getAttribute(SessionConstant.CURRENT_USER)))
 		{
@@ -37,9 +41,18 @@ public class LoginController {
 		{
 			session.setAttribute(SessionConstant.CURRENT_USER, responseLoginDto.getObject());
 			session.setAttribute(SessionConstant.CURRENT_ROLE, responseLoginDto.getRole());
-			return ResponseEntity.status(HttpStatus.ACCEPTED).body(new ResponseObject("Logged in successfully", null));
+			return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("Logged in successfully", null));
 		}
 		else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseObject("Login failed", null));
 	}
 	
+	@GetMapping(value = "/logout")
+	public ResponseEntity<?> doGetLogOut(HttpSession session)
+	{
+		if (ObjectUtils.isNotEmpty(session.getAttribute(SessionConstant.CURRENT_USER))) {
+			session.removeAttribute(SessionConstant.CURRENT_USER);
+			return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("Logout successfully", null));
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseObject("You hadn't loged in", null));
+	}
 }
