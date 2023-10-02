@@ -33,7 +33,7 @@ public class MerchantController {
 		return ResponseEntity.status(HttpStatus.OK).body(merchants);
 	}
 	
-	@PostMapping("edit/merchant")
+	@PostMapping("merchant/edit")
 	public ResponseEntity<?> doEditMerchant(@RequestBody Merchant merchant)
 	{
 		try {

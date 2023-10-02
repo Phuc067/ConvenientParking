@@ -26,6 +26,10 @@ public class LoginController {
 
 	@PostMapping(value = "/login")
 	public ResponseEntity<ResponseObject> doLogin(@RequestBody LoginDto loginDto, HttpSession session) {
+		if(ObjectUtils.isNotEmpty(session.getAttribute(SessionConstant.CURRENT_USER)))
+		{
+			return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(new ResponseObject("You need to log out first", null));
+		}
 		ResponseLoginDto responseLoginDto = (ResponseLoginDto) loginService.doLogin(loginDto);
 		if(ObjectUtils.isNotEmpty(responseLoginDto))
 		{
