@@ -16,6 +16,7 @@ public class CorsConfig implements WebMvcConfigurer {
                 .allowedOrigins("http://localhost:" + ConfigConstant.frontEndPort) // Cho phép frontend chạy trên http://localhost:3000
                 .allowedMethods("GET", "POST", "PUT", "DELETE") // Cho phép các phương thức này
                 .allowedHeaders("Content-Type", "Authorization"); // Cho phép các tiêu đề này
+        System.out.println("http://localhost:" + ConfigConstant.frontEndPort);
     }
 }
 //Trong ví dụ trên, chúng ta đã cấu hình CORS để cho phép frontend chạy trên http://localhost:3000 gửi các yêu cầu POST, GET, PUT, và DELETE với các tiêu đề "Content-Type" và "Authorization".
