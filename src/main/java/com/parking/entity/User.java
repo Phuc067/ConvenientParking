@@ -15,6 +15,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -58,6 +60,7 @@ public class User implements Serializable{
 	
 	@OneToOne
 	@JoinColumn(name = "loginId", referencedColumnName = "id")
+	@JsonIgnore
 	private Login login;
 	public User() {
 		super();

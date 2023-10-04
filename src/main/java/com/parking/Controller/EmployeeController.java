@@ -43,9 +43,6 @@ public class EmployeeController {
 	public ResponseEntity<?> doRegisterEmplyee(@RequestBody EmployeeDto employeeDto, HttpSession session) throws MessagingException
 	{
 		ResponseObject responseObject = employeeService.register(employeeDto, session);
-		session.setAttribute(SessionConstant.CURRENT_OTP, responseObject.getObject());
-		VerifyCodeManager verifyCodeManager = new VerifyCodeManager();
-		verifyCodeManager.scheduleVerificationCleanup(SessionConstant.OTP_EXPIRE_TIME * 1000, session);
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 		
 	}

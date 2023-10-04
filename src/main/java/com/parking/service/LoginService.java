@@ -1,5 +1,7 @@
 package com.parking.service;
 
+import javax.servlet.http.HttpSession;
+
 import com.parking.dto.LoginDto;
 import com.parking.entity.Login;
 

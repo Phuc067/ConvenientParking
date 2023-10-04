@@ -8,6 +8,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import com.parking.constant.SessionConstant;
+import com.parking.model.TimeFormat;
 import com.parking.service.EmailSenderService;
 
 @Service
@@ -17,7 +19,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
 	private JavaMailSender mailSender;
 
 	@Override
-	public void sendVerificationEmail(String toEmail, String verificationCode) throws MessagingException {
+	public void sendVerificationEmail(String toEmail,String username, String verificationCode) throws MessagingException {
 //		SimpleMailMessage  message = new SimpleMailMessage();
 //		message.setFrom("security.convenient-parking@gmail.com");
 //		message.setTo(toEmail);
@@ -35,14 +37,16 @@ public class EmailSenderServiceImpl implements EmailSenderService {
 		helper.setFrom("your-email@gmail.com");
 		helper.setTo(toEmail);
 		helper.setSubject("Xác thực tài khoản Convenient Parking");
+		TimeFormat time = new TimeFormat(SessionConstant.OTP_EXPIRE_TIME); 
+		
 
 		// Định dạng email dưới dạng HTML
 		String htmlBody =
 				"<div>\r\n"
 				+ "    <h1 style=\"color: darkcyan;\">Mã đặt xác thực tài khoản</h1>\r\n"
-				+ "    <p>Xin dùng mã này để xác thực cho tài khoản Convenient Parking " + toEmail + " .</p>\r\n"
+				+ "    <p>Xin dùng mã này để xác thực cho tài khoản Convenient Parking " + username + " .</p>\r\n"
 				+ "    <p>Đây là mã của bạn: <strong> " + verificationCode + "</strong></p>\r\n"
-				+ "    <p>Nếu bạn không sử dụng liên kết này trong vòng 3 giờ, nó sẽ hết hạn. Để nhận liên kết đặt lại mật khẩu mới, hãy\r\n"
+				+ "    <p>Nếu bạn không sử dụng liên kết này trong vòng " +time.toString() +", nó sẽ hết hạn. Để nhận liên kết đặt lại mật khẩu mới, hãy\r\n"
 				+ "        truy cập: </p>\r\n"
 				+ "    <p>Xin cám ơn,</p>\r\n"
 				+ "    <p>Nhóm tài khoản Convenient Parking</p>\r\n"
@@ -51,6 +55,5 @@ public class EmailSenderServiceImpl implements EmailSenderService {
 		helper.setText(htmlBody, true); // Đặt email dưới dạng HTML
 
 		mailSender.send(message);
-		System.out.print("Mail send successfully");
 	}
 }

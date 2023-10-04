@@ -64,7 +64,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 		loginRepository.insert(employeeDto.getUsername(), hashPassword, 2L);
 		String verifyCode = VerificationCodeGenerator.generate();
-		emailSenderService.sendVerificationEmail(employeeDto.getEmail(), verifyCode);
+		emailSenderService.sendVerificationEmail(employeeDto.getEmail(), employeeDto.getUsername(), verifyCode);
 		session.setAttribute(SessionConstant.CURRENT_OTP, verifyCode);
 		VerifyCodeManager verifyCodeManager = new VerifyCodeManager();
 		verifyCodeManager.scheduleVerificationCleanup(SessionConstant.OTP_EXPIRE_TIME * 1000, session);

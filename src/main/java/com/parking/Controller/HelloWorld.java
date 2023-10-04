@@ -1,17 +1,17 @@
 package com.parking.controller;
 
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.parking.constant.SessionConstant;
-import com.parking.model.ResponseObject;
+
 
 @RestController
 
@@ -27,11 +27,14 @@ public class HelloWorld {
 	public ResponseEntity<?> doGetsession(HttpSession session)
 	{
 		
-		String otp = (String) session.getAttribute(SessionConstant.CURRENT_OTP);
-		if(ObjectUtils.isEmpty(otp))
-		{
-			return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("session expired");
+		Enumeration<String> attributeNames = session.getAttributeNames();
+
+		Map<String, Object> attributeMap = new HashMap<>();
+		while (attributeNames.hasMoreElements()) {
+		    String attributeName = attributeNames.nextElement();
+		    Object attributeValue = session.getAttribute(attributeName);
+		    attributeMap.put(attributeName, attributeValue);
 		}
-		return ResponseEntity.ok(otp);
+		return ResponseEntity.ok(attributeMap);
 	}
 }

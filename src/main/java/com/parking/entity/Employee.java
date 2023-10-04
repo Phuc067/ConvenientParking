@@ -16,14 +16,10 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-import org.springframework.web.jsf.FacesContextUtils;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 
 @Entity
 @Table(name ="employees")
@@ -55,8 +51,9 @@ public class Employee implements Serializable {
 	
 	@OneToOne
 	@JoinColumn(name = "loginId",referencedColumnName = "id")
+	@JsonIgnore
 	private Login login;
-	
+
 	
 	@Column
 	private Boolean status;

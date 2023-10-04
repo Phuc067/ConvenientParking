@@ -1,11 +1,5 @@
 package com.parking.controller;
-
-import java.util.Random;
-import java.util.random.RandomGenerator;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,10 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.parking.constant.ConfigConstant;
 import com.parking.constant.SessionConstant;
 import com.parking.dto.EmailDto;
 import com.parking.dto.LoginDto;
@@ -39,20 +31,18 @@ public class LoginController {
 	private EmailSenderService senderService;
 
 	@PostMapping(value = "/login")
-	public ResponseEntity<ResponseObject> doLogin(@RequestBody LoginDto loginDto, HttpSession session) {
-		if (ObjectUtils.isNotEmpty(session.getAttribute(SessionConstant.CURRENT_USER))) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-					.body(new ResponseObject(HttpStatus.UNAUTHORIZED, "You need to log out first", null));
+	public ResponseEntity<ResponseLoginDto> doLogin(@RequestBody LoginDto loginDto, HttpSession session) {
+		if(ObjectUtils.isNotEmpty(session.getAttribute(SessionConstant.CURRENT_USER)))
+		{
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseLoginDto(HttpStatus.UNAUTHORIZED, "you need to logout first", null, null));
 		}
-		ResponseLoginDto responseLoginDto = (ResponseLoginDto) loginService.doLogin(loginDto);
-		if (ObjectUtils.isNotEmpty(responseLoginDto.getObject())) {
-			session.setAttribute(SessionConstant.CURRENT_USER, responseLoginDto.getObject());
-			session.setAttribute(SessionConstant.CURRENT_ROLE, responseLoginDto.getRole());
-			return ResponseEntity.status(HttpStatus.OK)
-					.body(new ResponseObject(HttpStatus.OK, responseLoginDto.getMessage(), null));
-		} else
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body(new ResponseObject(HttpStatus.BAD_REQUEST, responseLoginDto.getMessage(), null));
+		ResponseLoginDto responseObject = (ResponseLoginDto) loginService.doLogin(loginDto);
+//		if(ObjectUtils.isNotEmpty(responseObject.getRole()))
+//		{
+//			session.setAttribute(SessionConstant.CURRENT_USER, responseObject.getObject());
+//			session.setAttribute(SessionConstant.CURRENT_ROLE, responseObject.getRole());
+//		}
+		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
 
 	@GetMapping(value = "/logout")
@@ -69,14 +59,15 @@ public class LoginController {
 	@PostMapping(value = "/email")
 	public ResponseEntity<?> doSendEmail(@RequestBody EmailDto emailDto, HttpSession session) {
 		String verificationCode = VerificationCodeGenerator.generate();
+		
 		try {
-			senderService.sendVerificationEmail(emailDto.getEmail(), verificationCode);
+			senderService.sendVerificationEmail(emailDto.getEmail(), emailDto.getEmail(), verificationCode);
 			session.setAttribute(SessionConstant.CURRENT_OTP, verificationCode);
 			VerifyCodeManager verifyCodeManager = new VerifyCodeManager();
 			verifyCodeManager.scheduleVerificationCleanup(SessionConstant.OTP_EXPIRE_TIME * 1000, session);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+			return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(new ResponseObject(HttpStatus.BAD_GATEWAY,"Unable to send email, please check your connection", null));
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(HttpStatus.OK, "Email was sent successfully", verificationCode));
 	}

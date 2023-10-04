@@ -2,13 +2,9 @@ package com.parking.service.impl;
 
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import com.parking.dto.ParkingLotDto;
 import com.parking.entity.Merchant;
 import com.parking.entity.ParkingLot;
@@ -36,7 +32,7 @@ public class ParkingLotServiceImpl implements ParkingLotService{
 	public ResponseObject add(ParkingLotDto parkingLotDto) {
 		
 		ParkingLot parkingLot = new ParkingLot();
-		Long id = parkingLotRepository.getMaxId()+1;
+		Long id = parkingLotRepository.getMaxId() + 1;
 		System.out.println(id);
 		parkingLot.setId(id);
 		parkingLot.setParkingLotName(parkingLotDto.getParkingLotName());
