@@ -7,9 +7,12 @@ import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.parking.entity.Merchant;
+import com.parking.model.ResponseObject;
 import com.parking.repository.MerchantRepository;
 import com.parking.service.MerchantService;
 
@@ -30,7 +33,13 @@ public class MerchantServiceImpl implements MerchantService {
 	}
 	@Override
 	@Transactional(value = TxType.REQUIRED)
-	public void edit(Merchant merchant) {
-		repo.edit(merchant);
+	public ResponseObject edit(Merchant merchant) {
+		try {
+			repo.edit(merchant);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseObject(HttpStatus.BAD_REQUEST,"Edit failed merchant information", null);
+		}
+		return new ResponseObject(HttpStatus.ACCEPTED,"Merchant information has been successfully edited", null);
 	}
 }

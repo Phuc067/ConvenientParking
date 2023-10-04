@@ -6,4 +6,5 @@ import com.parking.entity.Login;
 public interface LoginService {
 	
 	Object doLogin(LoginDto loginDto);
+	Object register(LoginDto loginDto);
 }

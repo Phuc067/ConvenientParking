@@ -24,6 +24,8 @@ public class Login implements Serializable{
 	@Column
 	private String password;
 	
+	@Column
+	private Boolean status;
 	@ManyToOne
 	@JoinColumn(name = "roleId", referencedColumnName = "id")
 	private Role role;
@@ -33,11 +35,12 @@ public class Login implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 
-	public Login(Long id, String username, String password, Role role) {
+	public Login(Long id, String username, String password, Boolean status, Role role) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.password = password;
+		this.status = status;
 		this.role = role;
 	}
 
@@ -63,6 +66,14 @@ public class Login implements Serializable{
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(Boolean status) {
+		this.status = status;
 	}
 
 	public Role getRole() {

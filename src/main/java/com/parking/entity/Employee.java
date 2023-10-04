@@ -16,6 +16,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import org.springframework.web.jsf.FacesContextUtils;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
@@ -35,12 +37,10 @@ public class Employee implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	private Long id;
-	@Column
-	@NotBlank(message = "First name should not be empty")
+	@Column(nullable = false)
 	@Size(max = 50, message = "First name exceed 50 characters")
 	private String firstName;
-	@Column
-	@NotBlank(message = "First name should not be empty")
+	@Column(nullable = false)
 	@Size(max = 50, message = "Last name exceed 50 characters")
 	private String lastName;
 	@Column

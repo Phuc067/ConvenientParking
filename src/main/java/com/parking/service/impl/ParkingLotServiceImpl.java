@@ -5,11 +5,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.parking.dto.ParkingLotDto;
 import com.parking.entity.Merchant;
 import com.parking.entity.ParkingLot;
+import com.parking.model.ResponseObject;
 import com.parking.repository.MerchantRepository;
 import com.parking.repository.ParkingLotRepository;
 import com.parking.service.ParkingLotService;
@@ -30,7 +33,7 @@ public class ParkingLotServiceImpl implements ParkingLotService{
 	}
 
 	@Override
-	public void add(ParkingLotDto parkingLotDto) {
+	public ResponseObject add(ParkingLotDto parkingLotDto) {
 		
 		ParkingLot parkingLot = new ParkingLot();
 		Long id = parkingLotRepository.getMaxId()+1;
@@ -52,6 +55,13 @@ public class ParkingLotServiceImpl implements ParkingLotService{
 		parkingLot.setStreet(parkingLotDto.getStreet());
 		parkingLot.setNumber(parkingLotDto.getNumber());
 		parkingLotRepository.save(parkingLot);
+		
+		try {
+			parkingLotRepository.save(parkingLot);
+		} catch (Exception e) {
+			return new ResponseObject(HttpStatus.BAD_REQUEST, e.getMessage(), null);
+		}
+		return  new ResponseObject(HttpStatus.ACCEPTED, "Parking lot was added successfully", null);
 	}
 
 	@Override

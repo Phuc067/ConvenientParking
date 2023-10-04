@@ -2,12 +2,15 @@ package com.parking.service;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+
 import com.parking.dto.ParkingLotDto;
 import com.parking.entity.ParkingLot;
+import com.parking.model.ResponseObject;
 
 public interface ParkingLotService {
 	List<ParkingLot> getAllParkingLot();
-	void add(ParkingLotDto parkingLotDto);
+	ResponseObject add(ParkingLotDto parkingLotDto);
 	Long getMaxId();
 	List<ParkingLot> getParkingLotByMerchantId(Long id);
 }

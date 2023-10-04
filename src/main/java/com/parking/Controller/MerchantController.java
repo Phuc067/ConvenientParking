@@ -35,16 +35,11 @@ public class MerchantController {
 		return ResponseEntity.status(HttpStatus.OK).body(merchants);
 	}
 	
-	@PostMapping("merchant/edit")
+	@PostMapping("/edit/merchant")
 	public ResponseEntity<?> doEditMerchant(@RequestBody Merchant merchant)
 	{
-		try {
-			service.edit(merchant);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseObject("Edit failed merchant information", null));
-		}
-		return ResponseEntity.status(HttpStatus.ACCEPTED).body(new ResponseObject("Merchant information has been successfully edited", null));
+		ResponseObject responseObject = service.edit(merchant);
+		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
 	
 }

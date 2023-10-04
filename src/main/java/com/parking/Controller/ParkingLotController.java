@@ -42,13 +42,8 @@ public class ParkingLotController {
 
 	@PostMapping(value = "/add/parkingLot")
 	public ResponseEntity<ResponseObject> doAddParkingLot(@RequestBody ParkingLotDto parkingLotDto) {
-		try {
-			parkingLotService.add(parkingLotDto);
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseObject(e.getMessage(), null));
-		}
-		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(new ResponseObject("Parking lot was created successfully", null));
+		ResponseObject responseObject = parkingLotService.add(parkingLotDto);
+		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
 
 }
