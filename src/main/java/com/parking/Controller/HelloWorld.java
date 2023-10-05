@@ -5,11 +5,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.parking.constant.SessionConstant;
+import com.parking.repository.LoginRepository;
+import com.parking.security.VerifyCodeManager;
+import com.parking.service.LoginService;
 
 
 
@@ -17,6 +25,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("")
 public class HelloWorld {
+	@Autowired
+	private LoginRepository loginRepository;
+	
 	@GetMapping("/hello")
 	public String doGetHelloWorld()
 	{
@@ -36,5 +47,19 @@ public class HelloWorld {
 		    attributeMap.put(attributeName, attributeValue);
 		}
 		return ResponseEntity.ok(attributeMap);
+	}
+	
+	@GetMapping("/clear")
+	public ResponseEntity<?> doClearVerificationCode(String username)
+	{
+		try {
+			VerifyCodeManager verifyCodeManager = new VerifyCodeManager();
+			verifyCodeManager.scheduleVerificationCleanup(SessionConstant.OTP_EXPIRE_TIME, username, loginRepository);
+			return ResponseEntity.status(HttpStatus.OK).build();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 	}
 }

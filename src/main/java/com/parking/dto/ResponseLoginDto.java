@@ -5,20 +5,22 @@ import org.springframework.http.HttpStatus;
 public class ResponseLoginDto {
 	private HttpStatus status;
 	private String message;
-	private Object object;
 	private Long role;
+	private String accessToken;
 	
 	public ResponseLoginDto() {
 		super();
 	}
 
-	public ResponseLoginDto(HttpStatus status, String message, Object object, Long role) {
+
+	public ResponseLoginDto(HttpStatus status, String message, Long role, String accessToken) {
 		super();
 		this.status = status;
 		this.message = message;
-		this.object = object;
 		this.role = role;
+		this.accessToken = accessToken;
 	}
+
 
 	public HttpStatus getStatus() {
 		return status;
@@ -36,13 +38,6 @@ public class ResponseLoginDto {
 		this.message = message;
 	}
 
-	public Object getObject() {
-		return object;
-	}
-
-	public void setObject(Object object) {
-		this.object = object;
-	}
 
 	public Long getRole() {
 		return role;
@@ -51,6 +46,16 @@ public class ResponseLoginDto {
 	public void setRole(Long role) {
 		this.role = role;
 	}
-	
+
+
+	public String getAccessToken() {
+		return accessToken;
+	}
+
+
+	public void setAccessToken(String accessToken) {
+		this.accessToken = accessToken;
+	}
+
 	
 }

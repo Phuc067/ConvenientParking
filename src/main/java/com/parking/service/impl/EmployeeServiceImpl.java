@@ -62,12 +62,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 		if (ObjectUtils.isNotEmpty(loginRepository.findByUsername(employeeDto.getUsername()))) {
 			return new ResponseObject(HttpStatus.BAD_REQUEST, "Username already exists", null);
 		}
-		loginRepository.insert(employeeDto.getUsername(), hashPassword, 2L);
 		String verifyCode = VerificationCodeGenerator.generate();
 		emailSenderService.sendVerificationEmail(employeeDto.getEmail(), employeeDto.getUsername(), verifyCode);
 		session.setAttribute(SessionConstant.CURRENT_OTP, verifyCode);
 		VerifyCodeManager verifyCodeManager = new VerifyCodeManager();
-		verifyCodeManager.scheduleVerificationCleanup(SessionConstant.OTP_EXPIRE_TIME * 1000, session);
+		verifyCodeManager.scheduleVerificationCleanup(SessionConstant.OTP_EXPIRE_TIME * 1000, employeeDto.getUsername(), loginRepository);
+		loginRepository.insert(employeeDto.getUsername(), hashPassword,employeeDto.getEmail(),verifyCode, 2L);
 		return new ResponseObject(HttpStatus.OK, "Employee and Login was created successfully", verifyCode);
 	}
 

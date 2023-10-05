@@ -1,5 +1,8 @@
 package com.parking.service;
 
-public interface UserService {
+import java.util.List;
 
+import com.parking.entity.User;
+
+public interface UserService {
 }

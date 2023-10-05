@@ -3,19 +3,30 @@ package com.parking.security;
 import java.util.TimerTask;
 
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
+import javax.transaction.Transactional.TxType;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.parking.constant.SessionConstant;
+import com.parking.repository.LoginRepository;
 
 public  class VerificationCleanupTask extends TimerTask {
-    private HttpSession session;
+    private String username;
 
-    public VerificationCleanupTask(HttpSession session) {
-        this.session = session;
-    }
+    private LoginRepository loginRepository;
+    
+    
+    public VerificationCleanupTask(String username, LoginRepository loginRepository) {
+		super();
+		this.username = username;
+		this.loginRepository = loginRepository;
+	}
 
-    @Override
-    public void run() {
-        // Xóa mã xác minh khỏi session sau khoảng thời gian delay
-        session.removeAttribute(SessionConstant.CURRENT_OTP);
+
+	@Override
+	@Transactional(value = TxType.REQUIRED)
+    public void run() {     
+       loginRepository.removeVerificationCode(username);
     }
 }

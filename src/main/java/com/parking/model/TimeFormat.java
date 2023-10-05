@@ -1,11 +1,14 @@
 package com.parking.model;
 
 public class TimeFormat {
-	private Long hour;
-	private Long minute;
+	private Long hour ;
+	private Long minute ;
 	private Long second;
 	
 	public TimeFormat(Long second) {
+		this.hour = 0L;
+		this.minute = 0L;
+		this.second = second;
 		if(second >=60)
 		{
 			this.minute = second/60;

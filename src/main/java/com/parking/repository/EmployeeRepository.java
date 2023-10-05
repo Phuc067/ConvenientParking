@@ -22,7 +22,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 	void insert(@Param("employee") EmployeeDto employeeDto);
 	
 	@Modifying(clearAutomatically = true)
-	@Query(value = "UPDATE employees set firstName = :#{#employee.firstName}, lastName = :#{#employee.lastName}, gender = :#{#employee.gender}, phone = :#{#employee.phone},email = :#{#employee.email}, avatar = :#{#employee.avatar}, parkingLotId = :#{#employee.parkingLotId} WHERE id = :#{#employee.id}", nativeQuery = true)
+	@Query(value = "UPDATE employees set firstName = :#{#employee.firstName}, lastName = :#{#employee.lastName}, gender = :#{#employee.gender}, phone = :#{#employee.phone}, avatar = :#{#employee.avatar}, parkingLotId = :#{#employee.parkingLotId} WHERE id = :#{#employee.id}", nativeQuery = true)
 	void update(@Param("employee") EmployeeDto employee);
 	
 	@Query(value = "UPDATE employees set loginId = ?2 where id = ?1", nativeQuery = true)

@@ -53,9 +53,6 @@ public class User implements Serializable{
 	@Column
 	private String phone;
 	@Column
-	@Email
-	private String email;
-	@Column
 	private String momoId;
 	
 	@OneToOne
@@ -66,21 +63,22 @@ public class User implements Serializable{
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
 	public User(int id,
 			@NotBlank(message = "First name should not be empty") @Size(max = 50, message = "First name shouldn't be exceed 50 character") String firstName,
 			@NotBlank(message = "Last name should not be empty") @Size(max = 50, message = "Last name shouldn't be exceed 50 character") String lastName,
-			@NotBlank(message = "Gender should not be empty") Boolean gender, String phone, @Email String email,
-			String momoId, Login login) {
+			@NotBlank(message = "Gender should not be empty") Boolean gender, String phone, String momoId,
+			Login login) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.gender = gender;
 		this.phone = phone;
-		this.email = email;
 		this.momoId = momoId;
 		this.login = login;
 	}
+
 	public int getId() {
 		return id;
 	}
@@ -116,12 +114,6 @@ public class User implements Serializable{
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
 	}
 	public String getMomoId() {
 		return momoId;

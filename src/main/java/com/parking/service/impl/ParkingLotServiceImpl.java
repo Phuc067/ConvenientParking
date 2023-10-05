@@ -50,7 +50,6 @@ public class ParkingLotServiceImpl implements ParkingLotService{
 		parkingLot.setWard(parkingLotDto.getWard());
 		parkingLot.setStreet(parkingLotDto.getStreet());
 		parkingLot.setNumber(parkingLotDto.getNumber());
-		parkingLotRepository.save(parkingLot);
 		
 		try {
 			parkingLotRepository.save(parkingLot);

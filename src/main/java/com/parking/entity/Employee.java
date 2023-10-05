@@ -42,9 +42,6 @@ public class Employee implements Serializable {
 	@Column
 	private Boolean gender;
 	@Column
-	@Email
-	private String email;
-	@Column
 	private String phone;
 	@Column
 	private String avatar;
@@ -68,28 +65,21 @@ public class Employee implements Serializable {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
 	
-
-	public Employee(Long id,
-			@NotBlank(message = "First name should not be empty") @Size(max = 50, message = "First name exceed 50 characters") String firstName,
-			@NotBlank(message = "First name should not be empty") @Size(max = 50, message = "Last name exceed 50 characters") String lastName,
-			@NotEmpty(message = "Gender must not be empty") Boolean gender, @Email String email, String phone,
+	public Employee(Long id, @Size(max = 50, message = "First name exceed 50 characters") String firstName,
+			@Size(max = 50, message = "Last name exceed 50 characters") String lastName, Boolean gender, String phone,
 			String avatar, Login login, Boolean status, ParkingLot parkingLot) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.gender = gender;
-		this.email = email;
 		this.phone = phone;
 		this.avatar = avatar;
 		this.login = login;
 		this.status = status;
 		this.parkingLot = parkingLot;
 	}
-
-
 
 	public Long getId() {
 		return id;
@@ -123,13 +113,6 @@ public class Employee implements Serializable {
 		this.gender = gender;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
 
 	public String getPhone() {
 		return phone;

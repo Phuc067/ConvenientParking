@@ -36,9 +36,6 @@ public class Merchant implements Serializable {
 	@NotBlank(message = "Represent should not be empty")
 	private String represent;
 	@Column
-	@Email
-	private String email;
-	@Column
 	private String phone;
 	
 	@OneToOne
@@ -51,22 +48,17 @@ public class Merchant implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	
-
 	public Merchant(Long id,
 			@Size(max = 50, message = "Name shouldn't be exceed 50 character") @NotBlank(message = "Name should not be empty") String name,
 			@Size(max = 50, message = "Represent shouldn't be exceed 50 character") @NotBlank(message = "Represent should not be empty") String represent,
-			@Email String email, String phone, Login login) {
+			String phone, Login login) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.represent = represent;
-		this.email = email;
 		this.phone = phone;
 		this.login = login;
 	}
-
-
 
 	public Long getId() {
 		return id;
@@ -90,14 +82,6 @@ public class Merchant implements Serializable {
 
 	public void setRepresent(String represent) {
 		this.represent = represent;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public String getPhone() {

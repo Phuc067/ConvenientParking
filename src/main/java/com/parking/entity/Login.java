@@ -8,6 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "logins")
@@ -22,12 +25,23 @@ public class Login implements Serializable{
 	private String username;
 	
 	@Column
+	@JsonIgnore
 	private String password;
 	
 	@Column
 	private Boolean status;
+	
+	@Column
+	@Email
+	@JsonIgnore
+	private String email;
+	@Column
+	@JsonIgnore
+	private String verificationCode;
+	
 	@ManyToOne
 	@JoinColumn(name = "roleId", referencedColumnName = "id")
+	@JsonIgnore
 	private Role role;
 
 	public Login() {
@@ -35,12 +49,16 @@ public class Login implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 
-	public Login(Long id, String username, String password, Boolean status, Role role) {
+	
+	public Login(Long id, String username, String password, Boolean status, @Email String email,
+			String verificationCode, Role role) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.status = status;
+		this.email = email;
+		this.verificationCode = verificationCode;
 		this.role = role;
 	}
 
@@ -75,6 +93,17 @@ public class Login implements Serializable{
 	public void setStatus(Boolean status) {
 		this.status = status;
 	}
+	
+
+	public String getEmail() {
+		return email;
+	}
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 
 	public Role getRole() {
 		return role;
@@ -86,6 +115,16 @@ public class Login implements Serializable{
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+
+	public String getVerificationCode() {
+		return verificationCode;
+	}
+
+
+	public void setVerificationCode(String verificationCode) {
+		this.verificationCode = verificationCode;
 	}
 	
 	
