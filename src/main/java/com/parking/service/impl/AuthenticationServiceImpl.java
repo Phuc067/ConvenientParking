@@ -51,7 +51,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@Override
 	public ResponseObject login(LoginDto loginDto) {
 		Login login = loginRepository.findByUsername(loginDto.getUsername());
-		if(!login.getStatus())
+		if(ObjectUtils.isNotEmpty(login)&& !login.getStatus())
 		{
 			return new ResponseObject(HttpStatus.UNAUTHORIZED, "Please verify your account first",null);
 		}
