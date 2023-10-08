@@ -25,7 +25,7 @@ public  class VerificationCleanupTask extends TimerTask {
 
 
 	@Override
-	@Transactional(value = TxType.REQUIRED)
+	
     public void run() {     
        loginRepository.removeVerificationCode(username);
     }

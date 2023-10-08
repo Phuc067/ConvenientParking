@@ -15,42 +15,36 @@ import org.springframework.web.bind.annotation.RestController;
 import com.parking.constant.SessionConstant;
 import com.parking.dto.EmailDto;
 import com.parking.dto.LoginDto;
+import com.parking.dto.RegisterDto;
 import com.parking.dto.ResponseLoginDto;
 import com.parking.dto.VerificationDto;
 import com.parking.entity.Login;
+import com.parking.model.AuthenticationResponse;
 import com.parking.model.ResponseObject;
 import com.parking.security.VerificationCodeGenerator;
 import com.parking.security.VerifyCodeManager;
 import com.parking.service.EmailSenderService;
-import com.parking.service.LoginService;
+import com.parking.service.AuthenticationService;
 
 @RestController
-@RequestMapping(value = "/api")
-public class LoginController {
+@RequestMapping(value = "/api/auth")
+public class AuthenticationController {
 
 	@Autowired
-	private LoginService loginService;
+	private AuthenticationService authenticationService;
 
 	@Autowired
 	private EmailSenderService senderService;
 
 	@GetMapping(value = "/loginUsers")
 	public ResponseEntity<?> doGetLoginUser() {
-		return ResponseEntity.ok(loginService.getAll());
+		return ResponseEntity.ok(authenticationService.getAll());
 	}
 
 	@PostMapping(value = "/login")
-	public ResponseEntity<ResponseLoginDto> doLogin(@RequestBody LoginDto loginDto, HttpSession session) {
-		if (ObjectUtils.isNotEmpty(session.getAttribute(SessionConstant.CURRENT_USER))) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-					.body(new ResponseLoginDto(HttpStatus.UNAUTHORIZED, "you need to logout first", null, null));
-		}
-		ResponseLoginDto responseObject = loginService.doLogin(loginDto);
-//		if(ObjectUtils.isNotEmpty(responseObject.getRole()))
-//		{
-//			session.setAttribute(SessionConstant.CURRENT_USER, responseObject.getObject());
-//			session.setAttribute(SessionConstant.CURRENT_ROLE, responseObject.getRole());
-//		}
+	public ResponseEntity<?> doLogin(@RequestBody LoginDto loginDto, HttpSession session) {
+		
+		ResponseObject responseObject = authenticationService.login(loginDto);
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
 
@@ -84,15 +78,15 @@ public class LoginController {
 	}
 
 	@PostMapping(value = "/register")
-	public ResponseEntity<?> doRegister(@RequestBody LoginDto loginDto) throws MessagingException
+	public ResponseEntity<?> doRegister(@RequestBody RegisterDto registerDto) throws MessagingException
 	{
-		ResponseObject responseObject = loginService.register(loginDto);
+		ResponseObject responseObject = authenticationService.register(registerDto);
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
 	
 	@PostMapping(value = "/verification")
 	public ResponseEntity<?> doVerification(@RequestBody VerificationDto verificationDto) {
-		ResponseObject responseObject = loginService.verification(verificationDto);
+		ResponseObject responseObject = authenticationService.verification(verificationDto);
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
 }
