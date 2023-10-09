@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -71,6 +72,7 @@ public class ParkingLot implements Serializable {
 	private String street;
 	@Column
 	private String number;
+	
 	public ParkingLot() {
 		super();
 		// TODO Auto-generated constructor stub

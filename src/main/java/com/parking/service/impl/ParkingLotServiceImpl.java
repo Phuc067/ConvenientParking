@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import com.parking.dto.ParkingLotDto;
+import com.parking.dto.ParkingLotRequest;
 import com.parking.entity.Merchant;
 import com.parking.entity.ParkingLot;
 import com.parking.model.ResponseObject;
@@ -29,7 +29,7 @@ public class ParkingLotServiceImpl implements ParkingLotService{
 	}
 
 	@Override
-	public ResponseObject add(ParkingLotDto parkingLotDto) {
+	public ResponseObject add(ParkingLotRequest parkingLotDto) {
 		
 		ParkingLot parkingLot = new ParkingLot();
 		Long id = parkingLotRepository.getMaxId() + 1;

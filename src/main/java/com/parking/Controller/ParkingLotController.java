@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.parking.dto.ParkingLotDto;
+import com.parking.dto.ParkingLotRequest;
 import com.parking.entity.ParkingLot;
 import com.parking.model.ResponseObject;
 import com.parking.service.ParkingLotService;
@@ -31,17 +31,15 @@ public class ParkingLotController {
 		List<ParkingLot> parkingLots;
 		if (id!=0) {
 			parkingLots = parkingLotService.getParkingLotByMerchantId(id);
-			System.out.println(parkingLots);
 			return ResponseEntity.ok(parkingLots);
 		} else {
 			parkingLots = parkingLotService.getAllParkingLot();
-			System.out.println(parkingLots);
 			return ResponseEntity.ok(parkingLots);
 		}
 	}
 
 	@PostMapping(value = "/add/parkingLot")
-	public ResponseEntity<ResponseObject> doAddParkingLot(@RequestBody ParkingLotDto parkingLotDto) {
+	public ResponseEntity<ResponseObject> doAddParkingLot(@RequestBody ParkingLotRequest parkingLotDto) {
 		ResponseObject responseObject = parkingLotService.add(parkingLotDto);
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}

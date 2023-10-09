@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.parking.constant.ConfigConstant;
 import com.parking.constant.SessionConstant;
-import com.parking.dto.EmployeeDto;
+import com.parking.dto.EmployeeRequest;
 import com.parking.model.ResponseObject;
 import com.parking.security.VerifyCodeManager;
 import com.parking.service.EmployeeService;
@@ -27,20 +27,20 @@ public class EmployeeController {
 	private EmployeeService employeeService;
 	
 	@PostMapping("/add/employee")
-	public ResponseEntity<?> doAddEmployee(@RequestBody EmployeeDto employeeDto) {
+	public ResponseEntity<?> doAddEmployee(@RequestBody EmployeeRequest employeeDto) {
 		ResponseObject responseObject = employeeService.add(employeeDto);
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 
 	}
 
 	@PostMapping("edit/employee")
-	public ResponseEntity<?> doEditEmployee(@RequestBody EmployeeDto employee) {
+	public ResponseEntity<?> doEditEmployee(@RequestBody EmployeeRequest employee) {
 		ResponseObject responseObject = employeeService.edit(employee);
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
 	
 	@PostMapping("register/employee")
-	public ResponseEntity<?> doRegisterEmplyee(@RequestBody EmployeeDto employeeDto, HttpSession session) throws MessagingException
+	public ResponseEntity<?> doRegisterEmplyee(@RequestBody EmployeeRequest employeeDto, HttpSession session) throws MessagingException
 	{
 		ResponseObject responseObject = employeeService.register(employeeDto, session);
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);

@@ -12,7 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.parking.constant.SessionConstant;
-import com.parking.dto.EmployeeDto;
+import com.parking.dto.EmployeeRequest;
 import com.parking.model.ResponseObject;
 import com.parking.repository.EmployeeRepository;
 import com.parking.repository.LoginRepository;
@@ -37,7 +37,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	@Transactional
-	public ResponseObject add(EmployeeDto employeeDto) {
+	public ResponseObject add(EmployeeRequest employeeDto) {
 		try {
 			employeeRepository.insert(employeeDto);
 		} catch (Exception e) {
@@ -49,14 +49,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	@Transactional(value = TxType.REQUIRED)
-	public ResponseObject edit(EmployeeDto employeeDto) {
+	public ResponseObject edit(EmployeeRequest employeeDto) {
 		employeeRepository.update(employeeDto);
 		return new ResponseObject(HttpStatus.ACCEPTED, "Employee information was changed successfully", null);
 	}
 
 	@Override
 	@Transactional(value = TxType.REQUIRED)
-	public ResponseObject register(EmployeeDto employeeDto, HttpSession session) throws MessagingException {
+	public ResponseObject register(EmployeeRequest employeeDto, HttpSession session) throws MessagingException {
 		this.add(employeeDto);
 		String hashPassword = bCryptPasswordEncoder.encode(employeeDto.getPassword());
 		if (ObjectUtils.isNotEmpty(loginRepository.findByUsername(employeeDto.getUsername()))) {

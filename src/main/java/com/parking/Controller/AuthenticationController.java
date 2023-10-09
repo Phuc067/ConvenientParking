@@ -13,17 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.parking.constant.SessionConstant;
-import com.parking.dto.EmailDto;
-import com.parking.dto.LoginDto;
-import com.parking.dto.RegisterDto;
-import com.parking.dto.ResponseLoginDto;
-import com.parking.dto.VerificationDto;
-import com.parking.entity.Login;
-import com.parking.model.AuthenticationResponse;
+import com.parking.dto.EmailRequest;
+import com.parking.dto.LoginRequest;
+import com.parking.dto.RegisterRequest;
+import com.parking.dto.RefreshTokenRequest;
+import com.parking.dto.VerificationRequest;
 import com.parking.model.ResponseObject;
 import com.parking.security.VerificationCodeGenerator;
-import com.parking.security.VerifyCodeManager;
 import com.parking.service.EmailSenderService;
+import com.parking.service.RefreshTokenService;
 import com.parking.service.AuthenticationService;
 
 @RestController
@@ -35,15 +33,24 @@ public class AuthenticationController {
 
 	@Autowired
 	private EmailSenderService senderService;
-
+	
+	
 	@GetMapping(value = "/loginUsers")
 	public ResponseEntity<?> doGetLoginUser() {
 		return ResponseEntity.ok(authenticationService.getAll());
 	}
+	
+	@Autowired
+	private RefreshTokenService refreshTokenService;
+	@PostMapping("/refresh")
+	public ResponseEntity<ResponseObject> getRefreshToken(@RequestBody RefreshTokenRequest request)
+	{
+		ResponseObject responseObject =  refreshTokenService.genarateAccessToken(request.getRefreshToken());
+		return  ResponseEntity.status(responseObject.getStatus()).body(responseObject);
+	}
 
 	@PostMapping(value = "/login")
-	public ResponseEntity<?> doLogin(@RequestBody LoginDto loginDto, HttpSession session) {
-		
+	public ResponseEntity<?> doLogin(@RequestBody LoginRequest loginDto, HttpSession session) {
 		ResponseObject responseObject = authenticationService.login(loginDto);
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
@@ -60,7 +67,7 @@ public class AuthenticationController {
 	}
 
 	@PostMapping(value = "/email")
-	public ResponseEntity<?> doSendEmail(@RequestBody EmailDto emailDto, HttpSession session) {
+	public ResponseEntity<?> doSendEmail(@RequestBody EmailRequest emailDto, HttpSession session) {
 		String verificationCode = VerificationCodeGenerator.generate();
 
 		try {
@@ -78,14 +85,14 @@ public class AuthenticationController {
 	}
 
 	@PostMapping(value = "/register")
-	public ResponseEntity<?> doRegister(@RequestBody RegisterDto registerDto) throws MessagingException
+	public ResponseEntity<?> doRegister(@RequestBody RegisterRequest registerDto) throws MessagingException
 	{
 		ResponseObject responseObject = authenticationService.register(registerDto);
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
 	
 	@PostMapping(value = "/verification")
-	public ResponseEntity<?> doVerification(@RequestBody VerificationDto verificationDto) {
+	public ResponseEntity<?> doVerification(@RequestBody VerificationRequest verificationDto) {
 		ResponseObject responseObject = authenticationService.verification(verificationDto);
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
