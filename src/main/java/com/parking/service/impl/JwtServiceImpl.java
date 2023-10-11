@@ -9,6 +9,9 @@ import java.util.function.Function;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.parking.constant.RoleConstant;
+import com.parking.entity.Login;
+import com.parking.model.RoleMap;
 import com.parking.service.JwtService;
 
 import io.jsonwebtoken.Claims;
@@ -50,19 +53,20 @@ public class JwtServiceImpl implements JwtService {
 	}
 
 	@Override
-	public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+	public String generateToken(Map<String, Object> extraClaims, Login login) {
 		return Jwts.builder()
 				.setClaims(extraClaims)
-				.setSubject(userDetails.getUsername())
+				.setSubject(login.getUsername())
+				.claim("role", RoleConstant.roleMap.get(login.getRole().getName()))
 				.setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
 				.signWith(getSignInKey(), SignatureAlgorithm.HS256).compact();
 	}
 
 	@Override
-	public String generateToken(UserDetails userDetails) {
+	public String generateToken(Login login) {
 
-		return generateToken(new HashMap<>(), userDetails);
+		return generateToken(new HashMap<>(), login);
 	}
 
 	@Override
