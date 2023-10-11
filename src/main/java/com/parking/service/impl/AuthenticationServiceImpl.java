@@ -67,7 +67,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		
 		String jwtToken = jwtService.generateToken(login);
 		return new ResponseObject(HttpStatus.OK, "Login successfully", new AuthenticationResponse(jwtToken,
-				refreshToken.getToken(), RoleConstant.roleMap.get(login.getRole().getName())));
+				refreshToken.getToken()));
 
 	}
 

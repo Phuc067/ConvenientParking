@@ -73,7 +73,7 @@ public class RefreshTokenServiceImpl  implements RefreshTokenService{
 			return new ResponseObject(HttpStatus.BAD_REQUEST, "Your refresh token was expired", null);
 		}
 		String accessToken = jwtService.generateToken(refreshToken.getLogin());
-		return new ResponseObject(HttpStatus.OK,"Get access token successfully", new RefreshTokenResponse(accessToken,  RoleConstant.roleMap.get(refreshToken.getLogin().getRole().getName())));
+		return new ResponseObject(HttpStatus.OK,"Get access token successfully", new RefreshTokenResponse(accessToken));
 	}
 	
 	public Boolean isExpired(RefreshToken refreshToken)

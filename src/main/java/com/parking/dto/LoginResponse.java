@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 public class LoginResponse {
 	private HttpStatus status;
 	private String message;
-	private Long role;
 	private String accessToken;
 	
 	public LoginResponse() {
@@ -13,11 +12,10 @@ public class LoginResponse {
 	}
 
 
-	public LoginResponse(HttpStatus status, String message, Long role, String accessToken) {
+	public LoginResponse(HttpStatus status, String message,String accessToken) {
 		super();
 		this.status = status;
 		this.message = message;
-		this.role = role;
 		this.accessToken = accessToken;
 	}
 
@@ -36,15 +34,6 @@ public class LoginResponse {
 
 	public void setMessage(String message) {
 		this.message = message;
-	}
-
-
-	public Long getRole() {
-		return role;
-	}
-
-	public void setRole(Long role) {
-		this.role = role;
 	}
 
 
