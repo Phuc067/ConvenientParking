@@ -11,7 +11,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonKey;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.primitives.Bytes;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,22 +40,22 @@ public class ParkingLotImage implements Serializable{
 	//parking lot id
 	@ManyToOne
 	@JoinColumn(name = "parkingLotId", referencedColumnName = "id")
-	@JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
+	@JsonIgnore
 	private ParkingLot parkingLot;
 	
 	@Column
-	private String url;
+	private byte image[];
 
 	public ParkingLotImage() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public ParkingLotImage(Long id, ParkingLot parkingLot, String url) {
+	public ParkingLotImage(Long id, ParkingLot parkingLot, byte[] image) {
 		super();
 		this.id = id;
 		this.parkingLot = parkingLot;
-		this.url = url;
+		this.image = image;
 	}
 
 	public Long getId() {
@@ -67,17 +74,17 @@ public class ParkingLotImage implements Serializable{
 		this.parkingLot = parkingLot;
 	}
 
-	public String getUrl() {
-		return url;
+	public byte[] getImage() {
+		return image;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
+
 	
 }

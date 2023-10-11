@@ -8,10 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class StorageProperties {
 
-	/**
-	 * Folder location for storing files
-	 */
-	private String location = "./src/main/resources/static";
+	private String location = "./src/main/resources/static/image";
 
 	public String getLocation() {
 		return location;

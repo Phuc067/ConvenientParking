@@ -8,12 +8,17 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.web.firewall.HttpStatusRequestRejectedHandler;
+import org.springframework.security.web.firewall.RequestRejectedHandler;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
 
 import lombok.RequiredArgsConstructor;
 
@@ -52,7 +57,7 @@ public class SecurityConfiguration {
 			.csrf()
 			.disable()
 			.authorizeHttpRequests()
-				.antMatchers("/api/auth/**")
+				.antMatchers("/api/auth/**", "api/upload/**")
 				.permitAll()
 				.antMatchers(HttpMethod.OPTIONS, "/api/**")
 				.permitAll()
@@ -66,4 +71,15 @@ public class SecurityConfiguration {
 		return http.build();
 			
 	}
+//	
+//	@Bean
+//	public HttpFirewall allowUrlEncodedSlashHttpFirewall() {
+//	    StrictHttpFirewall firewall = new StrictHttpFirewall();
+//	    firewall.setAllowUrlEncodedSlash(true);    
+//	    return firewall;
+//	}
+//	@Bean
+//	RequestRejectedHandler requestRejectedHandler() {
+//	   return new HttpStatusRequestRejectedHandler();
+//	}
 }

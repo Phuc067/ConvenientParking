@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.parking.exception.StorageException;
 import com.parking.exception.StorageFileNotFoundException;
+import com.parking.model.ResponseObject;
 import com.parking.model.StorageProperties;
 import com.parking.service.StorageService;
 
@@ -27,30 +28,30 @@ import com.parking.service.StorageService;
 public class FileSystemStorageService implements StorageService {
 
 	private final Path rootLocation;
-
+	
 	@Autowired
 	public FileSystemStorageService(StorageProperties properties) {
 		this.rootLocation = Paths.get(properties.getLocation());
 	}
 
 	@Override
-	public void store(MultipartFile file) {
+	public String store(MultipartFile file) {
 		try {
 			if (file.isEmpty()) {
 				throw new StorageException("Failed to store empty file.");
 			}
-			Path destinationFile = this.rootLocation.resolve(
-					Paths.get(file.getOriginalFilename()))
-					.normalize().toAbsolutePath();
+			Path destinationFile = this.rootLocation.resolve(Paths.get(file.getOriginalFilename())).normalize().toAbsolutePath();
 			try (InputStream inputStream = file.getInputStream()) {
-				Files.copy(inputStream, destinationFile,
-					StandardCopyOption.REPLACE_EXISTING);
+				Files.copy(inputStream, destinationFile,StandardCopyOption.REPLACE_EXISTING);
 			}
 		}
 		catch (IOException e) {
 			throw new StorageException("Failed to store file.", e);
 		}
+		return  this.rootLocation.resolve(Paths.get(file.getOriginalFilename())).normalize().toString();
 	}
+	
+	
 
 	@Override
 	public Stream<Path> loadAll() {
@@ -81,7 +82,6 @@ public class FileSystemStorageService implements StorageService {
 			else {
 				throw new StorageFileNotFoundException(
 						"Could not read file: " + filename);
-
 			}
 		}
 		catch (MalformedURLException e) {
@@ -103,4 +103,6 @@ public class FileSystemStorageService implements StorageService {
 			throw new StorageException("Could not initialize storage", e);
 		}
 	}
+
+	
 }

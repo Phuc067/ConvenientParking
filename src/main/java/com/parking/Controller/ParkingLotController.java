@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.parking.dto.ParkingLotRequest;
 import com.parking.entity.ParkingLot;
@@ -25,6 +26,8 @@ public class ParkingLotController {
 
 	@Autowired
 	private ParkingLotService parkingLotService;
+	
+	
 
 	@GetMapping(value = "/parkingLots")
 	public ResponseEntity<?> doGetAllParkingLot(@RequestParam(name = "merchantId", defaultValue = "0") Long id) {
@@ -37,7 +40,7 @@ public class ParkingLotController {
 			return ResponseEntity.ok(parkingLots);
 		}
 	}
-
+	
 	@PostMapping(value = "/add/parkingLot")
 	public ResponseEntity<ResponseObject> doAddParkingLot(@RequestBody ParkingLotRequest parkingLotDto) {
 		ResponseObject responseObject = parkingLotService.add(parkingLotDto);
