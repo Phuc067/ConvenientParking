@@ -35,11 +35,6 @@ public class AuthenticationController {
 	private EmailSenderService senderService;
 	
 	
-	@GetMapping(value = "/loginUsers")
-	public ResponseEntity<?> doGetLoginUser() {
-		return ResponseEntity.ok(authenticationService.getAll());
-	}
-	
 	@Autowired
 	private RefreshTokenService refreshTokenService;
 	@PostMapping("/refresh")
