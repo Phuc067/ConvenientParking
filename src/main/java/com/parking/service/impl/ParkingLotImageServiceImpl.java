@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.parking.Utils.ImageUtils;
 import com.parking.dto.ParkingLotImageResponse;
 import com.parking.entity.ParkingLot;
 import com.parking.entity.ParkingLotImage;
@@ -20,6 +19,7 @@ import com.parking.repository.ParkingLotImageRepository;
 import com.parking.repository.ParkingLotRepository;
 import com.parking.service.ParkingLotImageService;
 import com.parking.service.StorageService;
+import com.parking.utils.ImageUtils;
 
 @Service
 public class ParkingLotImageServiceImpl implements ParkingLotImageService {

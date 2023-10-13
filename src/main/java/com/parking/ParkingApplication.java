@@ -1,18 +1,18 @@
 package com.parking;
 
+import java.io.IOException;
+
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 
 @SpringBootApplication
 //@EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class})
 public class ParkingApplication {
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		SpringApplication.run(ParkingApplication.class, args);
 	}
 
+	
 }

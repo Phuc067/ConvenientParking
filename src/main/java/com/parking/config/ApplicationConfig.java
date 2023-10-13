@@ -1,4 +1,4 @@
-package com.parking.security;
+package com.parking.config;
 
 import javax.persistence.EntityManagerFactory;
 

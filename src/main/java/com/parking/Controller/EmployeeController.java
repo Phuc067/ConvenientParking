@@ -15,8 +15,8 @@ import com.parking.constant.ConfigConstant;
 import com.parking.constant.SessionConstant;
 import com.parking.dto.EmployeeRequest;
 import com.parking.model.ResponseObject;
-import com.parking.security.VerifyCodeManager;
 import com.parking.service.EmployeeService;
+import com.parking.utils.VerifyCodeManager;
 
 @RestController
 @CrossOrigin(origins = ConfigConstant.urlFEConnectionString)

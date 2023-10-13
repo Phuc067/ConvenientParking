@@ -19,9 +19,9 @@ import com.parking.dto.RegisterRequest;
 import com.parking.dto.RefreshTokenRequest;
 import com.parking.dto.VerificationRequest;
 import com.parking.model.ResponseObject;
-import com.parking.security.VerificationCodeGenerator;
 import com.parking.service.EmailSenderService;
 import com.parking.service.RefreshTokenService;
+import com.parking.utils.VerificationCodeGenerator;
 import com.parking.service.AuthenticationService;
 
 @RestController

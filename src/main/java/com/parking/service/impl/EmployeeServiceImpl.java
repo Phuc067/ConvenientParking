@@ -16,10 +16,10 @@ import com.parking.dto.EmployeeRequest;
 import com.parking.model.ResponseObject;
 import com.parking.repository.EmployeeRepository;
 import com.parking.repository.LoginRepository;
-import com.parking.security.VerificationCodeGenerator;
-import com.parking.security.VerifyCodeManager;
 import com.parking.service.EmailSenderService;
 import com.parking.service.EmployeeService;
+import com.parking.utils.VerificationCodeGenerator;
+import com.parking.utils.VerifyCodeManager;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {

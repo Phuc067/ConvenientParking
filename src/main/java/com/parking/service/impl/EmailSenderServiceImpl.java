@@ -21,17 +21,6 @@ public class EmailSenderServiceImpl implements EmailSenderService {
 	@Override
 	public void sendVerificationEmail(String toEmail, String username, String verificationCode)
 			throws MessagingException {
-//		SimpleMailMessage  message = new SimpleMailMessage();
-//		message.setFrom("security.convenient-parking@gmail.com");
-//		message.setTo(toEmail);
-//		String body = "Mã đặt xác thực tài khoản\r\n"
-//				+ "Xin dùng mã này để xác thực cho tài khoản Convenient Parking " +toEmail +".\r\n"
-//				+ "Đây là mã của bạn: " +verificationCode + "\r\n"
-//				+ "Xin cám ơn,\r\n";
-//		message.setText(body);
-//		mailSender.send(message);
-//		System.out.print("Mail send successfully");
-
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
@@ -41,7 +30,6 @@ public class EmailSenderServiceImpl implements EmailSenderService {
 
 		TimeFormat time = new TimeFormat(SessionConstant.OTP_EXPIRE_TIME);
 
-		// Định dạng email dưới dạng HTML
 		String htmlBody = "<div>\r\n" + "    <h1 style=\"color: darkcyan;\">Mã đặt xác thực tài khoản</h1>\r\n"
 				+ "    <p>Xin dùng mã này để xác thực cho tài khoản Convenient Parking " + username + " .</p>\r\n"
 				+ "    <p>Đây là mã của bạn: <strong> " + verificationCode + "</strong></p>\r\n"
@@ -49,7 +37,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
 				+ ", nó sẽ hết hạn. Để nhận liên kết đặt lại mật khẩu mới, hãy\r\n" + "        truy cập: </p>\r\n"
 				+ "    <p>Xin cám ơn,</p>\r\n" + "    <p>Nhóm tài khoản Convenient Parking</p>\r\n" + "</div>";
 
-		helper.setText(htmlBody, true); // Đặt email dưới dạng HTML
+		helper.setText(htmlBody, true); 
 
 		mailSender.send(message);
 	}

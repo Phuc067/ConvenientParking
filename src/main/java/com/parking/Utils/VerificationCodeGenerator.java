@@ -1,4 +1,4 @@
-package com.parking.security;
+package com.parking.utils;
 
 import java.security.SecureRandom;
 

@@ -45,7 +45,7 @@ public class RefreshTokenServiceImpl  implements RefreshTokenService{
 				refreshTokenRepository.delete(refreshToken);
 				RefreshToken newRefreshToken = new RefreshToken();
 				newRefreshToken.setLogin(login);
-				newRefreshToken.setExpriryDate(Instant.now().plusMillis(1000*60 *60));
+				newRefreshToken.setExpriryDate(Instant.now().plusMillis(1000* 60* SessionConstant.REFRESH_TOKEN_EXPRIRY_TIME));
 				newRefreshToken.setToken(UUID.randomUUID().toString());
 				return refreshTokenRepository.save(newRefreshToken);
 			}
@@ -65,7 +65,7 @@ public class RefreshTokenServiceImpl  implements RefreshTokenService{
 		RefreshToken refreshToken = refreshTokenRepository.findByToken(request);
 		if(ObjectUtils.isEmpty(refreshToken) )
 		{
-			return new ResponseObject(HttpStatus.BAD_REQUEST, "Your refresh token does not exist", null);
+			return new ResponseObject(HttpStatus.NOT_FOUND, "Your refresh token does not exist", null);
 		}
 		if(isExpired(refreshToken))
 		{

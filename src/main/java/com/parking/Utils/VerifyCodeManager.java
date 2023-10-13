@@ -1,9 +1,6 @@
-package com.parking.security;
+package com.parking.utils;
 
 import java.util.Timer;
-
-import javax.servlet.http.HttpSession;
-import javax.transaction.Transactional;
 
 import com.parking.repository.LoginRepository;
 

@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.parking.dto.ParkingLotRequest;
-import com.parking.entity.Merchant;
 import com.parking.entity.ParkingLot;
 import com.parking.model.ResponseObject;
-import com.parking.repository.MerchantRepository;
 import com.parking.repository.ParkingLotRepository;
 import com.parking.service.ParkingLotService;
 
@@ -19,9 +19,6 @@ public class ParkingLotServiceImpl implements ParkingLotService{
 	@Autowired
 	private ParkingLotRepository parkingLotRepository;
 	
-	@Autowired
-	private MerchantRepository merchantRepository;
-	
 	@Override
 	public List<ParkingLot> getAllParkingLot() {
 		
@@ -29,30 +26,15 @@ public class ParkingLotServiceImpl implements ParkingLotService{
 	}
 
 	@Override
+	@Transactional
 	public ResponseObject add(ParkingLotRequest parkingLotDto) {
 		
-		ParkingLot parkingLot = new ParkingLot();
-		Long id = parkingLotRepository.getMaxId() + 1;
-		System.out.println(id);
-		parkingLot.setId(id);
-		parkingLot.setParkingLotName(parkingLotDto.getParkingLotName());
-		parkingLot.setNumberSlot(parkingLotDto.getNumberSlot());
-		parkingLot.setNumberSlotRemaining(parkingLotDto.getNumberSlot());
-		Merchant merchant = merchantRepository.findById(parkingLotDto.getMerchantId()).get();
-		parkingLot.setMerchant(merchant);
-		parkingLot.setStatus(1l);
-		parkingLot.setLat(parkingLotDto.getLat());
-		parkingLot.setLng(parkingLotDto.getLng());
-		parkingLot.setTimeClose(parkingLotDto.getTimeClose());
-		parkingLot.setTimeOpen(parkingLotDto.getTimeOpen());
-		parkingLot.setCity(parkingLotDto.getCity());
-		parkingLot.setDistrict(parkingLotDto.getDistrict());
-		parkingLot.setWard(parkingLotDto.getWard());
-		parkingLot.setStreet(parkingLotDto.getStreet());
-		parkingLot.setNumber(parkingLotDto.getNumber());
-		
+		if(parkingLotRepository.existsByLatAndLng(parkingLotDto.getLat(), parkingLotDto.getLng()))
+		{
+			return new ResponseObject(HttpStatus.FORBIDDEN,"It is not possible to create 2 parking lots at the same location", null);
+		}
 		try {
-			parkingLotRepository.save(parkingLot);
+			parkingLotRepository.insert(parkingLotDto);
 		} catch (Exception e) {
 			return new ResponseObject(HttpStatus.BAD_REQUEST, e.getMessage(), null);
 		}

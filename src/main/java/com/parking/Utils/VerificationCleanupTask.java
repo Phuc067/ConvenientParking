@@ -1,4 +1,4 @@
-package com.parking.security;
+package com.parking.utils;
 
 import java.util.TimerTask;
 
@@ -22,7 +22,6 @@ public  class VerificationCleanupTask extends TimerTask {
 		this.username = username;
 		this.loginRepository = loginRepository;
 	}
-
 
 	@Override
 	

@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.parking.constant.SessionConstant;
 import com.parking.repository.LoginRepository;
-import com.parking.security.VerifyCodeManager;
 import com.parking.service.AuthenticationService;
+import com.parking.utils.VerifyCodeManager;
 
 
 

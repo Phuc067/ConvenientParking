@@ -1,4 +1,4 @@
-package com.parking.Utils;
+package com.parking.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.util.zip.Deflater;

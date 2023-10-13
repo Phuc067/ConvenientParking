@@ -1,6 +1,4 @@
 package com.parking.service.impl;
-
-import java.sql.Timestamp;
 import java.util.List;
 import javax.mail.MessagingException;
 import javax.transaction.Transactional;
@@ -12,7 +10,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.parking.constant.RoleConstant;
 import com.parking.constant.SessionConstant;
 import com.parking.dto.LoginRequest;
 import com.parking.dto.RegisterRequest;
@@ -24,11 +21,11 @@ import com.parking.model.AuthenticationResponse;
 import com.parking.model.ResponseObject;
 import com.parking.repository.LoginRepository;
 import com.parking.repository.RoleRepository;
-import com.parking.security.VerificationCodeGenerator;
-import com.parking.security.VerifyCodeManager;
 import com.parking.service.EmailSenderService;
 import com.parking.service.JwtService;
 import com.parking.service.RefreshTokenService;
+import com.parking.utils.VerificationCodeGenerator;
+import com.parking.utils.VerifyCodeManager;
 import com.parking.service.AuthenticationService;
 
 @Service
@@ -75,10 +72,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@Transactional
 	public ResponseObject register(RegisterRequest registerDto) throws MessagingException {
 		if (ObjectUtils.isNotEmpty(loginRepository.findByUsername(registerDto.getUsername()))) {
-			return new ResponseObject(HttpStatus.BAD_REQUEST, "Username already exists", null);
+			return new ResponseObject(HttpStatus.CONFLICT, "The username already exists.", null);
 		}
 		if (ObjectUtils.isNotEmpty(loginRepository.findByEmail(registerDto.getEmail()))) {
-			return new ResponseObject(HttpStatus.BAD_REQUEST, "Email is already in use by someone else", null);
+			return new ResponseObject(HttpStatus.PRECONDITION_FAILED, "Email is already being used by someone else.", null);
 		}
 		String verifyCode = VerificationCodeGenerator.generate();
 		String hashPassword = passwordEncoder.encode(registerDto.getPassword());
@@ -97,7 +94,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				loginRepository);
 		String jwtToken = jwtService.generateToken(login);
 		return new ResponseObject(HttpStatus.CREATED,
-				"Login was created successfully. Please check your email to get verification code.", jwtToken);
+				"The login was created successfully. Please check your email to get a verification code.", jwtToken);
 	}
 
 	@Transactional
@@ -105,7 +102,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		Login login = loginRepository.findByUsername(verificationDto.getUsername());
 
 		if (login.getStatus() == true) {
-			return new ResponseObject(HttpStatus.UNAUTHORIZED,
+			return new ResponseObject(HttpStatus.GONE,
 					"Your account has already been authenticated. You don't need to authenticate further, maybe.",
 					null);
 		}
@@ -113,7 +110,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		if (ObjectUtils.isNotEmpty(login)) {
 			verificationCode = login.getVerificationCode();
 		} else
-			return new ResponseObject(HttpStatus.UNAUTHORIZED, "You have not sent an authentication request", null);
+			return new ResponseObject(HttpStatus.UNAUTHORIZED, "You have not sent an authentication request.", null);
 		System.out.println(verificationCode);
 		System.out.println(verificationDto.getVerificationCode());
 
