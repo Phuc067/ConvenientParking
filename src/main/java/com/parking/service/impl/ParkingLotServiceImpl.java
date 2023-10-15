@@ -2,11 +2,14 @@ package com.parking.service.impl;
 
 
 import java.util.List;
+
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.parking.dto.CheckInData;
 import com.parking.dto.ParkingLotRequest;
 import com.parking.entity.ParkingLot;
 import com.parking.model.ResponseObject;
@@ -51,6 +54,12 @@ public class ParkingLotServiceImpl implements ParkingLotService{
 	public List<ParkingLot> getParkingLotByMerchantId(Long id) {
 		
 		return parkingLotRepository.findByMerchantId(id);
+	}
+
+	@Override
+	public List<ParkingLot> search(String keyword) {
+		
+		return parkingLotRepository.search(keyword);
 	}
 
 }

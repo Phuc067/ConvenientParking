@@ -25,4 +25,9 @@ public interface ParkingLotRepository extends JpaRepository<ParkingLot, Long>{
 	void insert(@Param("parkingLot") ParkingLotRequest parkingLotDto);
 	
 	Boolean existsByLatAndLng(Double lat, Double lng);
+	
+	@Modifying(clearAutomatically = true)
+	@Query(value = "SELECT * FROM ParkingLots where parkingLotName LIKE %?1% OR city LIKE %?1% OR district LIKE %?1% OR ward LIKE %?1% OR street LIKE %?1% OR number LIKE %?1%" , nativeQuery = true)
+	List<ParkingLot> search(String keyword);
+
 }

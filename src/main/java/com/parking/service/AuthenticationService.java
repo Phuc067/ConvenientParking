@@ -17,6 +17,7 @@ public interface AuthenticationService {
 //	ResponseLoginDto doLogin(LoginDto loginDto);
 	ResponseObject login(LoginRequest loginDto);
 	ResponseObject register(RegisterRequest registerDto) throws MessagingException;
+	ResponseObject getNewVerification(String username) throws MessagingException;
 	ResponseObject verification(VerificationRequest verificationDto);
-	List<Login> getAll();
+	ResponseObject forget(String username) throws MessagingException;
 }

@@ -27,6 +27,10 @@ public interface LoginRepository extends JpaRepository<Login, Long> {
 	void removeVerificationCode(String username);
 	
 	@Modifying(clearAutomatically = true)
+	@Query(value = "UPDATE logins SET verificationCode = ?2 where username = ?1", nativeQuery = true)
+	void setVerificationCode(String username, String verificationCode);
+	
+	@Modifying(clearAutomatically = true)
 	@Query(value = "UPDATE logins SET status = 1 where username = ?1", nativeQuery = true)
 	void setStatus(String username);
 }

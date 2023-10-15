@@ -1,4 +1,4 @@
-package com.parking.model;
+package com.parking.utils;
 
 public class TimeFormat {
 	private Long hour ;

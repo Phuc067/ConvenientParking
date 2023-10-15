@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.parking.constant.SessionConstant;
@@ -31,10 +32,6 @@ public class AuthenticationController {
 	@Autowired
 	private AuthenticationService authenticationService;
 
-	@Autowired
-	private EmailSenderService senderService;
-	
-	
 	@Autowired
 	private RefreshTokenService refreshTokenService;
 	@PostMapping("/refresh")
@@ -61,24 +58,6 @@ public class AuthenticationController {
 				.body(new ResponseObject(HttpStatus.BAD_REQUEST, "You hadn't loged in", null));
 	}
 
-	@PostMapping(value = "/email")
-	public ResponseEntity<?> doSendEmail(@RequestBody EmailRequest emailDto, HttpSession session) {
-		String verificationCode = VerificationCodeGenerator.generate();
-
-		try {
-			senderService.sendVerificationEmail(emailDto.getEmail(), emailDto.getEmail(), verificationCode);
-			session.setAttribute(SessionConstant.CURRENT_OTP, verificationCode);
-//			VerifyCodeManager verifyCodeManager = new VerifyCodeManager();
-//			verifyCodeManager.scheduleVerificationCleanup(SessionConstant.OTP_EXPIRE_TIME * 1000, session);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(new ResponseObject(HttpStatus.BAD_GATEWAY,
-					"Unable to send email, please check your connection", null));
-		}
-		return ResponseEntity.status(HttpStatus.OK)
-				.body(new ResponseObject(HttpStatus.OK, "Email was sent successfully", verificationCode));
-	}
-
 	@PostMapping(value = "/register")
 	public ResponseEntity<?> doRegister(@RequestBody RegisterRequest registerDto) throws MessagingException
 	{
@@ -86,9 +65,21 @@ public class AuthenticationController {
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
 	
+	@GetMapping(value = "/verification")
+	public ResponseEntity<?> doGetVerification(@RequestParam String  username) throws MessagingException {
+		ResponseObject responseObject = authenticationService.getNewVerification(username);
+		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
+	}
+	
 	@PostMapping(value = "/verification")
 	public ResponseEntity<?> doVerification(@RequestBody VerificationRequest verificationDto) {
 		ResponseObject responseObject = authenticationService.verification(verificationDto);
+		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
+	}
+	
+	@PostMapping(value = "/forget")
+	public ResponseEntity<?> doGetPassword(@RequestParam String username) throws MessagingException {
+		ResponseObject responseObject = authenticationService.forget(username);
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
 }
