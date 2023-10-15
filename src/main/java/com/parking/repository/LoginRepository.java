@@ -33,4 +33,8 @@ public interface LoginRepository extends JpaRepository<Login, Long> {
 	@Modifying(clearAutomatically = true)
 	@Query(value = "UPDATE logins SET status = 1 where username = ?1", nativeQuery = true)
 	void setStatus(String username);
+	
+	@Modifying(clearAutomatically = true)
+	@Query(value = "UPDATE logins SET password = ?2 where username = ?1", nativeQuery = true)
+	void setPassword(String username, String password);
 }

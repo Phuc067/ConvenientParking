@@ -1,5 +1,4 @@
 package com.parking.service.impl;
-import java.util.List;
 import javax.mail.MessagingException;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.parking.constant.SessionConstant;
 import com.parking.dto.LoginRequest;
 import com.parking.dto.RegisterRequest;
+import com.parking.dto.ResetPasswordRequest;
 import com.parking.dto.VerificationRequest;
 import com.parking.entity.Login;
 import com.parking.entity.RefreshToken;
@@ -132,7 +132,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		
 		if(login.getStatus() == true)
 		{
-			return new ResponseObject(HttpStatus.FORBIDDEN, "Your account has already been authenticated. You don't need to authenticate further, maybe.", null);
+			return new ResponseObject(HttpStatus.BAD_REQUEST, "Your account has already been authenticated. You don't need to authenticate further, maybe.", null);
 		}
 		
 		String verifyCode = VerificationCodeGenerator.generate();
@@ -146,26 +146,4 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				"Your verification code has been sent to email address "+ email +". Please check it", null);
 	}
 
-	@Override
-	@Transactional
-	public ResponseObject forget(String username) throws MessagingException {
-		Login login = loginRepository.findByUsername(username);
-		if(ObjectUtils.isEmpty(login))
-		{
-			return new ResponseObject(HttpStatus.NOT_FOUND, "This login was not found.", null);
-		}
-		if(login.getStatus() == false)
-		{
-			return new ResponseObject(HttpStatus.FORBIDDEN, "Please verify your account first.", null);
-		}
-		String verifyCode = VerificationCodeGenerator.generate();
-		emailSenderService.sendVerificationEmail(login.getEmail(), login.getUsername(), verifyCode);
-		loginRepository.setVerificationCode(username, verifyCode);
-		VerifyCodeManager verifyCodeManager = new VerifyCodeManager();
-		verifyCodeManager.scheduleVerificationCleanup(SessionConstant.OTP_EXPIRE_TIME * 1000, login.getUsername(),
-				loginRepository);
-		String email = EmailUtils.hide(login.getEmail());
-		return new ResponseObject(HttpStatus.OK,
-				"Your verification code has been sent to email address "+ email +". Please check it", null);
-	}
 }

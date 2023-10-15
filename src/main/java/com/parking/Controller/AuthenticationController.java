@@ -17,6 +17,7 @@ import com.parking.constant.SessionConstant;
 import com.parking.dto.EmailRequest;
 import com.parking.dto.LoginRequest;
 import com.parking.dto.RegisterRequest;
+import com.parking.dto.ResetPasswordRequest;
 import com.parking.dto.RefreshTokenRequest;
 import com.parking.dto.VerificationRequest;
 import com.parking.model.ResponseObject;
@@ -74,12 +75,6 @@ public class AuthenticationController {
 	@PostMapping(value = "/verification")
 	public ResponseEntity<?> doVerification(@RequestBody VerificationRequest verificationDto) {
 		ResponseObject responseObject = authenticationService.verification(verificationDto);
-		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
-	}
-	
-	@PostMapping(value = "/forget")
-	public ResponseEntity<?> doGetPassword(@RequestParam String username) throws MessagingException {
-		ResponseObject responseObject = authenticationService.forget(username);
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
 }

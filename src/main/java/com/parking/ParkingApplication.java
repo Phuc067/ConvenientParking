@@ -16,8 +16,6 @@ public class ParkingApplication {
 	
 	public static void main(String[] args) throws IOException {
 		SpringApplication.run(ParkingApplication.class, args);
-		
-		
 	}
 	
 	@PostConstruct

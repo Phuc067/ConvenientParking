@@ -6,6 +6,7 @@ import javax.mail.MessagingException;
 
 import com.parking.dto.LoginRequest;
 import com.parking.dto.RegisterRequest;
+import com.parking.dto.ResetPasswordRequest;
 import com.parking.dto.LoginResponse;
 import com.parking.dto.VerificationRequest;
 import com.parking.entity.Login;
@@ -19,5 +20,5 @@ public interface AuthenticationService {
 	ResponseObject register(RegisterRequest registerDto) throws MessagingException;
 	ResponseObject getNewVerification(String username) throws MessagingException;
 	ResponseObject verification(VerificationRequest verificationDto);
-	ResponseObject forget(String username) throws MessagingException;
+	
 }
