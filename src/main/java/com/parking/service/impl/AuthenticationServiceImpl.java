@@ -145,5 +145,54 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		return new ResponseObject(HttpStatus.OK,
 				"Your verification code has been sent to email address "+ email +". Please check it", null);
 	}
+	@Override
+	@Transactional
+	public ResponseObject forget(String username) throws MessagingException {
+		Login login = loginRepository.findByUsername(username);
+		if(ObjectUtils.isEmpty(login))
+		{
+			return new ResponseObject(HttpStatus.NOT_FOUND, "This account was not found.", null);
+		}
+		if(ObjectUtils.isEmpty(login.getEmail()))
+		{
+			return new ResponseObject(HttpStatus.NOT_ACCEPTABLE, "This account does not have an email.", null);
+		}
+		if(login.getStatus() == false)
+		{
+			return new ResponseObject(HttpStatus.BAD_REQUEST, "Please verify your account first.", null);
+		}
+		String verifyCode = VerificationCodeGenerator.generate();
+		emailSenderService.sendVerificationEmail(login.getEmail(), login.getUsername(), verifyCode);
+		loginRepository.setVerificationCode(username, verifyCode);
+		VerifyCodeManager verifyCodeManager = new VerifyCodeManager();
+		verifyCodeManager.scheduleVerificationCleanup(SessionConstant.OTP_EXPIRE_TIME * 1000, login.getUsername(), loginRepository);
+		String email = EmailUtils.hide(login.getEmail());
+		return new ResponseObject(HttpStatus.OK,
+				"Your verification code has been sent to email address "+ email +". Please check it", null);
+	}
+	
+	
+	@Override
+	@Transactional
+	public ResponseObject resetPassword(ResetPasswordRequest request)
+	{
+		Login login = loginRepository.findByUsername(request.getUsername());
+		if(ObjectUtils.isEmpty(login))
+		{
+			return new ResponseObject(HttpStatus.NOT_FOUND, "This login was not found.", null);
+		}
+		if(login.getStatus() == false)
+		{
+			return new ResponseObject(HttpStatus.UNAUTHORIZED, "Please verify your account first.", null);
+		}
+		if(!request.getVerificationCode().equals(login.getVerificationCode()))
+		{
+			return new ResponseObject(HttpStatus.BAD_REQUEST, "Your verification code is invalid.", null);
+		}
+		String hashPasword = passwordEncoder.encode(request.getPassword());
+		loginRepository.setPassword(request.getUsername(),hashPasword);
+		loginRepository.removeVerificationCode(request.getUsername());
+		return new ResponseObject(HttpStatus.OK, "Your password has been reset successfully.", null);
+	}
 
 }

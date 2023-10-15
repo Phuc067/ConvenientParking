@@ -77,4 +77,16 @@ public class AuthenticationController {
 		ResponseObject responseObject = authenticationService.verification(verificationDto);
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
+	@GetMapping(value = "/forget")
+	public ResponseEntity<?> doGetPassword(@RequestParam String username) throws MessagingException 
+	{
+		ResponseObject responseObject = authenticationService.forget(username);
+		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
+	}
+	
+	@PostMapping(value = "/forget")
+	public ResponseEntity<?> doResetPassword(@RequestBody ResetPasswordRequest request) throws MessagingException {
+		ResponseObject responseObject = authenticationService.resetPassword(request);
+		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
+	}
 }

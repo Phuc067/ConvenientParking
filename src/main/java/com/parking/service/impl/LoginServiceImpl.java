@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.parking.constant.SessionConstant;
+import com.parking.dto.LoginRequest;
 import com.parking.dto.ResetPasswordRequest;
 import com.parking.entity.Login;
 import com.parking.model.ResponseObject;
@@ -44,39 +45,11 @@ public class LoginServiceImpl  implements LoginService{
 		}
 		return new ResponseObject(HttpStatus.OK, "Get all login successfully.", logins);
 	}
-	
+
 	@Override
-	@Transactional
-	public ResponseObject forget(String username) throws MessagingException {
-		Login login = loginRepository.findByUsername(username);
-		if(ObjectUtils.isEmpty(login))
-		{
-			return new ResponseObject(HttpStatus.NOT_FOUND, "This account was not found.", null);
-		}
-		if(ObjectUtils.isEmpty(login.getEmail()))
-		{
-			return new ResponseObject(HttpStatus.NOT_ACCEPTABLE, "This account does not have an email.", null);
-		}
-		if(login.getStatus() == false)
-		{
-			return new ResponseObject(HttpStatus.BAD_REQUEST, "Please verify your account first.", null);
-		}
-		String verifyCode = VerificationCodeGenerator.generate();
-		emailSenderService.sendVerificationEmail(login.getEmail(), login.getUsername(), verifyCode);
-		loginRepository.setVerificationCode(username, verifyCode);
-		VerifyCodeManager verifyCodeManager = new VerifyCodeManager();
-		verifyCodeManager.scheduleVerificationCleanup(SessionConstant.OTP_EXPIRE_TIME * 1000, login.getUsername(), loginRepository);
-		String email = EmailUtils.hide(login.getEmail());
-		return new ResponseObject(HttpStatus.OK,
-				"Your verification code has been sent to email address "+ email +". Please check it", null);
-	}
-	
-	
-	@Override
-	@Transactional
-	public ResponseObject resetPassword(ResetPasswordRequest request)
-	{
-		Login login = loginRepository.findByUsername(request.getUsername());
+	public ResponseObject changePassword(LoginRequest loginRequest) {
+		
+		Login login = loginRepository.findByUsername(loginRequest.getUsername());
 		if(ObjectUtils.isEmpty(login))
 		{
 			return new ResponseObject(HttpStatus.NOT_FOUND, "This login was not found.", null);
@@ -85,13 +58,11 @@ public class LoginServiceImpl  implements LoginService{
 		{
 			return new ResponseObject(HttpStatus.UNAUTHORIZED, "Please verify your account first.", null);
 		}
-		if(!request.getVerificationCode().equals(login.getVerificationCode()))
-		{
-			return new ResponseObject(HttpStatus.BAD_REQUEST, "Your verification code is invalid.", null);
-		}
-		String hashPasword = passwordEncoder.encode(request.getPassword());
-		loginRepository.setPassword(request.getUsername(),hashPasword);
-		loginRepository.removeVerificationCode(request.getUsername());
+		
+		String hashPassword = passwordEncoder.encode(loginRequest.getPassword());
+		loginRepository.setPassword(loginRequest.getUsername(), hashPassword);
 		return new ResponseObject(HttpStatus.OK, "Your password has been reset successfully.", null);
 	}
+	
+	
 }
