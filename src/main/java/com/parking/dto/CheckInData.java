@@ -6,7 +6,6 @@ public class CheckInData {
 	private Long parkingLotId;
 	public CheckInData() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	public CheckInData(Long userId, Long parkingLotId) {
 		super();

@@ -19,12 +19,12 @@ import com.parking.service.MerchantService;
 
 @RestController
 @CrossOrigin
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/api/merchant")
 public class MerchantController {
 	@Autowired
 	private MerchantService service;
 	
-	@GetMapping("/merchants")
+	@GetMapping("")
 	public ResponseEntity<?> doGetAllMerchant()
 	{
 		List<Merchant> merchants = service.getAll();
@@ -35,7 +35,7 @@ public class MerchantController {
 		return ResponseEntity.status(HttpStatus.OK).body(merchants);
 	}
 	
-	@PostMapping("/edit/merchant")
+	@PostMapping("/edit")
 	public ResponseEntity<?> doEditMerchant(@RequestBody Merchant merchant)
 	{
 		ResponseObject responseObject = service.edit(merchant);

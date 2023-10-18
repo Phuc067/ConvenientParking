@@ -14,6 +14,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
 	Employee findByLoginId(Long id);
 	
+	Employee findByLoginUsername(String username);
+	
 	@Query(value = "SELECT MAX(id) FROM EMPLOYEES", nativeQuery = true)
 	Long getMaxId();
 

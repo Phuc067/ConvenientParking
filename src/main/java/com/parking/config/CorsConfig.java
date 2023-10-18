@@ -11,6 +11,7 @@ public class CorsConfig implements WebMvcConfigurer {
 
 	@Value("${allowed.origin}")
 	private String allowedOrigin;
+	
     @Bean
     WebMvcConfigurer webMvcConfigurer()
 	{
@@ -21,12 +22,11 @@ public class CorsConfig implements WebMvcConfigurer {
 			{
 				registry.addMapping("/**")
 						.allowedOrigins(allowedOrigin)
-						.allowedMethods("GET", "POST", "PUT", "DELETE")
+						.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTION")
 						.allowCredentials(true);
 			}
 		};
 	}
-	
 }
 
 

@@ -47,6 +47,7 @@ public class LoginServiceImpl  implements LoginService{
 	}
 
 	@Override
+	@Transactional
 	public ResponseObject changePassword(LoginRequest loginRequest) {
 		
 		Login login = loginRepository.findByUsername(loginRequest.getUsername());

@@ -27,15 +27,11 @@ public class RefreshTokenServiceImpl  implements RefreshTokenService{
 	private RefreshTokenRepository refreshTokenRepository;
 	
 	@Autowired
-	private LoginRepository loginRepository;
-	
-	@Autowired
 	private JwtService jwtService;
 	
 	@Override
-	public RefreshToken createRefreshToken(String username)
+	public RefreshToken createRefreshToken(Login login)
 	{
-		Login login = loginRepository.findByUsername(username);
 		Optional<RefreshToken> refreshTokenDB = refreshTokenRepository.findByLogin(login);
 		RefreshToken refreshToken = refreshTokenDB.isPresent()? refreshTokenDB.get() : new RefreshToken();
 		if(refreshTokenDB.isPresent())

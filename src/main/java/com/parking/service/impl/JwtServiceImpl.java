@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.parking.constant.RoleConstant;
+import com.parking.constant.SessionConstant;
 import com.parking.entity.Login;
 import com.parking.model.RoleMap;
 import com.parking.service.JwtService;
@@ -38,7 +39,6 @@ public class JwtServiceImpl implements JwtService {
 				.build()
 				.parseClaimsJws(token)
 				.getBody();
-//	
 	}
 
 	private Key getSignInKey() {
@@ -59,7 +59,7 @@ public class JwtServiceImpl implements JwtService {
 				.setSubject(login.getUsername())
 				.claim("role", RoleConstant.roleMap.get(login.getRole().getName()))
 				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+				.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * SessionConstant.ACCESS_TOKEN_EXPRIRY_TIME))
 				.signWith(getSignInKey(), SignatureAlgorithm.HS256).compact();
 	}
 

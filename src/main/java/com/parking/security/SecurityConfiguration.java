@@ -57,7 +57,7 @@ public class SecurityConfiguration {
 			.csrf()
 			.disable()
 			.authorizeHttpRequests()
-				.antMatchers("/api/auth/**", "api/upload/**")
+				.antMatchers("/api/auth/**")
 				.permitAll()
 				.antMatchers(HttpMethod.OPTIONS, "/api/**")
 				.permitAll()
@@ -69,17 +69,6 @@ public class SecurityConfiguration {
 			.authenticationProvider(authenticationProvider)
 			.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 		return http.build();
-			
 	}
-//	
-//	@Bean
-//	public HttpFirewall allowUrlEncodedSlashHttpFirewall() {
-//	    StrictHttpFirewall firewall = new StrictHttpFirewall();
-//	    firewall.setAllowUrlEncodedSlash(true);    
-//	    return firewall;
-//	}
-//	@Bean
-//	RequestRejectedHandler requestRejectedHandler() {
-//	   return new HttpStatusRequestRejectedHandler();
-//	}
+
 }

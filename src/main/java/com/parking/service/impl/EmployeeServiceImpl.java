@@ -1,5 +1,7 @@
 package com.parking.service.impl;
 
+import java.util.Optional;
+
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
@@ -13,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import com.parking.constant.SessionConstant;
 import com.parking.dto.EmployeeRequest;
+import com.parking.entity.Employee;
+import com.parking.entity.Login;
 import com.parking.model.ResponseObject;
 import com.parking.repository.EmployeeRepository;
 import com.parking.repository.LoginRepository;
@@ -70,5 +74,23 @@ public class EmployeeServiceImpl implements EmployeeService {
 		loginRepository.insert(employeeDto.getUsername(), hashPassword,employeeDto.getEmail(),verifyCode, 2L);
 		return new ResponseObject(HttpStatus.OK, "Employee and Login was created successfully", verifyCode);
 	}
+
+	@Override
+	public ResponseObject getById(Long id) {
+		Optional<Employee> employee = employeeRepository.findById(id);
+		if(employee.isEmpty())
+		{
+			return new ResponseObject(HttpStatus.NOT_FOUND, "Không tìm thấy nhân viên.", null);
+		}
+		
+		else return new ResponseObject(HttpStatus.OK, "Lấy thông tin nhân viên thành công.", employee.get());
+	}
+
+	@Override
+	public ResponseObject getParkingLot(String username) {
+		Employee employee = employeeRepository.findByLoginUsername(username);
+		return new ResponseObject(HttpStatus.OK, "Lấy thông tin bãi đỗ xe thành công",employee.getParkingLot());
+	}
+	
 
 }

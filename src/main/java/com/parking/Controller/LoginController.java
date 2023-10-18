@@ -13,22 +13,24 @@ import com.parking.model.ResponseObject;
 import com.parking.service.LoginService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/login")
 public class LoginController {
 	
 	@Autowired
 	private LoginService loginService;
 	
-	@GetMapping("/logins")
+	@GetMapping("")
 	public ResponseEntity<?> doGetLoginUser() {
 		ResponseObject responseObject = loginService.getAll();
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
 	
-	@PostMapping("/password/change")
+	@PostMapping("/changePassword")
 	public ResponseEntity<ResponseObject> doChangePassword(@RequestBody LoginRequest loginRequest)
 	{
 		ResponseObject responseObject = loginService.changePassword(loginRequest);
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
+	
+	
 }

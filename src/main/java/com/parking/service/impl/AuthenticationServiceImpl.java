@@ -1,13 +1,15 @@
 package com.parking.service.impl;
 import javax.mail.MessagingException;
+import javax.transaction.Transactional;
+
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.parking.constant.SessionConstant;
 import com.parking.dto.LoginRequest;
@@ -54,15 +56,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Override
 	public ResponseObject login(LoginRequest loginDto) {
-		Login login = loginRepository.findByUsername(loginDto.getUsername());
-		if (ObjectUtils.isNotEmpty(login) && !login.getStatus()) {
-			return new ResponseObject(HttpStatus.UNAUTHORIZED, "Please verify your account first", null);
-		}
-		authenticationManager
+		Authentication authentication =  authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword()));
-
-		RefreshToken refreshToken = refreshTokenService.createRefreshToken(loginDto.getUsername());
-		
+		Login login = (Login) authentication.getPrincipal();
+		if (ObjectUtils.isNotEmpty(login) && !login.getStatus()) {
+			return new ResponseObject(HttpStatus.UNAUTHORIZED, "Hãy xác thực tài khoản của bạn", null);
+		}
+		RefreshToken refreshToken = refreshTokenService.createRefreshToken(login);
 		String jwtToken = jwtService.generateToken(login);
 		return new ResponseObject(HttpStatus.OK, "Login successfully", new AuthenticationResponse(jwtToken,
 				refreshToken.getToken()));
@@ -72,10 +72,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@Transactional
 	public ResponseObject register(RegisterRequest registerDto) throws MessagingException {
 		if (ObjectUtils.isNotEmpty(loginRepository.findByUsername(registerDto.getUsername()))) {
-			return new ResponseObject(HttpStatus.CONFLICT, "The username already exists.", null);
+			return new ResponseObject(HttpStatus.CONFLICT, "Tên tài khoản đã tồn tại", null);
 		}
 		if (ObjectUtils.isNotEmpty(loginRepository.findByEmail(registerDto.getEmail()))) {
-			return new ResponseObject(HttpStatus.PRECONDITION_FAILED, "Email is already being used by someone else.", null);
+			return new ResponseObject(HttpStatus.PRECONDITION_FAILED, "Email này đã được sử dụng cho một tài khoản khác", null);
 		}
 		String verifyCode = VerificationCodeGenerator.generate();
 		String hashPassword = passwordEncoder.encode(registerDto.getPassword());
@@ -88,14 +88,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		Role role = roleRepository.findByName(registerDto.getRole());
 		login.setRole(role);
 		loginRepository.save(login);
-		emailSenderService.sendVerificationEmail(registerDto.getEmail(), registerDto.getUsername(), verifyCode);
-		VerifyCodeManager verifyCodeManager = new VerifyCodeManager();
-		verifyCodeManager.scheduleVerificationCleanup(SessionConstant.OTP_EXPIRE_TIME * 1000, registerDto.getUsername(),
-				loginRepository);
-		String jwtToken = jwtService.generateToken(login);
-		String email = EmailUtils.hide(registerDto.getEmail());
 		return new ResponseObject(HttpStatus.CREATED,
-				"The login was created successfully. Please check email " + email + " to get a verification code.", jwtToken);
+				"Tạo tài khoản thành công.", null);
 	}
 
 	@Transactional
@@ -104,35 +98,37 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 		if (login.getStatus() == true) {
 			return new ResponseObject(HttpStatus.GONE,
-					"Your account has already been authenticated. You don't need to authenticate further, maybe.",
+					"Tài khoản của bạn đã được xác thực rồi, bạn không cần phải xác thực nữa.",
 					null);
 		}
 		String verificationCode = new String();
 		if (ObjectUtils.isNotEmpty(login)) {
 			verificationCode = login.getVerificationCode();
 		} else
-			return new ResponseObject(HttpStatus.UNAUTHORIZED, "You have not sent an authentication request.", null);
+			return new ResponseObject(HttpStatus.UNAUTHORIZED, "Bạn chưa gửi yêu cầu xác thực.", null);
 		if (ObjectUtils.isNotEmpty(verificationDto.getVerificationCode()) && ObjectUtils.isNotEmpty(verificationCode)
 				&& verificationDto.getVerificationCode().equals(verificationCode)) {
 			loginRepository.setStatus(verificationDto.getUsername());
 			loginRepository.removeVerificationCode(verificationDto.getUsername());
-			return new ResponseObject(HttpStatus.OK, "Verified successfully", null);
+			return new ResponseObject(HttpStatus.OK, "Xác thực thành công", null);
 		}
-		return new ResponseObject(HttpStatus.BAD_REQUEST, "Verified  failed", null);
+		return new ResponseObject(HttpStatus.BAD_REQUEST, "Xác thực thất bại", null);
 	}
 
 	@Override
 	@Transactional
 	public ResponseObject getNewVerification(String username) throws MessagingException {
+		SessionConstant.verification_time +=1;
+		System.out.println(SessionConstant.verification_time);
 		Login login = loginRepository.findByUsername(username);
 		if(ObjectUtils.isEmpty(login))
 		{
-			return new ResponseObject(HttpStatus.NOT_FOUND, "This login was not found.", null);
+			return new ResponseObject(HttpStatus.NOT_FOUND, "Không tìm thấy tài khoản này.", null);
 		}
 		
 		if(login.getStatus() == true)
 		{
-			return new ResponseObject(HttpStatus.BAD_REQUEST, "Your account has already been authenticated. You don't need to authenticate further, maybe.", null);
+			return new ResponseObject(HttpStatus.BAD_REQUEST, "Tài khoản của bạn đã được xác thực rồi, bạn không cần phải xác thực nữa.", null);
 		}
 		
 		String verifyCode = VerificationCodeGenerator.generate();
@@ -145,6 +141,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		return new ResponseObject(HttpStatus.OK,
 				"Your verification code has been sent to email address "+ email +". Please check it", null);
 	}
+	
 	@Override
 	@Transactional
 	public ResponseObject forget(String username) throws MessagingException {
@@ -170,7 +167,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		return new ResponseObject(HttpStatus.OK,
 				"Your verification code has been sent to email address "+ email +". Please check it", null);
 	}
-	
 	
 	@Override
 	@Transactional

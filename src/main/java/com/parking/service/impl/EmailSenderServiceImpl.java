@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.parking.constant.SessionConstant;
 import com.parking.service.EmailSenderService;
@@ -19,6 +20,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
 	private JavaMailSender mailSender;
 
 	@Override
+	@Transactional
 	public void sendVerificationEmail(String toEmail, String username, String verificationCode)
 			throws MessagingException {
 		MimeMessage message = mailSender.createMimeMessage();
@@ -38,7 +40,6 @@ public class EmailSenderServiceImpl implements EmailSenderService {
 				+ "    <p>Xin cám ơn,</p>\r\n" + "    <p>Nhóm tài khoản Convenient Parking</p>\r\n" + "</div>";
 
 		helper.setText(htmlBody, true); 
-
 		mailSender.send(message);
 	}
 }

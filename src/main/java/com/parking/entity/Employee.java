@@ -55,7 +55,7 @@ public class Employee implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name = "parkingLotId", referencedColumnName = "id")
-	@JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
+	@JsonIgnore
 	private ParkingLot parkingLot;
 	
 	public Employee() {
