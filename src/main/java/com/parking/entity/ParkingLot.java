@@ -1,6 +1,7 @@
 package com.parking.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -73,16 +74,15 @@ public class ParkingLot implements Serializable {
 	@Column
 	private String number;
 	
-	public ParkingLot() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	@OneToMany(mappedBy = "parkingLot")
+	List<ParkingLotImage> images;
+	
 	public ParkingLot(Long id,
 			@Size(max = 50, message = "Name shouldn't be exceed 50 character") @NotBlank(message = "Name should not be empty") String parkingLotName,
-			@Min(0) Long numberSlot, @Min(0) Long numberSlotRemaining, Long status, Merchant merchant,
+			@Min(0) Long numberSlot, @Min(0) Long numberSlotRemaining, @Max(10) Long status, Merchant merchant,
 			@NotNull(message = "Latitude shouldn't be empty") Double lat,
 			@NotNull(message = "Longitude shouldn't be empty") Double lng, String timeOpen, String timeClose,
-			String city, String district, String ward, String street, String number) {
+			String city, String district, String ward, String street, String number, List<ParkingLotImage> images) {
 		super();
 		this.id = id;
 		this.parkingLotName = parkingLotName;
@@ -99,7 +99,14 @@ public class ParkingLot implements Serializable {
 		this.ward = ward;
 		this.street = street;
 		this.number = number;
+		this.images = images;
 	}
+
+	public ParkingLot() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -192,6 +199,14 @@ public class ParkingLot implements Serializable {
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public List<ParkingLotImage> getImages() {
+		return images;
+	}
+
+	public void setImages(List<ParkingLotImage> images) {
+		this.images = images;
 	}
 	
 }

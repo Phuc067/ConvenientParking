@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,8 +25,6 @@ public class ParkingLotController {
 	@Autowired
 	private ParkingLotService parkingLotService;
 	
-	
-
 	@GetMapping(value = "")
 	public ResponseEntity<?> doGetAllParkingLot(@RequestParam(name = "merchantId", defaultValue = "0") Long id) {
 		List<ParkingLot> parkingLots;
@@ -38,10 +37,9 @@ public class ParkingLotController {
 		}
 	}
 	
-	@PostMapping(value = "/add/parkingLot")
+	@PostMapping(value = "/add")
 	public ResponseEntity<ResponseObject> doAddParkingLot(@RequestBody ParkingLotRequest parkingLotDto) {
 		ResponseObject responseObject = parkingLotService.add(parkingLotDto);
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
-
 }
