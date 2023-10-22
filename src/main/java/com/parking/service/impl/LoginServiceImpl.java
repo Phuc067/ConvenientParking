@@ -19,7 +19,6 @@ import com.parking.model.ResponseObject;
 import com.parking.repository.LoginRepository;
 import com.parking.service.EmailSenderService;
 import com.parking.service.LoginService;
-import com.parking.utils.EmailUtils;
 import com.parking.utils.VerificationCodeGenerator;
 import com.parking.utils.VerifyCodeManager;
 

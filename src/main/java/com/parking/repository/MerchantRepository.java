@@ -24,5 +24,7 @@ public interface MerchantRepository  extends JpaRepository<Merchant, Long>{
 	@Query(value = "UPDATE merchants set name = :#{#merchant.name}, represent = :#{#merchant.represent}, email = :#{#merchant.email}, phone = :#{#merchant.phone} where id = :#{#merchant.id}", nativeQuery = true)
 	void edit(@Param("merchant") Merchant merchant);
 	
+	Merchant findByLoginUsername(String username);
+	
 	
 }

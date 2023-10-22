@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import com.parking.constant.SessionConstant;
 import com.parking.dto.EmployeeRequest;
 import com.parking.entity.Employee;
-import com.parking.entity.Login;
 import com.parking.model.ResponseObject;
 import com.parking.repository.EmployeeRepository;
 import com.parking.repository.LoginRepository;
@@ -24,6 +23,7 @@ import com.parking.service.EmailSenderService;
 import com.parking.service.EmployeeService;
 import com.parking.utils.VerificationCodeGenerator;
 import com.parking.utils.VerifyCodeManager;
+
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {

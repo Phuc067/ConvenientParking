@@ -26,7 +26,6 @@ import com.parking.repository.RoleRepository;
 import com.parking.service.EmailSenderService;
 import com.parking.service.JwtService;
 import com.parking.service.RefreshTokenService;
-import com.parking.utils.EmailUtils;
 import com.parking.utils.VerificationCodeGenerator;
 import com.parking.utils.VerifyCodeManager;
 import com.parking.service.AuthenticationService;
