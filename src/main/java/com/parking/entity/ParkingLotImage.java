@@ -34,18 +34,18 @@ public class ParkingLotImage implements Serializable{
 	private ParkingLot parkingLot;
 	
 	@Column
-	private byte data[];
+	private byte image[];
 
 	public ParkingLotImage() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public ParkingLotImage(Long id, ParkingLot parkingLot, byte[] data) {
+	public ParkingLotImage(Long id, ParkingLot parkingLot, byte[] image) {
 		super();
 		this.id = id;
 		this.parkingLot = parkingLot;
-		this.data = data;
+		this.image = image;
 	}
 
 	public Long getId() {
@@ -64,18 +64,17 @@ public class ParkingLotImage implements Serializable{
 		this.parkingLot = parkingLot;
 	}
 
-	public byte[] getData() {
-		return data;
+	public byte[] getImage() {
+		return image;
 	}
 
-	public void setData(byte[] data) {
-		this.data = data;
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
-	
 	
 }

@@ -10,5 +10,4 @@ public interface MerchantService {
 	public List<Merchant> getAll();
 	public Merchant getById(Long id);
 	public ResponseObject edit(Merchant merchant);
-	public ResponseObject getByUsername(String username);
 }

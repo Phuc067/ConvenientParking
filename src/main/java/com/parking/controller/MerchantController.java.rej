@@ -1,0 +1,24 @@
+diff a/src/main/java/com/parking/Controller/MerchantController.java b/src/main/java/com/parking/Controller/MerchantController.java	(rejected hunks)
+@@ -11,8 +11,10 @@
+ import org.springframework.web.bind.annotation.PostMapping;
+ import org.springframework.web.bind.annotation.RequestBody;
+ import org.springframework.web.bind.annotation.RequestMapping;
++import org.springframework.web.bind.annotation.RequestParam;
+ import org.springframework.web.bind.annotation.RestController;
+ 
++import com.parking.dto.UsernameRequest;
+ import com.parking.entity.Merchant;
+ import com.parking.model.ResponseObject;
+ import com.parking.service.MerchantService;
+@@ -42,4 +44,11 @@
+ 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
+ 	}
+ 	
++	@PostMapping("/information")
++	public ResponseEntity<?> doGetInformation(@RequestBody UsernameRequest request)
++	{
++		ResponseObject responseObject = service.getByUsername(request.getUsername());
++		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
++	}
++	
+ }

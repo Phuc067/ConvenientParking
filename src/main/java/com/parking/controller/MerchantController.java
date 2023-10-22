@@ -11,10 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.parking.dto.UsernameRequest;
 import com.parking.entity.Merchant;
 import com.parking.model.ResponseObject;
 import com.parking.service.MerchantService;
@@ -41,13 +39,6 @@ public class MerchantController {
 	public ResponseEntity<?> doEditMerchant(@RequestBody Merchant merchant)
 	{
 		ResponseObject responseObject = service.edit(merchant);
-		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
-	}
-	
-	@PostMapping("/information")
-	public ResponseEntity<?> doGetInformation(@RequestBody UsernameRequest request)
-	{
-		ResponseObject responseObject = service.getByUsername(request.getUsername());
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
 	
