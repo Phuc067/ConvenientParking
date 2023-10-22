@@ -1,8 +1,12 @@
 package com.parking.utils;
 
 import java.io.ByteArrayOutputStream;
+import java.util.List;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
+
+import com.parking.entity.ParkingLot;
+import com.parking.entity.ParkingLotImage;
 
 public class ImageUtils {
 	 public static byte[] compressImage(byte[] data) {
@@ -40,5 +44,13 @@ public class ImageUtils {
 	        } catch (Exception ignored) {
 	        }
 	        return outputStream.toByteArray();
+	    }
+	    
+	    public static void decompressImage(List<ParkingLotImage> images )
+	    {
+	    	for(ParkingLotImage image : images)
+	    	{
+	    		image.setData(decompressImage(image.getData()));
+	    	}
 	    }
 }

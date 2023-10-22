@@ -42,7 +42,7 @@ public class ParkingLotImageServiceImpl implements ParkingLotImageService {
 		List<ParkingLotImage> parkingLotImages = parkingLotImageRepository.findByParkingLotId(parkingLotId);
 		if (ObjectUtils.isNotEmpty(parkingLotImages)) {
 			for (ParkingLotImage parkingLotImage : parkingLotImages) {
-				parkingLotImage.setImage(ImageUtils.decompressImage(parkingLotImage.getImage()) );
+				parkingLotImage.setData(ImageUtils.decompressImage(parkingLotImage.getData()) );
 			}
 			return parkingLotImages;
 		} else return null;
@@ -52,7 +52,7 @@ public class ParkingLotImageServiceImpl implements ParkingLotImageService {
 	@Override
 	@Transactional
 	public ResponseObject uploadImageToDB(Long parkingLotId, MultipartFile file) throws IOException {
-		if (!parkingLotImageRepository.existsByParkingLotIdAndImage(parkingLotId,
+		if (!parkingLotImageRepository.existsByParkingLotIdAndData(parkingLotId,
 				ImageUtils.compressImage(file.getBytes()))) {
 
 			parkingLotImageRepository.insert(parkingLotId, ImageUtils.compressImage(file.getBytes()));

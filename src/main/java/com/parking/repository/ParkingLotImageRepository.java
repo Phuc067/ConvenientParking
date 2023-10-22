@@ -21,6 +21,6 @@ public interface ParkingLotImageRepository extends JpaRepository<ParkingLotImage
 	
 	List<ParkingLotImage> findByParkingLotId(Long parkingLotId);
 	
-	boolean existsByParkingLotIdAndImage(long parkingLotId, byte image[]);
+	boolean existsByParkingLotIdAndData(long parkingLotId, byte data[]);
 
 }

@@ -16,6 +16,7 @@ import com.parking.model.ResponseObject;
 import com.parking.repository.ParkingLotRepository;
 import com.parking.service.ParkingLotService;
 import com.parking.utils.AddressUtils;
+import com.parking.utils.ImageUtils;
 
 @Service
 public class ParkingLotServiceImpl implements ParkingLotService{
@@ -25,8 +26,12 @@ public class ParkingLotServiceImpl implements ParkingLotService{
 	
 	@Override
 	public List<ParkingLot> getAllParkingLot() {
-		
-		return parkingLotRepository.findAll();
+		List<ParkingLot> parkingLots =parkingLotRepository.findAll();
+		for(ParkingLot parkingLot: parkingLots)
+		{
+			ImageUtils.decompressImage(parkingLot.getImages());
+		}
+		return parkingLots;
 	}
 
 	@Override
@@ -53,14 +58,22 @@ public class ParkingLotServiceImpl implements ParkingLotService{
 
 	@Override
 	public List<ParkingLot> getParkingLotByMerchantId(Long id) {
-		
-		return parkingLotRepository.findByMerchantId(id);
+		List<ParkingLot> parkingLots =parkingLotRepository.findByMerchantId(id);
+		for(ParkingLot parkingLot: parkingLots)
+		{
+			ImageUtils.decompressImage(parkingLot.getImages());
+		}
+		return parkingLots;
 	}
 
 	@Override
 	public ResponseObject search(String keyword) {
 		keyword = AddressUtils.formart(keyword);
 		List<ParkingLot> parkingLots = parkingLotRepository.search(keyword);
+		for(ParkingLot parkingLot: parkingLots)
+		{
+			ImageUtils.decompressImage(parkingLot.getImages());
+		}
 		if(parkingLots.size()!=0)
 		{
 			return new ResponseObject(HttpStatus.OK, "Tìm kiếm bãi đỗ xe thành công", parkingLots);
