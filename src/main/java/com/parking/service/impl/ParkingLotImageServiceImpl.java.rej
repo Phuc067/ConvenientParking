@@ -1,0 +1,9 @@
+diff a/src/main/java/com/parking/service/impl/ParkingLotImageServiceImpl.java b/src/main/java/com/parking/service/impl/ParkingLotImageServiceImpl.java	(rejected hunks)
+@@ -62,7 +62,6 @@
+ 
+ 	@Override
+ 	public ResponseObject upload(Long parkingLotId, MultipartFile file) {
+-		// TODO Auto-generated method stub
+ 		return null;
+ 	}
+ 
