@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.parking.dto.UploadParkingLotImageRequest;
 import com.parking.model.ResponseObject;
 import com.parking.service.ParkingLotImageService;
 

@@ -20,14 +20,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class ParkingLotImage implements Serializable{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2802160008300746992L;
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	private Long id;
-	//parking lot id
+
 	@ManyToOne
 	@JoinColumn(name = "parkingLotId", referencedColumnName = "id")
 	@JsonIgnore
@@ -75,7 +72,5 @@ public class ParkingLotImage implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
-	
 	
 }

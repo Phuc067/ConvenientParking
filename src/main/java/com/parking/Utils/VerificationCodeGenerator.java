@@ -5,7 +5,7 @@ import java.security.SecureRandom;
 public class VerificationCodeGenerator {
 	
 	private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    private static final int CODE_LENGTH = 6; // Độ dài mã xác thực
+    private static final int CODE_LENGTH = 6; 
 
     public static String generate() {
         SecureRandom random = new SecureRandom();
