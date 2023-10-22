@@ -13,5 +13,5 @@ public interface ParkingLotService {
 	ResponseObject add(ParkingLotRequest parkingLotDto);
 	Long getMaxId();
 	List<ParkingLot> getParkingLotByMerchantId(Long id);
-	List<ParkingLot> search(String keyword);
+	ResponseObject search(String keyword);
 }

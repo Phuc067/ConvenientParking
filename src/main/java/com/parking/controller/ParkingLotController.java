@@ -3,6 +3,7 @@ package com.parking.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,9 +39,16 @@ public class ParkingLotController {
 		}
 	}
 	
-	@PostMapping(value = "/add/parkingLot")
+	@PostMapping(value = "/add")
 	public ResponseEntity<ResponseObject> doAddParkingLot(@RequestBody ParkingLotRequest parkingLotDto) {
 		ResponseObject responseObject = parkingLotService.add(parkingLotDto);
+		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
+	}
+	
+	@GetMapping(value = "/search")
+	public ResponseEntity<ResponseObject> doSearchParkingLotByKeyWord(@RequestParam("keyword") String keyword)
+	{
+		ResponseObject responseObject = parkingLotService.search(keyword);
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
 

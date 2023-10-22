@@ -15,6 +15,7 @@ import com.parking.entity.ParkingLot;
 import com.parking.model.ResponseObject;
 import com.parking.repository.ParkingLotRepository;
 import com.parking.service.ParkingLotService;
+import com.parking.utils.AddressUtils;
 
 @Service
 public class ParkingLotServiceImpl implements ParkingLotService{
@@ -57,9 +58,16 @@ public class ParkingLotServiceImpl implements ParkingLotService{
 	}
 
 	@Override
-	public List<ParkingLot> search(String keyword) {
-		
-		return parkingLotRepository.search(keyword);
+	public ResponseObject search(String keyword) {
+		keyword = AddressUtils.formart(keyword);
+		List<ParkingLot> parkingLots = parkingLotRepository.search(keyword);
+		if(parkingLots.size()!=0)
+		{
+			return new ResponseObject(HttpStatus.OK, "Tìm kiếm bãi đỗ xe thành công", parkingLots);
+		}
+		else {
+			return new ResponseObject(HttpStatus.NOT_FOUND, "Không tìm thấy bãi đỗ xe nào", null);
+		}
 	}
 
 }
