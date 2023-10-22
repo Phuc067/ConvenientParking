@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,5 +42,14 @@ public class MerchantServiceImpl implements MerchantService {
 			return new ResponseObject(HttpStatus.BAD_REQUEST,"Edit failed merchant information", null);
 		}
 		return new ResponseObject(HttpStatus.ACCEPTED,"Merchant information has been successfully edited", null);
+	}
+	@Override
+	public ResponseObject getByUsername(String username) {
+		Merchant merchant = repo.findByLoginUsername(username);
+		if(ObjectUtils.isEmpty(merchant))
+		{
+			return new ResponseObject(HttpStatus.NOT_FOUND, "Không tìm thấy công ty", null);
+		}
+		return new ResponseObject(HttpStatus.OK,"Lấy thông tin công ty thành công", merchant);
 	}
 }

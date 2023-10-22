@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.parking.dto.UsernameRequest;
 import com.parking.entity.Merchant;
 import com.parking.model.ResponseObject;
 import com.parking.service.MerchantService;
@@ -23,23 +24,26 @@ import com.parking.service.MerchantService;
 public class MerchantController {
 	@Autowired
 	private MerchantService service;
-	
+
 	@GetMapping("")
-	public ResponseEntity<?> doGetAllMerchant()
-	{
+	public ResponseEntity<?> doGetAllMerchant() {
 		List<Merchant> merchants = service.getAll();
-		if(ObjectUtils.isEmpty(merchants))
-		{
+		if (ObjectUtils.isEmpty(merchants)) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(merchants);
 	}
-	
+
 	@PostMapping("/edit")
-	public ResponseEntity<?> doEditMerchant(@RequestBody Merchant merchant)
-	{
+	public ResponseEntity<?> doEditMerchant(@RequestBody Merchant merchant) {
 		ResponseObject responseObject = service.edit(merchant);
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
-	
+
+	@PostMapping("/information")
+	public ResponseEntity<?> doGetInformation(@RequestBody UsernameRequest request) {
+		ResponseObject responseObject = service.getByUsername(request.getUsername());
+		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
+	}
+
 }
