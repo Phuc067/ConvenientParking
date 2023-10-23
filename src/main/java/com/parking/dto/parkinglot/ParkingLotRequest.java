@@ -1,4 +1,5 @@
-package com.parking.dto;
+package com.parking.dto.parkinglot;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
