@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.parking.dto.EmployeeRequest;
+import com.parking.dto.employee.EmployeeRequest;
 import com.parking.entity.Employee;
 
 @Repository

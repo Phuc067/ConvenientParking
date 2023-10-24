@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.parking.constant.SessionConstant;
-import com.parking.dto.LoginRequest;
-import com.parking.dto.ResetPasswordRequest;
+import com.parking.dto.auth.LoginRequest;
+import com.parking.dto.auth.ResetPasswordRequest;
 import com.parking.entity.Login;
 import com.parking.model.ResponseObject;
 import com.parking.repository.LoginRepository;

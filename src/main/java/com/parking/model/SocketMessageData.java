@@ -1,6 +1,6 @@
 package com.parking.model;
 
-import com.parking.dto.CheckInData;
+import com.parking.dto.checkInOut.CheckInData;
 
 public class SocketMessageData {
 

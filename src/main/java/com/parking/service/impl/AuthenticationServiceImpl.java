@@ -12,10 +12,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.parking.constant.SessionConstant;
-import com.parking.dto.LoginRequest;
-import com.parking.dto.RegisterRequest;
-import com.parking.dto.ResetPasswordRequest;
-import com.parking.dto.VerificationRequest;
+import com.parking.dto.auth.LoginRequest;
+import com.parking.dto.auth.RegisterRequest;
+import com.parking.dto.auth.ResetPasswordRequest;
+import com.parking.dto.auth.VerificationRequest;
 import com.parking.entity.Login;
 import com.parking.entity.RefreshToken;
 import com.parking.entity.Role;

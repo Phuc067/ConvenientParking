@@ -1,4 +1,4 @@
-package com.parking.dto;
+package com.parking.dto.parkingLotImage;
 
 import org.springframework.web.multipart.MultipartFile;
 

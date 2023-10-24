@@ -1,4 +1,4 @@
-package com.parking.dto;
+package com.parking.dto.auth;
 
 import org.springframework.http.HttpStatus;
 

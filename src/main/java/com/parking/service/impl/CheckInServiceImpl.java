@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.parking.dto.CheckInData;
+import com.parking.dto.checkInOut.CheckInData;
 import com.parking.entity.ParkingLot;
 import com.parking.entity.User;
 import com.parking.model.ResponseObject;

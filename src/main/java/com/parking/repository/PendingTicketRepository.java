@@ -4,7 +4,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.stereotype.Repository;
 
-import com.parking.dto.CheckInData;
+import com.parking.dto.checkInOut.CheckInData;
 import com.parking.model.VehicleData;
 
 

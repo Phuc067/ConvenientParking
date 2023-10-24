@@ -8,7 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.parking.dto.ParkingLotRequest;
+import com.parking.dto.merchant.MerchantSearchParkingLotRequest;
+import com.parking.dto.parkinglot.ParkingLotRequest;
 import com.parking.entity.ParkingLot;
 
 @Repository
@@ -27,7 +28,12 @@ public interface ParkingLotRepository extends JpaRepository<ParkingLot, Long>{
 	Boolean existsByLatAndLng(Double lat, Double lng);
 	
 	@Modifying(clearAutomatically = true)
-	@Query(value = "SELECT * FROM ParkingLots where (parkingLotName + ' ' + number + ' ' +  street + ' ' + ward + ' ' + district + ' ' + city) like %?1% " , nativeQuery = true)
+	@Query(value = "SELECT * FROM ParkingLots where(parkingLotName + ' ' + number + ' ' +  street + ' ' + ward + ' ' + district + ' ' + city)  like %?1%  or (parkingLotName + ' ' + number + ' ' +  street + ' '  + district + ' ' + city) like %?1%" , nativeQuery = true)
 	List<ParkingLot> search(String keyword);
+
+	
+	@Modifying(clearAutomatically = true)
+	@Query(value = "SELECT * FROM ParkingLots where merchantId = :#{#request.id} and ( (parkingLotName + ' ' + number + ' ' +  street + ' ' + ward + ' ' + district + ' ' + city) like %:#{#request.keyword}%  or (parkingLotName + ' ' + number + ' ' +  street + ' '  + district + ' ' + city) like %:#{#request.keyword}%) " , nativeQuery = true)
+	List<ParkingLot> search(@Param("request") MerchantSearchParkingLotRequest request);
 
 }

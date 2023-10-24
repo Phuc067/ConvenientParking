@@ -14,7 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.parking.constant.SessionConstant;
-import com.parking.dto.EmployeeRequest;
+import com.parking.dto.employee.EmployeeRequest;
 import com.parking.entity.Employee;
 import com.parking.model.ResponseObject;
 import com.parking.repository.EmployeeRepository;

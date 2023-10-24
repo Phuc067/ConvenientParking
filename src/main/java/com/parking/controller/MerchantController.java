@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.parking.dto.UsernameRequest;
+import com.parking.dto.auth.UsernameRequest;
 import com.parking.entity.Merchant;
 import com.parking.model.ResponseObject;
 import com.parking.service.MerchantService;

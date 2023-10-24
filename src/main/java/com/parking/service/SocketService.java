@@ -1,6 +1,6 @@
 package com.parking.service;
 
-import com.parking.dto.CheckInData;
+import com.parking.dto.checkInOut.CheckInData;
 import com.parking.model.PreCheckOutData;
 import com.parking.model.SocketMessageData;
 

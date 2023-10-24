@@ -44,7 +44,7 @@ public class ParkingLot implements Serializable {
 	@Max(10)
 	private Long status;
 	//merchantId
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "merchantId", referencedColumnName = "id")
 //	@JsonIgnoreProperties(value =	 {"login", "hibernateLazyInitializer"})
 	@JsonIgnore

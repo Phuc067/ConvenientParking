@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.parking.dto.LoginRequest;
-import com.parking.dto.RegisterRequest;
-import com.parking.dto.ResetPasswordRequest;
-import com.parking.dto.RefreshTokenRequest;
-import com.parking.dto.VerificationRequest;
+import com.parking.dto.auth.LoginRequest;
+import com.parking.dto.auth.RegisterRequest;
+import com.parking.dto.auth.ResetPasswordRequest;
+import com.parking.dto.auth.VerificationRequest;
+import com.parking.dto.refreshToken.RefreshTokenRequest;
 import com.parking.model.ResponseObject;
 import com.parking.service.RefreshTokenService;
 import com.parking.service.AuthenticationService;

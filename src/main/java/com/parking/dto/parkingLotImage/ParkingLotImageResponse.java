@@ -1,4 +1,4 @@
-package com.parking.dto;
+package com.parking.dto.parkingLotImage;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
-import com.parking.dto.CheckInData;
+import com.parking.dto.checkInOut.CheckInData;
 import com.parking.model.PreCheckOutData;
 import com.parking.model.SocketLicensePlateData;
 import com.parking.model.SocketMessageData;

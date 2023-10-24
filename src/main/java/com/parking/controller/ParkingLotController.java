@@ -3,7 +3,6 @@ package com.parking.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.parking.dto.ParkingLotRequest;
+
+import com.parking.dto.merchant.MerchantSearchParkingLotRequest;
+import com.parking.dto.parkinglot.ParkingLotRequest;
 import com.parking.entity.ParkingLot;
 import com.parking.model.ResponseObject;
 import com.parking.service.ParkingLotService;
@@ -45,11 +46,33 @@ public class ParkingLotController {
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
 	
+	@PostMapping(value = "/edit")
+	public ResponseEntity<?> doEditParkingLot(@RequestBody ParkingLotRequest parkingLot)
+	{
+		ResponseObject responseObject = parkingLotService.edit(parkingLot);
+		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
+	}
+	
 	@GetMapping(value = "/search")
 	public ResponseEntity<ResponseObject> doSearchParkingLotByKeyWord(@RequestParam("keyword") String keyword)
 	{
 		ResponseObject responseObject = parkingLotService.search(keyword);
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
+	
+	@PostMapping(value = "")
+	public ResponseEntity<?> doGetParkingLotById(@RequestBody Long id)
+	{
+		ResponseObject responseObject = parkingLotService.getById(id);
+		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
+	}
+	
+	@PostMapping(value = "/search")
+	public ResponseEntity<?> doSearchParkingByMerchantId(@RequestBody MerchantSearchParkingLotRequest request)
+	{
+		ResponseObject responseObject = parkingLotService.search(request);
+		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
+	}
+	
 
 }

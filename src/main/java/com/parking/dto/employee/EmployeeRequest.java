@@ -1,4 +1,4 @@
-package com.parking.dto;
+package com.parking.dto.employee;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.parking.constant.RoleConstant;
 import com.parking.constant.SessionConstant;
-import com.parking.dto.RefreshTokenResponse;
+import com.parking.dto.refreshToken.RefreshTokenResponse;
 import com.parking.entity.Login;
 import com.parking.entity.RefreshToken;
 import com.parking.model.ResponseObject;

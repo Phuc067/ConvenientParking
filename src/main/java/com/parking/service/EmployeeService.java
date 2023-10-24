@@ -3,7 +3,7 @@ package com.parking.service;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
 
-import com.parking.dto.EmployeeRequest;
+import com.parking.dto.employee.EmployeeRequest;
 import com.parking.entity.Employee;
 import com.parking.model.ResponseObject;
 

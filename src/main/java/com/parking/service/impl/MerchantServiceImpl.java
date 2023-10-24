@@ -9,7 +9,6 @@ import javax.transaction.Transactional.TxType;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.parking.entity.Merchant;
@@ -43,6 +42,7 @@ public class MerchantServiceImpl implements MerchantService {
 		}
 		return new ResponseObject(HttpStatus.ACCEPTED,"Merchant information has been successfully edited", null);
 	}
+	
 	@Override
 	public ResponseObject getByUsername(String username) {
 		Merchant merchant = repo.findByLoginUsername(username);

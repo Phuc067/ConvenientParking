@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.parking.constant.ConfigConstant;
-import com.parking.dto.EmployeeRequest;
-import com.parking.dto.UsernameRequest;
+import com.parking.dto.auth.UsernameRequest;
+import com.parking.dto.employee.EmployeeRequest;
 import com.parking.model.ResponseObject;
 import com.parking.service.EmployeeService;
 

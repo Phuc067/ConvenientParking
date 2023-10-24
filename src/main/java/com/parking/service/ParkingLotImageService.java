@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.parking.dto.ParkingLotImageResponse;
+import com.parking.dto.parkingLotImage.ParkingLotImageResponse;
 import com.parking.entity.ParkingLotImage;
 import com.parking.model.ResponseObject;
 

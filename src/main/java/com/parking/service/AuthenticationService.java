@@ -3,10 +3,10 @@ package com.parking.service;
 
 import javax.mail.MessagingException;
 
-import com.parking.dto.LoginRequest;
-import com.parking.dto.RegisterRequest;
-import com.parking.dto.ResetPasswordRequest;
-import com.parking.dto.VerificationRequest;
+import com.parking.dto.auth.LoginRequest;
+import com.parking.dto.auth.RegisterRequest;
+import com.parking.dto.auth.ResetPasswordRequest;
+import com.parking.dto.auth.VerificationRequest;
 import com.parking.model.ResponseObject;
 
 public interface AuthenticationService {

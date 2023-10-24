@@ -1,4 +1,4 @@
-package com.parking.dto;
+package com.parking.dto.refreshToken;
 
 public class RefreshTokenResponse {
 	private String accessToken;
