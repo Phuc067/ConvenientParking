@@ -4,8 +4,10 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.parking.constant.RoleConstant;
+import com.parking.dto.user.UserInsert;
 import com.parking.entity.Login;
 import com.parking.entity.User;
 import com.parking.model.ResponseObject;
@@ -43,5 +45,17 @@ public class UserServiceImpl  implements UserService{
 		}
 		else return new ResponseObject(HttpStatus.OK, "Lấy thông tin người dùng thành công.", user);
 	}
-	
+
+	@Override
+	@Transactional
+	public ResponseObject insert(UserInsert user) {
+		try {
+			userRepository.insert(user);
+			return new ResponseObject(HttpStatus.OK, "Thêm thông tin người dùng thành công", null);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseObject(HttpStatus.ACCEPTED, "Thêm thông tin người dùng thất bại", null);
+		}
+	}
+
 }

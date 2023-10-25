@@ -3,14 +3,13 @@ package com.parking.service.impl;
 import java.util.List;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
-import javax.transaction.Transactional.TxType;
-
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.parking.dto.merchant.MerchantRequest;
 import com.parking.entity.Merchant;
 import com.parking.model.ResponseObject;
 import com.parking.repository.MerchantRepository;
@@ -32,15 +31,15 @@ public class MerchantServiceImpl implements MerchantService {
 		return oMerchant.get();
 	}
 	@Override
-	@Transactional(value = TxType.REQUIRED)
+	@Transactional
 	public ResponseObject edit(Merchant merchant) {
 		try {
 			repo.edit(merchant);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseObject(HttpStatus.BAD_REQUEST,"Edit failed merchant information", null);
+			return new ResponseObject(HttpStatus.BAD_REQUEST,"Sửa thông tin thất bại", null);
 		}
-		return new ResponseObject(HttpStatus.ACCEPTED,"Merchant information has been successfully edited", null);
+		return new ResponseObject(HttpStatus.ACCEPTED,"Sửa thông tin thành công", null);
 	}
 	
 	@Override
@@ -51,5 +50,17 @@ public class MerchantServiceImpl implements MerchantService {
 			return new ResponseObject(HttpStatus.NOT_FOUND, "Không tìm thấy công ty", null);
 		}
 		return new ResponseObject(HttpStatus.OK,"Lấy thông tin công ty thành công", merchant);
+	}
+	
+	@Override
+	@Transactional
+	public ResponseObject insert(MerchantRequest merchant) {
+		try {
+			repo.insert(merchant);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseObject(HttpStatus.BAD_REQUEST,"Thêm thông tin cong ty thất bại", null);
+		}
+		return new ResponseObject(HttpStatus.ACCEPTED,"Thêm thông tin công ty  thành công", null);
 	}
 }

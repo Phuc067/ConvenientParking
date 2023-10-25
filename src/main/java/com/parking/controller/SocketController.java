@@ -12,15 +12,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.parking.model.ChatMessage;
 import com.parking.model.SocketConnectData;
-import com.parking.model.SocketMessageData;
+import com.parking.model.CheckInMessageData;
 import com.parking.service.SocketService;
-
-
+import com.parking.dto.checkInOut.CheckInInformation;
 
 @Controller
 public class SocketController {
 	@Autowired
-    SocketService socketService;
+    private SocketService socketService;
 	
 	@MessageMapping("/hello")
 	@SendTo("/topic/messages")
@@ -28,13 +27,22 @@ public class SocketController {
 	return "Hello, " + username;
 	}
 	
-
-    @PostMapping("/sendToMerchant/{parkingLotID}")
-    public boolean sendToMerchant(@RequestBody SocketMessageData socketMessageData, @PathVariable Long parkingLotID) {
-    	socketService.sendToMerchant(parkingLotID, socketMessageData);
-        return true;
+//	/app/sendToParkingLot/{parkingLotId}
+    @MessageMapping("/sendToParkingLot/{parkingLotId}")
+    public CheckInMessageData sendToParkingLot(@Payload CheckInMessageData checkInMessageData, @PathVariable Long parkingLotID) {
+    	socketService.sendToParkingLot(parkingLotID, checkInMessageData);
+        return checkInMessageData;
     }
-
+    
+//    /app/submitLiciensePlate/{parkingLotId}
+    @MessageMapping("/submitLiciensePlate/{parkingLotId}")
+    public CheckInInformation sendToParkingLot(@Payload CheckInInformation checkInInformation)
+    {
+    	socketService.updateCheckInInformation(checkInInformation);
+    	return checkInInformation;
+    }
+    
+    
     @MessageMapping("/connect")
     public boolean receiveMessage(@Payload SocketConnectData socketConnectData) {
         System.out.println("connect: " + socketConnectData.getParkingLotID());
@@ -55,4 +63,6 @@ public class SocketController {
     	simpMessageHeaderAccessor.getSessionAttributes().put("username", chatMessage.getSender());
     	return chatMessage;
     }
+    
+    
 }

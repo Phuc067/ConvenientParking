@@ -11,7 +11,6 @@ public class LoginResponse {
 		super();
 	}
 
-
 	public LoginResponse(HttpStatus status, String message,String accessToken) {
 		super();
 		this.status = status;
@@ -40,7 +39,6 @@ public class LoginResponse {
 	public String getAccessToken() {
 		return accessToken;
 	}
-
 
 	public void setAccessToken(String accessToken) {
 		this.accessToken = accessToken;

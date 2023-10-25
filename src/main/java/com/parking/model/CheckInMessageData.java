@@ -2,13 +2,13 @@ package com.parking.model;
 
 import com.parking.dto.checkInOut.CheckInData;
 
-public class SocketMessageData {
+public class CheckInMessageData {
 
     private int code;
     private String message;
     private CheckInData checkInData;
 
-    public SocketMessageData(int code, String message, CheckInData checkInData) {
+    public CheckInMessageData(int code, String message, CheckInData checkInData) {
         this.code = code;
         this.message = message;
         this.checkInData = checkInData;

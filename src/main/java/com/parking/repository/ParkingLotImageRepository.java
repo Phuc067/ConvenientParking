@@ -16,7 +16,7 @@ public interface ParkingLotImageRepository extends JpaRepository<ParkingLotImage
 //	@Query(value = "INSERT INTO ParkingLotImages(parkingLotId, url) values( ?1, ?2)", nativeQuery = true)
 //	void insert(Long parkingLotId, String url);
 	@Modifying(clearAutomatically = true)
-	@Query(value = "INSERT INTO ParkingLotImages(parkingLotId, image) values( ?1, ?2)", nativeQuery = true)
+	@Query(value = "INSERT INTO ParkingLotImages(parkingLotId, image) VALUES( ?1, ?2)", nativeQuery = true)
 	void insert(Long parkingLotId, byte []image);
 	
 	List<ParkingLotImage> findByParkingLotId(Long parkingLotId);

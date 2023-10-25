@@ -2,6 +2,7 @@ package com.parking.service;
 
 import java.util.List;
 
+import com.parking.dto.merchant.MerchantRequest;
 import com.parking.entity.Merchant;
 import com.parking.model.ResponseObject;
 
@@ -11,4 +12,6 @@ public interface MerchantService {
 	public Merchant getById(Long id);
 	public ResponseObject edit(Merchant merchant);
 	public ResponseObject getByUsername(String username);
-}
+	public ResponseObject insert(MerchantRequest merchant);		
+	}
+

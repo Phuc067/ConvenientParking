@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.parking.dto.auth.UsernameRequest;
+import com.parking.dto.merchant.MerchantRequest;
 import com.parking.entity.Merchant;
 import com.parking.model.ResponseObject;
 import com.parking.service.MerchantService;
@@ -34,6 +35,12 @@ public class MerchantController {
 		return ResponseEntity.status(HttpStatus.OK).body(merchants);
 	}
 
+	@PostMapping("/add")
+	public ResponseEntity<?> doInsertMerchant(@RequestBody MerchantRequest merchant) {
+		ResponseObject responseObject = service.insert(merchant);
+		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
+	}
+	
 	@PostMapping("/edit")
 	public ResponseEntity<?> doEditMerchant(@RequestBody Merchant merchant) {
 		ResponseObject responseObject = service.edit(merchant);

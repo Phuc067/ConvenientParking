@@ -1,17 +1,19 @@
 package com.parking.service.impl;
 
-
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.parking.dto.merchant.MerchantSearchParkingLotRequest;
+import com.parking.dto.parkinglot.ParkingLotEdit;
 import com.parking.dto.parkinglot.ParkingLotRequest;
 import com.parking.entity.ParkingLot;
+import com.parking.model.MessageAndBoolean;
 import com.parking.model.ResponseObject;
 import com.parking.repository.ParkingLotRepository;
 import com.parking.service.ParkingLotService;
@@ -40,15 +42,15 @@ public class ParkingLotServiceImpl implements ParkingLotService{
 		Long id =0L;
 		if(parkingLotRepository.existsByLatAndLng(parkingLotDto.getLat(), parkingLotDto.getLng()))
 		{
-			return new ResponseObject(HttpStatus.FORBIDDEN,"It is not possible to create 2 parking lots at the same location", null);
+			return new ResponseObject(HttpStatus.ACCEPTED,"Không thể thêm 2 bãi giữ xe ở cũng 1 địa điểm", null);
 		}
 		try {
 			parkingLotRepository.insert(parkingLotDto);
-			parkingLotRepository.getMaxId();
+			id = parkingLotRepository.getMaxId();
 		} catch (Exception e) {
 			return new ResponseObject(HttpStatus.BAD_REQUEST, e.getMessage(), null);
 		}
-		return  new ResponseObject(HttpStatus.ACCEPTED, "Parking lot was added successfully", id);
+		return  new ResponseObject(HttpStatus.OK, "Parking lot was added successfully", id);
 	}
 
 	@Override
@@ -110,9 +112,46 @@ public class ParkingLotServiceImpl implements ParkingLotService{
 		}
 	}
 
+
 	@Override
-	public ResponseObject edit(ParkingLotRequest parkingLotRequest) {
-		return null;
+	@Transactional
+	public ResponseObject edit(ParkingLotEdit parkingLotEdit) {
+		Optional<ParkingLot> parkingLotDB = parkingLotRepository.findById(parkingLotEdit.getId());
+		MessageAndBoolean messageAndBoolean = isValidInformation(parkingLotDB, parkingLotEdit);
+		if(!messageAndBoolean.getBoolean1())
+		{
+			return new ResponseObject(HttpStatus.ACCEPTED, messageAndBoolean.getMessage(), null);
+		}
+		try {
+			parkingLotRepository.edit(parkingLotEdit);
+			return new ResponseObject(HttpStatus.OK, "Sửa thông tin bãi giữ xe thành công", null);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseObject(HttpStatus.ACCEPTED, "Không thể sửa thông tin bãi đỗ xe", null);
+		}
+
+	}
+
+	private MessageAndBoolean isValidInformation(Optional<ParkingLot> parkingLot, ParkingLotEdit parkingLotEdit) {
+		
+		if(parkingLot.isPresent())
+		{
+			ParkingLot parkingLotDB  = parkingLot.get();
+			if( (parkingLotDB.getNumberSlot() -  parkingLotDB.getNumberSlotRemaining()) > parkingLotEdit.getNumberSlot())
+			{
+				return new MessageAndBoolean("Số lượng mới nhỏ hơn số xe đang giữ trong bãi!", false);
+			}
+		}
+		else {
+			return new MessageAndBoolean("Không tìm thấy bãi giữ xe!", false);
+		}
+		if(parkingLotRepository.existsByLatAndLng(parkingLotEdit.getLat(), parkingLotEdit.getLng()) && parkingLotEdit.getId() != parkingLot.get().getId())
+		{
+			return new MessageAndBoolean("Không thể thêm 2 bãi giữ xe ở cũng 1 địa điểm", false);
+		}
+		
+		return new MessageAndBoolean("Hợp lệ", true);
 	}
 
 

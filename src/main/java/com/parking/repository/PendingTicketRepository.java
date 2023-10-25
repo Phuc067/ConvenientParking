@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import com.parking.dto.checkInOut.CheckInData;
 import com.parking.model.VehicleData;
 
-
 @Repository
 public class PendingTicketRepository {
 	    private static final ConcurrentHashMap<CheckInData, VehicleData> pendingTicket = new ConcurrentHashMap<>();

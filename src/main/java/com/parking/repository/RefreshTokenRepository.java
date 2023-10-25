@@ -12,7 +12,7 @@ import com.parking.entity.RefreshToken;
 public interface RefreshTokenRepository  extends JpaRepository<RefreshToken, Long>{
 	RefreshToken findByToken(String token);
 	
-	@Query(name = "SELECT * from RefreshToken where loginId = :#{#login.id}", nativeQuery =  true)
+	@Query(name = "SELECT * FROM RefreshToken WHERE loginId = :#{#login.id}", nativeQuery =  true)
 	Optional<RefreshToken> findByLogin(@Param("login") Login login);
 
 }

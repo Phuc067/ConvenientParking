@@ -2,9 +2,8 @@ package com.parking.service;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
-
 import com.parking.dto.merchant.MerchantSearchParkingLotRequest;
+import com.parking.dto.parkinglot.ParkingLotEdit;
 import com.parking.dto.parkinglot.ParkingLotRequest;
 import com.parking.entity.ParkingLot;
 import com.parking.model.ResponseObject;
@@ -17,5 +16,5 @@ public interface ParkingLotService {
 	ResponseObject search(String keyword);
 	ResponseObject getById(Long id);
 	ResponseObject search(MerchantSearchParkingLotRequest request);
-	ResponseObject edit(ParkingLotRequest parkingLotRequest);
+	ResponseObject edit(ParkingLotEdit parking);
 }

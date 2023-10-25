@@ -24,9 +24,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 	void insert(@Param("employee") EmployeeRequest employeeDto);
 	
 	@Modifying(clearAutomatically = true)
-	@Query(value = "UPDATE employees set firstName = :#{#employee.firstName}, lastName = :#{#employee.lastName}, gender = :#{#employee.gender}, phone = :#{#employee.phone}, avatar = :#{#employee.avatar}, parkingLotId = :#{#employee.parkingLotId} WHERE id = :#{#employee.id}", nativeQuery = true)
+	@Query(value = "UPDATE employees SET firstName = :#{#employee.firstName}, lastName = :#{#employee.lastName}, gender = :#{#employee.gender}, phone = :#{#employee.phone}, avatar = :#{#employee.avatar}, parkingLotId = :#{#employee.parkingLotId} WHERE id = :#{#employee.id}", nativeQuery = true)
 	void update(@Param("employee") EmployeeRequest employee);
 	
-	@Query(value = "UPDATE employees set loginId = ?2 where id = ?1", nativeQuery = true)
+	@Query(value = "UPDATE employees SET loginId = ?2 WHERE id = ?1", nativeQuery = true)
 	void setLogin(Long employeeId, Long loginId);
 }
