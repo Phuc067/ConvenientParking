@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.parking.constant.SessionConstant;
+import com.parking.model.TimeFormat;
 import com.parking.service.EmailSenderService;
-import com.parking.utils.TimeFormat;
 
 @Service
 public class EmailSenderServiceImpl implements EmailSenderService {

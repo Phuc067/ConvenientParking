@@ -17,4 +17,5 @@ public interface ParkingLotService {
 	ResponseObject getById(Long id);
 	ResponseObject search(MerchantSearchParkingLotRequest request);
 	ResponseObject edit(ParkingLotEdit parking);
+	ResponseObject get(Long id);
 }

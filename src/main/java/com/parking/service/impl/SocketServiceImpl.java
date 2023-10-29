@@ -17,8 +17,7 @@ import com.parking.service.SocketService;
 @Service
 public class SocketServiceImpl implements SocketService {
 
-	@Autowired
-	SimpMessagingTemplate template;
+	private final SimpMessagingTemplate template = null;
 
 	@Autowired
 	private PendingTicketRepository pendingTicketRepository;

@@ -1,4 +1,4 @@
-package com.parking.utils;
+package com.parking.model;
 
 public class TimeFormat {
 	private Long hour ;
@@ -22,6 +22,38 @@ public class TimeFormat {
 		
 	}
 	
+	
+	public TimeFormat(Long hour, Long minute) {
+		super();
+		this.hour = hour;
+		this.minute = minute;
+	}
+
+
+	public Long getHour() {
+		return hour;
+	}
+
+	public void setHour(Long hour) {
+		this.hour = hour;
+	}
+
+	public Long getMinute() {
+		return minute;
+	}
+
+	public void setMinute(Long minute) {
+		this.minute = minute;
+	}
+
+	public Long getSecond() {
+		return second;
+	}
+
+	public void setSecond(Long second) {
+		this.second = second;
+	}
+
 	@Override
 	public String toString() {
 		String time = new String();

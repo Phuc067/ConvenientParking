@@ -42,6 +42,7 @@ public class ParkingLotController {
 		}
 	}
 	
+	
 	@PostMapping(value = "/add")
 	public ResponseEntity<ResponseObject> doAddParkingLot(@RequestBody ParkingLotRequest parkingLotDto) {
 		ResponseObject responseObject = parkingLotService.add(parkingLotDto);

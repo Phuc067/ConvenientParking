@@ -1,20 +1,12 @@
 package com.parking.dto.parkinglot;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-
-import com.parking.entity.Merchant;
 
 public class ParkingLotRequest {
-	@NotBlank(message = "Name should not be empty")
 	private String parkingLotName;
-	@Min(0)
 	private Long numberSlot;
 	private Long merchantId;
-	@NotBlank(message = "Latitude shouldn't be empty")
 	private Double lat;
-	@NotBlank(message = "Longitude shouldn't be empty")
-	private Double Lng;
+	private Double lng;
 	private String timeOpen;
 	private String timeClose;
 	private String city;
@@ -26,15 +18,16 @@ public class ParkingLotRequest {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public ParkingLotRequest(String parkingLotName, Long numberSlot,Long merchantId,
-			Merchant merchant, Double lat, Double lng, String timeOpen, String timeClose, String city, String district,
-			String ward, String street, String number) {
+	
+	public ParkingLotRequest(String parkingLotName, Long numberSlot, Long merchantId, Double lat, Double lng,
+			String timeOpen, String timeClose, String city, String district, String ward, String street,
+			String number) {
 		super();
 		this.parkingLotName = parkingLotName;
 		this.numberSlot = numberSlot;
-		this.lat = lat;
 		this.merchantId = merchantId;
-		Lng = lng;
+		this.lat = lat;
+		this.lng = lng;
 		this.timeOpen = timeOpen;
 		this.timeClose = timeClose;
 		this.city = city;
@@ -43,6 +36,7 @@ public class ParkingLotRequest {
 		this.street = street;
 		this.number = number;
 	}
+
 	public String getParkingLotName() {
 		return parkingLotName;
 	}
@@ -68,10 +62,10 @@ public class ParkingLotRequest {
 		this.lat = lat;
 	}
 	public Double getLng() {
-		return Lng;
+		return lng;
 	}
 	public void setLng(Double lng) {
-		Lng = lng;
+		this.lng = lng;
 	}
 	public String getTimeOpen() {
 		return timeOpen;

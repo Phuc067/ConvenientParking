@@ -154,6 +154,11 @@ public class ParkingLotServiceImpl implements ParkingLotService{
 		return new MessageAndBoolean("Hợp lệ", true);
 	}
 
+	@Override
+	public ResponseObject get(Long id) {
+		return null;
+	}
+
 
 
 }

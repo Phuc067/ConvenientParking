@@ -1,6 +1,7 @@
 package com.parking.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,20 +12,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 
 @Entity
 @Table(name = "priceTickets")
 
-public class PriceTicket implements Serializable{
+public class PriceTicket implements Serializable {
 	/**
 	 * 
 	 */
@@ -33,70 +25,103 @@ public class PriceTicket implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	private Long id;
-	
-	//parkingLotId
+
+	// parkingLotId
 	@ManyToOne
-	@JoinColumn(name="parkingLotId", referencedColumnName = "id")
-	@JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
+	@JoinColumn(name = "parkingLotId", referencedColumnName = "id")
 	private ParkingLot parkingLot;
-	
-	//vehicleTypeId
+
+	// vehicleTypeId
 	@ManyToOne
 	@JoinColumn(name = "vehicleTypeId", referencedColumnName = "id")
-	@JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
 	private VehicleType vehicleType;
-	@Column
-	@NotBlank(message = "Period time shouldn't be empty")
-	private Long periodTime;
+
+	
+	private Timestamp effectTime;
+	
+	private Timestamp expiredTime;
+	
 	@Column
 	@Min(0)
 	private Long price;
+
 	public PriceTicket() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public PriceTicket(Long id, ParkingLot parkingLot, VehicleType vehicleType,
-			@NotBlank(message = "Period time shouldn't be empty") Long periodTime, @Min(0) Long price) {
+	
+	public PriceTicket(Long id, ParkingLot parkingLot, VehicleType vehicleType, Timestamp effectTime,
+			@Min(0) Long price) {
 		super();
 		this.id = id;
 		this.parkingLot = parkingLot;
 		this.vehicleType = vehicleType;
-		this.periodTime = periodTime;
+		this.effectTime = effectTime;
 		this.price = price;
 	}
+
+	public PriceTicket(Long id, ParkingLot parkingLot, VehicleType vehicleType, Timestamp effectTime,
+			Timestamp expiredTime, @Min(0) Long price) {
+		super();
+		this.id = id;
+		this.parkingLot = parkingLot;
+		this.vehicleType = vehicleType;
+		this.effectTime = effectTime;
+		this.expiredTime = expiredTime;
+		this.price = price;
+	}
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public ParkingLot getParkingLot() {
 		return parkingLot;
 	}
+
 	public void setParkingLot(ParkingLot parkingLot) {
 		this.parkingLot = parkingLot;
 	}
+
 	public VehicleType getVehicleType() {
 		return vehicleType;
 	}
+
 	public void setVehicleType(VehicleType vehicleType) {
 		this.vehicleType = vehicleType;
 	}
-	public Long getPeriodTime() {
-		return periodTime;
+	
+	public Timestamp getEffectTime() {
+		return effectTime;
 	}
-	public void setPeriodTime(Long periodTime) {
-		this.periodTime = periodTime;
+
+	public void setEffectTime(Timestamp effectTime) {
+		this.effectTime = effectTime;
 	}
+
+	public Timestamp getExpiredTime() {
+		return expiredTime;
+	}
+
+	public void setExpiredTime(Timestamp expiredTime) {
+		this.expiredTime = expiredTime;
+	}
+
 	public Long getPrice() {
 		return price;
 	}
+
 	public void setPrice(Long price) {
 		this.price = price;
 	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 	
-	
+
 }
