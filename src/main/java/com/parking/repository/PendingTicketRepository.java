@@ -47,7 +47,6 @@ public class PendingTicketRepository {
 	    	for (ConcurrentHashMap.Entry<CheckInData, VehicleData> entry : pendingTicket.entrySet()) {
 	    	    CheckInData key = entry.getKey();
 	    	    VehicleData value = entry.getValue();
-	    	    System.out.println("Key: " + key.getUserId() +" " + key.getParkingLotId() + ", Value: " + value.getLicensePlate() + " "+ value.getVehicleTypeId());
 	    	}
 	    }
 	}

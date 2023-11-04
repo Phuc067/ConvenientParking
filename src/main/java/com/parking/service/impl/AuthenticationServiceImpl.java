@@ -119,7 +119,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@Transactional
 	public ResponseObject getNewVerification(String username) throws MessagingException {
 		SessionConstant.verification_time +=1;
-		System.out.println(SessionConstant.verification_time);
 		Login login = loginRepository.findByUsername(username);
 		if(ObjectUtils.isEmpty(login))
 		{

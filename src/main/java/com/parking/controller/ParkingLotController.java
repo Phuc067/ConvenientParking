@@ -56,10 +56,10 @@ public class ParkingLotController {
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
 	
-	@PostMapping(value = "/search")
-	public ResponseEntity<ResponseObject> doSearchParkingLotByKeyWord(@RequestBody ParkingLotSearch request)
+	@GetMapping(value = "/search")
+	public ResponseEntity<ResponseObject> doSearchParkingLotByKeyWord(@RequestParam String keyword)
 	{
-		ResponseObject responseObject = parkingLotService.search(request);
+		ResponseObject responseObject = parkingLotService.search(keyword);
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
 	

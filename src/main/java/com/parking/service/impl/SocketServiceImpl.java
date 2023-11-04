@@ -8,7 +8,6 @@ import com.parking.constant.WebSocketConstant;
 import com.parking.dto.checkInOut.CheckInData;
 import com.parking.dto.checkInOut.CheckInInformation;
 import com.parking.model.PreCheckOutData;
-import com.parking.model.SocketLicensePlateData;
 import com.parking.model.SocketMessage;
 import com.parking.repository.PendingTicketRepository;
 import com.parking.model.CheckInMessageData;

@@ -30,7 +30,6 @@ public class CheckInController {
 	@PostMapping("/submit-license-plate")
 	public ResponseEntity<?> doSubmit(@RequestBody CheckInInformation information)
 	{
-		System.out.println(information.getCheckInData().getUserId()+" "+ information.getCheckInData().getParkingLotId() +" "+ information.getVehicleData().getLicensePlate()+" "+ information.getVehicleData().getVehicleTypeId());
 		ResponseObject responseObject = checkInService.submitLicensePlate(information);
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}

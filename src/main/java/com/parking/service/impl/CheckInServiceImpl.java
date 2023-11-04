@@ -48,7 +48,6 @@ public class CheckInServiceImpl implements CheckInService {
 	@Override
 	@Transactional
 	public ResponseObject checkIn(CheckInData data) {
-		System.out.println("checkIn data" + data.getUserId() + ", " + data.getParkingLotId());
 		Optional<User> user = userRepository.findById(data.getUserId());
 		Optional<ParkingLot> parkingLot = parkingLotRepository.findById(data.getParkingLotId());
 		if (user.isEmpty() && parkingLot.isEmpty()) {
@@ -77,7 +76,6 @@ public class CheckInServiceImpl implements CheckInService {
 			parkingLotRepository.decreaseNumberSlotRemainingBy1(data.getParkingLotId());
 			return new ResponseObject(HttpStatus.OK, "Tạo vé thành công", null);
 		} else
-			System.out.println(ticketDB.getLicensePlate());
 			return new ResponseObject(HttpStatus.FOUND,
 					"Người dùng đã có vé cho chiếc xe này trong hệ thống mà chưa thanh toán", null);
 
@@ -89,7 +87,6 @@ public class CheckInServiceImpl implements CheckInService {
 
 			Instant now = Instant.now();
 			Duration duration = Duration.between(begin, now);
-			System.out.println(duration.toSeconds());
 			if (duration.toSeconds() > TicketConstant.PENDING_TIME) {
 				pendingTicketRepository.removePendingTicket(data);
 				return null;

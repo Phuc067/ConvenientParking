@@ -53,10 +53,6 @@ public class TimeUtils {
 		Long seconds = duration.getSeconds();
 		Double minutes = (double) seconds / 60;
 		Double hours = (double) (minutes / 60);
-		if(hours<10)
-		{
-			System.out.println(hours);
-		}
 		return hours;
 	}
 	

@@ -107,13 +107,8 @@
 			<optional>true</optional>
 		</dependency>
 
-		<!--	<dependency>
-			<groupId>com.github.deeppplab</groupId>
-			<artifactId>deepforest</artifactId>
-			<version>0.6</version>
-		</dependency>-->
-
 	
+
 	</dependencies>
 
 	<build>

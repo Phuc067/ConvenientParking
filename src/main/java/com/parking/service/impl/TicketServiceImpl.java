@@ -33,6 +33,7 @@ public class TicketServiceImpl implements TicketService{
 	@Override
 	public ResponseObject getUnpaidTicket(Long userId) {
 		
+		
 		List<TicketResponse> tickets = spRepository.getUnpaidTicket(userId);
 		for(TicketResponse ticket: tickets)
 		{

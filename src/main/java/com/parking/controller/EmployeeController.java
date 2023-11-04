@@ -26,7 +26,6 @@ public class EmployeeController {
 	public ResponseEntity<?> doAddEmployee(@RequestBody EmployeeRequest employeeDto) {
 		ResponseObject responseObject = employeeService.add(employeeDto);
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
-
 	}
 
 	@PostMapping("/edit")
