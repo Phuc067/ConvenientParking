@@ -27,7 +27,7 @@ public class User implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	@Column(name = "id")
-	private int id;
+	private Long id;
 	
 	@Column
 	@NotBlank(message = "First name should not be empty")
@@ -57,7 +57,7 @@ public class User implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public User(int id,
+	public User(Long id,
 			@NotBlank(message = "First name should not be empty") @Size(max = 50, message = "First name shouldn't be exceed 50 character") String firstName,
 			@NotBlank(message = "Last name should not be empty") @Size(max = 50, message = "Last name shouldn't be exceed 50 character") String lastName,
 			@NotBlank(message = "Gender should not be empty") Boolean gender, String phone, String momoId,
@@ -72,10 +72,10 @@ public class User implements Serializable{
 		this.login = login;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getFirstName() {

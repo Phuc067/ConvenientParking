@@ -44,7 +44,7 @@ public class Ticket implements Serializable{
 	@Column
 	private Timestamp checkOutTime;
 	@Column
-	private String liciensePlate;
+	private String licensePlate;
 	
 	//vehicleTypeId;
 	@ManyToOne
@@ -65,13 +65,13 @@ public class Ticket implements Serializable{
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Ticket(Long id, Timestamp checkInTime, Timestamp checkOutTime, String liciensePlate, VehicleType vehicleType,
+	public Ticket(Long id, Timestamp checkInTime, Timestamp checkOutTime, String licensePlate, VehicleType vehicleType,
 			User user, ParkingLot parkingLot) {
 		super();
 		this.id = id;
 		this.checkInTime = checkInTime;
 		this.checkOutTime = checkOutTime;
-		this.liciensePlate = liciensePlate;
+		this.licensePlate = licensePlate;
 		this.vehicleType = vehicleType;
 		this.user = user;
 		this.parkingLot = parkingLot;
@@ -94,11 +94,11 @@ public class Ticket implements Serializable{
 	public void setCheckOutTime(Timestamp checkOutTime) {
 		this.checkOutTime = checkOutTime;
 	}
-	public String getLiciensePlate() {
-		return liciensePlate;
+	public String getLicensePlate() {
+		return licensePlate;
 	}
-	public void setLiciensePlate(String liciensePlate) {
-		this.liciensePlate = liciensePlate;
+	public void setLicensePlate(String liciensePlate) {
+		this.licensePlate = liciensePlate;
 	}
 	public VehicleType getVehicleType() {
 		return vehicleType;

@@ -34,14 +34,7 @@ public class SocketController {
         return checkInMessageData;
     }
     
-//    /app/submitLiciensePlate/{parkingLotId}
-    @MessageMapping("/submitLiciensePlate/{parkingLotId}")
-    public CheckInInformation sendToParkingLot(@Payload CheckInInformation checkInInformation)
-    {
-    	socketService.updateCheckInInformation(checkInInformation);
-    	return checkInInformation;
-    }
-    
+//
     
     @MessageMapping("/connect")
     public boolean receiveMessage(@Payload SocketConnectData socketConnectData) {

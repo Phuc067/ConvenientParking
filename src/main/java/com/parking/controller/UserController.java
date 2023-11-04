@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.parking.dto.auth.UsernameRequest;
 import com.parking.dto.user.UserInsert;
 import com.parking.entity.User;
 import com.parking.model.ResponseObject;
@@ -21,9 +22,9 @@ public class UserController {
 	private UserService userService;
 	
 	@PostMapping("/information")
-	public ResponseEntity<?> doGetInformation(@RequestParam String username)
+	public ResponseEntity<?> doGetInformation(@RequestBody UsernameRequest request)
 	{
-		ResponseObject responseObject = userService.getByUsername(username);
+		ResponseObject responseObject = userService.getByUsername(request.getUsername());
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
 	

@@ -55,10 +55,9 @@ public class Transaction implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 
-	public Transaction(Long id, @NotBlank(message = "Type shouldn't be empty") String type, Ticket ticket,
+	public Transaction( @NotBlank(message = "Type shouldn't be empty") String type, Ticket ticket,
 			Timestamp tDate, String tLog) {
 		super();
-		this.id = id;
 		this.type = type;
 		this.ticket = ticket;
 		this.tDate = tDate;

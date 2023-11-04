@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.parking.dto.merchant.MerchantSearchParkingLotRequest;
 import com.parking.dto.parkinglot.ParkingLotEdit;
 import com.parking.dto.parkinglot.ParkingLotRequest;
+import com.parking.dto.parkinglot.ParkingLotSearch;
 import com.parking.entity.ParkingLot;
+import com.parking.model.IdRequest;
 import com.parking.model.ResponseObject;
 import com.parking.service.ParkingLotService;
 
@@ -28,8 +31,6 @@ public class ParkingLotController {
 	@Autowired
 	private ParkingLotService parkingLotService;
 	
-	
-
 	@GetMapping(value = "")
 	public ResponseEntity<?> doGetAllParkingLot(@RequestParam(name = "merchantId", defaultValue = "0") Long id) {
 		List<ParkingLot> parkingLots;
@@ -41,7 +42,6 @@ public class ParkingLotController {
 			return ResponseEntity.ok(parkingLots);
 		}
 	}
-	
 	
 	@PostMapping(value = "/add")
 	public ResponseEntity<ResponseObject> doAddParkingLot(@RequestBody ParkingLotRequest parkingLotDto) {
@@ -56,24 +56,38 @@ public class ParkingLotController {
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
 	
-	@GetMapping(value = "/search")
-	public ResponseEntity<ResponseObject> doSearchParkingLotByKeyWord(@RequestParam("keyword") String keyword)
+	@PostMapping(value = "/search")
+	public ResponseEntity<ResponseObject> doSearchParkingLotByKeyWord(@RequestBody ParkingLotSearch request)
 	{
-		ResponseObject responseObject = parkingLotService.search(keyword);
+		ResponseObject responseObject = parkingLotService.search(request);
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
 	
 	@PostMapping(value = "")
-	public ResponseEntity<?> doGetParkingLotById(@RequestBody Long id)
+	public ResponseEntity<?> doGetParkingLotById(@RequestBody IdRequest request)
 	{
-		ResponseObject responseObject = parkingLotService.getById(id);
+		ResponseObject responseObject = parkingLotService.getById(request.getId());
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
 	
-	@PostMapping(value = "/search")
+	@PostMapping("/delete")
+	public ResponseEntity<?> doDeleteParkingLotById(@RequestBody IdRequest request)
+	{
+		ResponseObject responseObject = parkingLotService.deleteById(request.getId());
+		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
+	}
+	
+	@PostMapping(value = "/search-by-merchant")
 	public ResponseEntity<?> doSearchParkingByMerchantId(@RequestBody MerchantSearchParkingLotRequest request)
 	{
 		ResponseObject responseObject = parkingLotService.search(request);
+		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
+	}
+	
+	@PostMapping(value = "/vehicle-type")
+	public ResponseEntity<?> doGetVehicleType(@RequestBody IdRequest request)
+	{
+		ResponseObject responseObject = parkingLotService.getVehicleType(request.getId());
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
 	

@@ -12,13 +12,17 @@ import org.springframework.transaction.annotation.Transactional;
 import com.parking.dto.merchant.MerchantSearchParkingLotRequest;
 import com.parking.dto.parkinglot.ParkingLotEdit;
 import com.parking.dto.parkinglot.ParkingLotRequest;
+import com.parking.dto.parkinglot.ParkingLotSearch;
 import com.parking.entity.ParkingLot;
+import com.parking.entity.VehicleType;
 import com.parking.model.MessageAndBoolean;
 import com.parking.model.ResponseObject;
 import com.parking.repository.ParkingLotRepository;
+import com.parking.repository.VehicleTypeRepository;
 import com.parking.service.ParkingLotService;
 import com.parking.utils.AddressUtils;
 import com.parking.utils.ImageUtils;
+import com.parking.utils.StringUtils;
 
 @Service
 public class ParkingLotServiceImpl implements ParkingLotService{
@@ -26,8 +30,12 @@ public class ParkingLotServiceImpl implements ParkingLotService{
 	@Autowired
 	private ParkingLotRepository parkingLotRepository;
 	
+	@Autowired
+	private VehicleTypeRepository vehicleTypeRepository;
+	
 	@Override
 	public List<ParkingLot> getAllParkingLot() {
+		
 		List<ParkingLot> parkingLots =parkingLotRepository.findAll();
 		for(ParkingLot parkingLot: parkingLots)
 		{
@@ -40,7 +48,7 @@ public class ParkingLotServiceImpl implements ParkingLotService{
 	@Transactional
 	public ResponseObject add(ParkingLotRequest parkingLotDto) {
 		Long id =0L;
-		if(parkingLotRepository.existsByLatAndLng(parkingLotDto.getLat(), parkingLotDto.getLng()))
+		if(parkingLotRepository.existsByLatAndLng(parkingLotDto.getLat(), parkingLotDto.getLng()) && parkingLotRepository.existsByCityAndDistrictAndWardAndStreetAndNumber(parkingLotDto.getCity(), parkingLotDto.getDistrict(), parkingLotDto.getWard(), parkingLotDto.getStreet(), parkingLotDto.getNumber()))
 		{
 			return new ResponseObject(HttpStatus.ACCEPTED,"Không thể thêm 2 bãi giữ xe ở cũng 1 địa điểm", null);
 		}
@@ -70,9 +78,9 @@ public class ParkingLotServiceImpl implements ParkingLotService{
 	}
 
 	@Override
-	public ResponseObject search(String keyword) {
-		keyword = AddressUtils.formart(keyword);
-		List<ParkingLot> parkingLots = parkingLotRepository.search(keyword);
+	public ResponseObject search(ParkingLotSearch request) {
+		request.setKeyword(AddressUtils.formart(request.getKeyword())); 
+		List<ParkingLot> parkingLots = parkingLotRepository.search(request);
 		for(ParkingLot parkingLot: parkingLots)
 		{
 			ImageUtils.decompressImage(parkingLot.getImages());
@@ -98,6 +106,7 @@ public class ParkingLotServiceImpl implements ParkingLotService{
 
 	@Override
 	public ResponseObject search(MerchantSearchParkingLotRequest request) {
+		request.setKeyword(AddressUtils.formart(request.getKeyword()));
 		List<ParkingLot> parkingLots = parkingLotRepository.search(request);
 		for(ParkingLot parkingLot: parkingLots)
 		{
@@ -111,7 +120,6 @@ public class ParkingLotServiceImpl implements ParkingLotService{
 			return new ResponseObject(HttpStatus.OK, "Không tìm thấy bãi đỗ xe nào", null);
 		}
 	}
-
 
 	@Override
 	@Transactional
@@ -155,10 +163,27 @@ public class ParkingLotServiceImpl implements ParkingLotService{
 	}
 
 	@Override
-	public ResponseObject get(Long id) {
-		return null;
+	public ResponseObject deleteById(Long id) {
+		Optional<ParkingLot> parkingLotDB = parkingLotRepository.findById(id);
+		ParkingLot parkingLot;
+		if(parkingLotDB.isPresent())
+		{
+			parkingLot = parkingLotDB.get();
+		}
+		else return new ResponseObject(HttpStatus.NOT_FOUND, "Không tìm thấy bãi giữ xe này", null);
+		if(parkingLot.getNumberSlot()>parkingLot.getNumberSlotRemaining())
+		{
+			return new ResponseObject(HttpStatus.BAD_REQUEST, "Không thể xóa vì đang có người sử dụng bãi giữ xe này", null);
+		}
+		parkingLotRepository.deleteById(id);
+		return new ResponseObject(HttpStatus.OK, "Xoá bãi giữ xe thành công", null);
 	}
 
+	@Override
+	public ResponseObject getVehicleType(Long id) {
+		List<VehicleType> vehicleTypes = vehicleTypeRepository.findByParkingLotId(id);
+		return new ResponseObject(HttpStatus.OK, "Lấy danh sách loại xe thành công", vehicleTypes);
+	}
 
 
 }

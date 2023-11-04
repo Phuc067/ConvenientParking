@@ -1,36 +1,36 @@
 package com.parking.dto.parkingLotImage;
 
-import org.springframework.web.multipart.MultipartFile;
 
 public class ParkingLotImageRequest {
-	private Long parkinglotId;
-	private MultipartFile file;
+	private Long parkingLotId;
+	private String  file;
 	
 	public ParkingLotImageRequest() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public ParkingLotImageRequest(Long parkinglotId, MultipartFile file) {
+	public ParkingLotImageRequest(Long parkingLotId, String file) {
 		super();
-		this.parkinglotId = parkinglotId;
+		this.parkingLotId = parkingLotId;
 		this.file = file;
 	}
 
-	public Long getParkinglotId() {
-		return parkinglotId;
+	public Long getParkingLotId() {
+		return parkingLotId;
 	}
 
-	public void setParkinglotId(Long parkinglotId) {
-		this.parkinglotId = parkinglotId;
+	public void setParkingLotId(Long parkingLotId) {
+		this.parkingLotId = parkingLotId;
 	}
 
-	public MultipartFile getFile() {
+	public String getFile() {
 		return file;
 	}
 
-	public void setFile(MultipartFile file) {
+	public void setFile(String file) {
 		this.file = file;
 	}
+
 	
 }

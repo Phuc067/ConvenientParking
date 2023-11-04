@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
+import com.parking.constant.WebSocketConstant;
 import com.parking.dto.checkInOut.CheckInData;
 import com.parking.dto.checkInOut.CheckInInformation;
 import com.parking.model.PreCheckOutData;
 import com.parking.model.SocketLicensePlateData;
+import com.parking.model.SocketMessage;
 import com.parking.repository.PendingTicketRepository;
 import com.parking.model.CheckInMessageData;
 import com.parking.service.SocketService;
@@ -17,7 +19,8 @@ import com.parking.service.SocketService;
 @Service
 public class SocketServiceImpl implements SocketService {
 
-	private final SimpMessagingTemplate template = null;
+	@Autowired
+	private SimpMessagingTemplate template;
 
 	@Autowired
 	private PendingTicketRepository pendingTicketRepository;
@@ -27,32 +30,31 @@ public class SocketServiceImpl implements SocketService {
 		template.convertAndSend("/parkinglot/" + parkingLotID , checkInMessageData);
 		return true;
 	}
-
+	
 	@Override
-	public boolean RequestToEnterLicensePlate(CheckInData checkInData) {
-		CheckInMessageData socketMessageData = new CheckInMessageData(-1, "“enter license plate and vehicle type”",
+	public boolean sendToUser(Long userId, SocketMessage socketMessage) {
+		template.convertAndSend("/user/" + userId, socketMessage);
+		return true;
+	}
+	
+	@Override
+	public boolean requestToEnterLicensePlate(CheckInData checkInData) {
+		CheckInMessageData socketMessageData = new CheckInMessageData(WebSocketConstant.REQUEST_LICIENSE_PLATE, "“enter license plate and vehicle type”",
 				checkInData);
 		return sendToParkingLot(checkInData.getParkingLotId(), socketMessageData);
 	}
 
 	@Override
-	public boolean SendCheckInSuccessful(Long parkingLotID) {
-		CheckInMessageData socketMessageData = new CheckInMessageData(0, "checkin success", null);
-		return sendToParkingLot(parkingLotID, socketMessageData);
+	public boolean sendCheckInSuccessful(Long parkingLotID, Long userId) {
+		CheckInMessageData socketMessageData = new CheckInMessageData(WebSocketConstant.CHECKIN_SUCCESSFUL, "checkin success", null);
+		
+		return  sendToParkingLot(parkingLotID, socketMessageData);
 	}
 
 	@Override
-	public boolean SendCheckInFail(Long parkingLotID) {
-		CheckInMessageData socketMessageData = new CheckInMessageData(1, "checkin fail", null);
-		return sendToParkingLot(parkingLotID, socketMessageData);
-	}
-
-	@Override
-	public boolean SendLicensePlate(Long parkingLotID, PreCheckOutData checkOutData, String licensePlate) {
-		SocketLicensePlateData socketLicensePlateData = new SocketLicensePlateData(2, "get checkout license plate",
-				checkOutData, licensePlate);
-		template.convertAndSend("/user/" + parkingLotID + "/parkinglot", socketLicensePlateData);
-		return true;
+	public boolean sendCheckInFail(Long parkingLotID, Long userId) {
+		CheckInMessageData socketMessageData = new CheckInMessageData(WebSocketConstant.CHECKIN_FAILED, "checkin fail", null);
+		return  sendToParkingLot(parkingLotID, socketMessageData);
 	}
 
 	@Override
@@ -62,5 +64,27 @@ public class SocketServiceImpl implements SocketService {
 			pendingTicketRepository.setPendingTicketInformation(checkInInformation.getCheckInData(), checkInInformation.getVehicleData());
 		}
 	}
+
+
+	@Override
+	public boolean sendPaymentRequest(Long userId, Long price) {
+		SocketMessage socketMessage = new SocketMessage(WebSocketConstant.PAYMENT_REQUEST, "Hãy tiến hành thanh toán số tiền :" + price); 
+		return sendToUser(userId, socketMessage);
+	}
+
+	@Override
+	public boolean sendCheckOutSucessfull(Long userId) {
+		SocketMessage socketMessage = new SocketMessage(WebSocketConstant.CHECKOUT_SUCCESSFUL, "Thanh toán thành công"); 
+		return sendToUser(userId, socketMessage);
+	}
+
+	@Override
+	public boolean sendCheckOutFail(Long userId) {
+		SocketMessage socketMessage = new SocketMessage(WebSocketConstant.CHECKOUT_FAILED, "Checkout thất bại"); 
+		return sendToUser(userId, socketMessage);
+	}
+
+
+	
 
 }

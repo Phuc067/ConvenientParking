@@ -12,7 +12,7 @@ public class ParkingLotEdit {
 	@NotBlank(message = "Latitude shouldn't be empty")
 	private Double lat;
 	@NotBlank(message = "Longitude shouldn't be empty")
-	private Double Lng;
+	private Double lng;
 	private String timeOpen;
 	private String timeClose;
 	private String city;
@@ -33,7 +33,7 @@ public class ParkingLotEdit {
 		this.parkingLotName = parkingLotName;
 		this.numberSlot = numberSlot;
 		this.lat = lat;
-		Lng = lng;
+		this.lng = lng;
 		this.timeOpen = timeOpen;
 		this.timeClose = timeClose;
 		this.city = city;
@@ -67,10 +67,10 @@ public class ParkingLotEdit {
 		this.lat = lat;
 	}
 	public Double getLng() {
-		return Lng;
+		return lng;
 	}
 	public void setLng(Double lng) {
-		Lng = lng;
+		this.lng = lng;
 	}
 	public String getTimeOpen() {
 		return timeOpen;

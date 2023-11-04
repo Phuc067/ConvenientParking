@@ -17,6 +17,10 @@ public interface ParkingLotImageService {
 
 	List<ParkingLotImage> download(long parkingLotId);
 	
-	ResponseObject  uploadImageToDB(Long parkingLotId, MultipartFile file) throws IOException ;
+	ResponseObject  uploadImageToDB(Long parkingLotId, String string) throws IOException ;
+
+	ResponseObject delete(Long id);
+
+	ResponseObject update(Long id, String file);
 
 }

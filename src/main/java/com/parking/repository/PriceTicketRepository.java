@@ -1,6 +1,7 @@
 package com.parking.repository;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -23,8 +24,12 @@ public interface PriceTicketRepository extends JpaRepository<PriceTicket, Long>{
 	@Query(value = "INSERT INTO pricetickets(parkingLotId, vehicleTypeId, effectTime, expiredTime, price) VALUES(?1, ?2, ?3, NULL,?4)", nativeQuery = true)
 	void insert(Long parkingLotId, Long vehicleTypeId, Timestamp now, Long price);
 
+	
 	@Query(value = "SELECT * FROM pricetickets WHERE parkingLotId=?1 AND vehicleTypeId =?2 AND expiredTime IS NULL", nativeQuery = true)
 	PriceTicket findByParkingLotIdAndVehicleTypeId(Long parkingLotId, Long vehicleTypeId);
 
+	
+	@Query(value = "SELECT vehicleTypeId WHERE parkingLotId = ?1 AND epiredTime IS NULL", nativeQuery = true)
+	List<Long> vehicleTypeId(Long parkingLotId);
 	
 }

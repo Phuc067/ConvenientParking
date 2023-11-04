@@ -1,6 +1,7 @@
 package com.parking.service.impl;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,11 +52,11 @@ public class ParkingLotImageServiceImpl implements ParkingLotImageService {
 
 	@Override
 	@Transactional
-	public ResponseObject uploadImageToDB(Long parkingLotId, MultipartFile file) throws IOException {
+	public ResponseObject uploadImageToDB(Long parkingLotId, String file) throws IOException {
+		byte data[]  = Base64.getDecoder().decode(file);
 		if (!parkingLotImageRepository.existsByParkingLotIdAndData(parkingLotId,
-				ImageUtils.compressImage(file.getBytes()))) {
-
-			parkingLotImageRepository.insert(parkingLotId, ImageUtils.compressImage(file.getBytes()));
+				ImageUtils.compressImage(data))) {
+			parkingLotImageRepository.insert(parkingLotId, ImageUtils.compressImage(data));
 		}
 		return new ResponseObject(HttpStatus.OK, "Store successfully", null);
 	}
@@ -63,6 +64,21 @@ public class ParkingLotImageServiceImpl implements ParkingLotImageService {
 	@Override
 	public ResponseObject upload(Long parkingLotId, MultipartFile file) {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	@Transactional
+	public ResponseObject delete(Long id) {
+		parkingLotImageRepository.deleteById(id);
+		return new ResponseObject(HttpStatus.OK, "Xoá ảnh thành công", null);
+	}
+
+	@Override
+	@Transactional
+	public ResponseObject update(Long id, String file) {
+		byte data[]  = Base64.getDecoder().decode(file);
+		parkingLotImageRepository.update(id, data);
 		return null;
 	}
 

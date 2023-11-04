@@ -33,10 +33,7 @@ public class UserServiceImpl  implements UserService{
 		{
 			return new ResponseObject(HttpStatus.UNAUTHORIZED, "Không tìm thấy tài khoản.", null);
 		}
-		if(!login.getRole().getName().equals(RoleConstant.USER_NAME))
-		{
-			return new ResponseObject(HttpStatus.NO_CONTENT, "Không thể lấy thông tin từ tài khoản này.", null);
-		}
+		
 		User user = userRepository.findByLoginId(login.getId());
 		
 		if(ObjectUtils.isEmpty(user))

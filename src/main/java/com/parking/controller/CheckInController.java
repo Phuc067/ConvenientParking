@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.parking.dto.checkInOut.CheckInData;
+import com.parking.dto.checkInOut.CheckInInformation;
 import com.parking.model.ResponseObject;
 import com.parking.service.CheckInService;
 
@@ -23,6 +24,14 @@ public class CheckInController {
 	public ResponseEntity<?> doCheckIn(@RequestBody CheckInData data)
 	{
 		ResponseObject responseObject = checkInService.checkIn(data);
-		return null;
+		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
+	}
+	
+	@PostMapping("/submit-license-plate")
+	public ResponseEntity<?> doSubmit(@RequestBody CheckInInformation information)
+	{
+		System.out.println(information.getCheckInData().getUserId()+" "+ information.getCheckInData().getParkingLotId() +" "+ information.getVehicleData().getLicensePlate()+" "+ information.getVehicleData().getVehicleTypeId());
+		ResponseObject responseObject = checkInService.submitLicensePlate(information);
+		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
 }

@@ -20,6 +20,8 @@ import org.springframework.security.web.firewall.HttpStatusRequestRejectedHandle
 import org.springframework.security.web.firewall.RequestRejectedHandler;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 
+import com.parking.constant.RoleConstant;
+
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -57,10 +59,9 @@ public class SecurityConfiguration {
 			.csrf()
 			.disable()
 			.authorizeHttpRequests()
-				.antMatchers("/api/auth/**", "/**")
+				.antMatchers("/api/auth/**", "/ws/**")
 				.permitAll()
-				.antMatchers(HttpMethod.OPTIONS, "/api/**")
-				.permitAll()
+				.antMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
 				.anyRequest().authenticated()
 				.and()
 			.sessionManagement()

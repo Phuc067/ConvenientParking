@@ -2,6 +2,7 @@ package com.parking.repository;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Repository;
 
 import com.parking.dto.checkInOut.CheckInData;
@@ -9,7 +10,7 @@ import com.parking.model.VehicleData;
 
 @Repository
 public class PendingTicketRepository {
-	    private static final ConcurrentHashMap<CheckInData, VehicleData> pendingTicket = new ConcurrentHashMap<>();
+	    private static ConcurrentHashMap<CheckInData, VehicleData> pendingTicket = new ConcurrentHashMap<>();
 
 	    public boolean containsKey(CheckInData checkInData) {
 	        return pendingTicket.containsKey(checkInData);
@@ -28,7 +29,8 @@ public class PendingTicketRepository {
 	    }
 
 	    public void setPendingTicketInformation(CheckInData checkInData, VehicleData vehicleData) {
-	        pendingTicket.put(checkInData, vehicleData);
+	    	pendingTicket.put(checkInData, vehicleData);
+	    	
 	    }
 
 	    public boolean isPendingTicket(CheckInData checkInData) {
@@ -36,9 +38,18 @@ public class PendingTicketRepository {
 	    }
 
 	    public VehicleData getPendingTicketInformation(CheckInData checkInData) {
-	        return pendingTicket.get(checkInData);
+	        VehicleData vehicleData = pendingTicket.get(checkInData);
+	        return  vehicleData;
+	     }
+	    
+	    public void show()
+	    {
+	    	for (ConcurrentHashMap.Entry<CheckInData, VehicleData> entry : pendingTicket.entrySet()) {
+	    	    CheckInData key = entry.getKey();
+	    	    VehicleData value = entry.getValue();
+	    	    System.out.println("Key: " + key.getUserId() +" " + key.getParkingLotId() + ", Value: " + value.getLicensePlate() + " "+ value.getVehicleTypeId());
+	    	}
 	    }
-
 	}
 
 

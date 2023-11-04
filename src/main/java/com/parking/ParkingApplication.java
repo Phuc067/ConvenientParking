@@ -1,53 +1,46 @@
 package com.parking;
 
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.time.Duration;
-import java.time.Instant;
+import java.util.Base64;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.core.env.Environment;
 
-import com.parking.dto.priceTicket.PriceTicketResponse;
-import com.parking.entity.PriceTicket;
+import com.parking.dto.checkInOut.CheckInData;
+import com.parking.dto.parkinglot.ParkingLotSearch;
+import com.parking.entity.ParkingLot;
+import com.parking.entity.VehicleType;
+import com.parking.repository.ParkingLotRepository;
 import com.parking.repository.PriceTicketRepository;
-import com.parking.repository.SpRepository;
-import com.parking.utils.AddressUtils;
-import com.parking.utils.TimeUtils;
+import com.parking.repository.VehicleTypeRepository;
+import com.parking.service.SocketService;
 
 @SpringBootApplication
 //@EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class})
 public class ParkingApplication {
-@Autowired
-private PriceTicketRepository priceTicketRepository;
+	
+	@Autowired
+	private VehicleTypeRepository vehicleTypeRepository;
+	
+	@Autowired
+	private ParkingLotRepository parkingLotRepository;
+
 	public static void main(String[] args) throws IOException {
 		SpringApplication.run(ParkingApplication.class, args);
 	}
-
 	
 	@PostConstruct
 	public void run() {
 		
-		
-//        // Tính khoảng thời gian giữa hai timestamp
-//        Duration duration = Duration.between(timestamp1, timestamp2);
-//
-//        // Lấy giá trị số giây, phút, giờ, v.v. trong khoảng thời gian
-//        long seconds = duration.getSeconds();
-//        long minutes = duration.toMinutes();
-//        long hours = duration.toHours();
-//        long days = duration.toDays();
-//
-//        System.out.println("Khoảng thời gian:");
-//        System.out.println("Số giây: " + seconds);
-//        System.out.println("Số phút: " + minutes);
-//        System.out.println("Số giờ: " + hours);
-//        System.out.println("Số ngày: " + days);
-		
+//		ParkingLotSearch parkingLotSearch = new ParkingLotSearch(3L,"Le");
+//		List<ParkingLot> parkingLots = parkingLotRepository.search(parkingLotSearch);
+//		for(ParkingLot parkingLot: parkingLots){
+//			System.out.println(parkingLot.getParkingLotName());
+//		}
 	}
 }

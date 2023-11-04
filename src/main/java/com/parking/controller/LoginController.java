@@ -25,7 +25,7 @@ public class LoginController {
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
 	
-	@PostMapping("/changePassword")
+	@PostMapping("/change-password")
 	public ResponseEntity<ResponseObject> doChangePassword(@RequestBody LoginRequest loginRequest)
 	{
 		ResponseObject responseObject = loginService.changePassword(loginRequest);

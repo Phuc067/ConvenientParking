@@ -20,7 +20,7 @@ import com.parking.model.ResponseObject;
 import com.parking.service.MerchantService;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "${allowed.origin}")
 @RequestMapping(value = "/api/merchant")
 public class MerchantController {
 	@Autowired
