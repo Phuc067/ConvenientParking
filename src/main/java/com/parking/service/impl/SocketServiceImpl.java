@@ -33,7 +33,7 @@ public class SocketServiceImpl implements SocketService {
 	
 	@Override
 	public boolean sendToUser(Long userId, SocketMessage socketMessage) {
-		template.convertAndSend("/user/" + userId, socketMessage);
+		template.convertAndSend("/parkinglot/user/" + userId, socketMessage);
 		return true;
 	}
 	

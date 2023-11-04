@@ -56,9 +56,11 @@ public class CheckOutServiceImpl implements CheckOutService{
 		{
 			return new ResponseObject(HttpStatus.ALREADY_REPORTED, "Vé đã checkout rồi", null);
 		}
-		Long price  = ticketService.getPrice(ticket.getCheckInTime(), ticket.getParkingLot().getId(), ticket.getVehicleType().getId());
+		Timestamp timestamp = TimeUtils.getGMT_7( ticket.getCheckInTime());
+		
+		Long price  = ticketService.getPrice(timestamp, ticket.getParkingLot().getId(), ticket.getVehicleType().getId());
 		CheckOutData checkOutData  =new CheckOutData(ticket.getLicensePlate(), price);
-//		socketService.sendPaymentRequest(ticket.getUser().getId(), price);
+		socketService.sendPaymentRequest(ticket.getUser().getId(), price);
 		return new ResponseObject(HttpStatus.OK, "Xác minh thông tin thành công", checkOutData);
 	}
 
@@ -76,7 +78,7 @@ public class CheckOutServiceImpl implements CheckOutService{
 		parkingLotRepository.decreaseNumberSlotRemainingBy1(ticket.getParkingLot().getId());
 		ticket.setCheckOutTime(Timestamp.from(TimeUtils.now()));
 		ticketRepository.save(ticket);
-//		socketService.sendCheckOutSucessfull(ticket.getUser().getId());
+		socketService.sendCheckOutSucessfull(ticket.getUser().getId());
 		return new ResponseObject(HttpStatus.OK, "Checkout thành công", null);
 	}
 	

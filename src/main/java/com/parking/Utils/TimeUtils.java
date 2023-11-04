@@ -46,9 +46,8 @@ public class TimeUtils {
 
 	public static Double intervalToNow(Timestamp time) {
 		
-		Instant instantA = TimeUtils.gmt_7(time.toInstant());
+		Instant instantA = time.toInstant();
 		Instant instantB = TimeUtils.now();
-		
 		Duration duration = Duration.between(instantA, instantB);
 
 		Long seconds = duration.getSeconds();
