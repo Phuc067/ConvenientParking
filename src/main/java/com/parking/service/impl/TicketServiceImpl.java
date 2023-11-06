@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.parking.dto.ticket.HistoryTicket;
 import com.parking.dto.ticket.TicketResponse;
 import com.parking.entity.PriceTicket;
 import com.parking.entity.Ticket;
@@ -50,6 +51,18 @@ public class TicketServiceImpl implements TicketService{
 		Long days = (long) Math.ceil(hours/24);
 		Long price = priceTicket.getPrice() * days;
 		return price;
+	}
+
+	@Override
+	public ResponseObject getHistoryTicketOfUser(long userId) {
+		try {
+			List<HistoryTicket> historyTickets = spRepository.getHistoryTicket(userId);
+			return new ResponseObject(HttpStatus.OK, "Lấy lịch sử vé thành công", historyTickets);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseObject(HttpStatus.OK, "Lấy lịch sử vé thành công", null);
+		}
 	}
 	
 	

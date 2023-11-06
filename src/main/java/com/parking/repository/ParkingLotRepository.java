@@ -21,7 +21,6 @@ public interface ParkingLotRepository extends JpaRepository<ParkingLot, Long>{
 	
 	@Query(value = "SELECT MAX(ID) FROM PARKINGLOTS", nativeQuery = true)
 	Long getMaxId();
-	
 	List<ParkingLot> findByMerchantId(Long id);
 
 	@Modifying(clearAutomatically = true)
@@ -33,9 +32,8 @@ public interface ParkingLotRepository extends JpaRepository<ParkingLot, Long>{
 	Boolean existsByCityAndDistrictAndWardAndStreetAndNumber(String city, String district, String ward, String Street, String number);
 	
 	@Modifying(clearAutomatically = true)
-	@Query(value = "SELECT * FROM ParkingLots WHERE   CONCAT(parkingLotName, ' ', number, ' ', street, ' ', ward, ' ', district, ' ', city) COLLATE Latin1_General_CI_AI LIKE %?1% OR "
-			+ " CONCAT(parkingLotName, ' ', number, ' ', street, ' ', district, ' ', city) COLLATE Latin1_General_CI_AI LIKE %?1%",nativeQuery = true)
-	List<ParkingLot> search(String keyword);
+	@Query(value = "{CALL SP_SEARCH_PARKING_LOT_BY_VEHICLE_TYPE(:#{#request.vehicleTypeId}, :#{#request.keyword})}",nativeQuery = true)
+	List<ParkingLot> search(@Param ("request") ParkingLotSearch request);
 
 	@Modifying(clearAutomatically = true)
 	@Query(value = "SELECT * FROM ParkingLots WHERE merchantId = :#{#request.id} AND ( CONCAT(parkingLotName, ' ', number, ' ', street, ' ', ward, ' ', district, ' ', city) COLLATE Latin1_General_CI_AI LIKE %:#{#request.keyword}% OR "+

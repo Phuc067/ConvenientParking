@@ -10,9 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.parking.dto.merchant.MerchantRequest;
+import com.parking.dto.merchant.ReportResponse;
 import com.parking.entity.Merchant;
 import com.parking.model.ResponseObject;
 import com.parking.repository.MerchantRepository;
+import com.parking.repository.SpRepository;
 import com.parking.service.MerchantService;
 
 @Service
@@ -20,6 +22,9 @@ public class MerchantServiceImpl implements MerchantService {
 
 	@Autowired
 	private MerchantRepository repo;
+	
+	@Autowired
+	private SpRepository spRepository;
 	@Override
 	public List<Merchant> getAll() {
 		List<Merchant> merchants = repo.findAll();
@@ -62,5 +67,15 @@ public class MerchantServiceImpl implements MerchantService {
 			return new ResponseObject(HttpStatus.BAD_REQUEST,"Thêm thông tin cong ty thất bại", null);
 		}
 		return new ResponseObject(HttpStatus.ACCEPTED,"Thêm thông tin công ty  thành công", null);
+	}
+	@Override
+	public ResponseObject getReportInYear(Long parkingLotId, Long year) {
+		try {
+			List<ReportResponse> reportResponses = spRepository.getReportInYear(parkingLotId, year);
+			return new ResponseObject(HttpStatus.OK, "Lấy báo cáo thành công", reportResponses);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseObject(HttpStatus.NO_CONTENT, "Lấy báo cáo thất bại", null);
+		}
 	}
 }

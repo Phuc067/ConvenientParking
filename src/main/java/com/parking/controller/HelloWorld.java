@@ -45,18 +45,4 @@ public class HelloWorld {
 		}
 		return ResponseEntity.ok(attributeMap);
 	}
-	
-	@GetMapping("/clear")
-	public ResponseEntity<?> doClearVerificationCode(String username)
-	{
-		try {
-			VerifyCodeManager verifyCodeManager = new VerifyCodeManager();
-			verifyCodeManager.scheduleVerificationCleanup(SessionConstant.OTP_EXPIRE_TIME, username, loginRepository);
-			return ResponseEntity.status(HttpStatus.OK).build();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-	}
 }

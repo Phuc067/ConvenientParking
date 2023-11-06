@@ -1,5 +1,6 @@
 package com.parking.repository;
 
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
 
@@ -27,5 +28,10 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
 	@Query(value = "SELECT * FROM TICKETS WHERE endUserId = ?1 AND checkOutTime IS NULL", nativeQuery = true)
 	List<Ticket> findByUserIdAndUnPaid(Long userId);
+
+	
+	@Modifying(clearAutomatically = true)
+	@Query(value = "UPDATE tickets SET checkOutTime = ?1 WHERE id = ?2", nativeQuery = true)
+	void setCheckOutTime(Timestamp from, Long id);
 	
 }

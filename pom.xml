@@ -106,7 +106,11 @@
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
 		</dependency>
-
+		<dependency>
+			<groupId>org.deeplearning4j</groupId>
+			<artifactId>deeplearning4j-nn</artifactId>
+			 <version>1.0.0-M2.1</version>
+		</dependency>
 	
 
 	</dependencies>

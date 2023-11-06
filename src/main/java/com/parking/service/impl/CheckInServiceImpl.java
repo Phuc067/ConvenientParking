@@ -12,12 +12,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.parking.constant.TicketConstant;
+import com.parking.constant.WebSocketConstant;
 import com.parking.dto.checkInOut.CheckInData;
 import com.parking.dto.checkInOut.CheckInInformation;
 import com.parking.entity.ParkingLot;
 import com.parking.entity.Ticket;
 import com.parking.entity.User;
 import com.parking.model.ResponseObject;
+import com.parking.model.SocketMessage;
 import com.parking.model.VehicleData;
 import com.parking.repository.ParkingLotRepository;
 import com.parking.repository.PendingTicketRepository;
@@ -65,6 +67,7 @@ public class CheckInServiceImpl implements CheckInService {
 		
 		if (ObjectUtils.isEmpty(vehicleData)) {
 			pendingTicketRepository.removePendingTicket(data);
+			socketService.sendToUser(data.getUserId(), new SocketMessage(WebSocketConstant.CHECKIN_FAILED, "Đã quá thời hạn nhập biển số. Hãy quét lại mã"));
 			return new ResponseObject(HttpStatus.FOUND, "Đã quá thời hạn nhập biển số. Hãy quét lại mã", null);
 		}
 		
@@ -74,8 +77,10 @@ public class CheckInServiceImpl implements CheckInService {
 			Instant now = Instant.now();
 			ticketRepository.insert(now, vehicleData, data);
 			parkingLotRepository.decreaseNumberSlotRemainingBy1(data.getParkingLotId());
+			socketService.sendToUser(data.getUserId(), new SocketMessage(WebSocketConstant.CHECKIN_SUCCESSFUL, "Checkin thành công"));
 			return new ResponseObject(HttpStatus.OK, "Tạo vé thành công", null);
 		} else
+			socketService.sendToUser(data.getUserId(), new SocketMessage(WebSocketConstant.CHECKIN_FAILED, "Hãy thanh toán vé mà trước đó bạn chưa trả"));
 			return new ResponseObject(HttpStatus.FOUND,
 					"Người dùng đã có vé cho chiếc xe này trong hệ thống mà chưa thanh toán", null);
 

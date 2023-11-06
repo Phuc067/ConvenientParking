@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.parking.dto.auth.UsernameRequest;
 import com.parking.dto.merchant.MerchantRequest;
+import com.parking.dto.merchant.ReportRequest;
 import com.parking.entity.Merchant;
 import com.parking.model.ResponseObject;
 import com.parking.service.MerchantService;
@@ -53,4 +54,10 @@ public class MerchantController {
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
 
+	@PostMapping("/report")
+	public ResponseEntity<?> doGetReport(@RequestBody ReportRequest report)
+	{
+		ResponseObject responseObject = service.getReportInYear(report.getParkingLotId(), report.getYear());
+		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
+	}
 }

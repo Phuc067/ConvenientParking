@@ -46,8 +46,7 @@ public class SocketServiceImpl implements SocketService {
 	@Override
 	public boolean sendCheckInSuccessful(Long parkingLotID, Long userId) {
 		CheckInMessageData socketMessageData = new CheckInMessageData(WebSocketConstant.CHECKIN_SUCCESSFUL, "checkin success", null);
-		
-		return  sendToParkingLot(parkingLotID, socketMessageData);
+		return sendToParkingLot(parkingLotID, socketMessageData);
 	}
 
 	@Override

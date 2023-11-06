@@ -69,6 +69,18 @@ public class ParkingLot implements Serializable {
 	private String street;
 	@Column
 	private String number;
+	@Column
+	@JsonIgnore
+	private Long area;
+	@Column
+	@JsonIgnore
+	private Long hasRoof;
+	@Column
+	@JsonIgnore
+	private Long reviewPoint;
+	@Column
+	@JsonIgnore
+	private Long cleanLevel;
 	
 	@OneToMany(mappedBy = "parkingLot")
 	List<ParkingLotImage> images ;
@@ -77,13 +89,15 @@ public class ParkingLot implements Serializable {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
+	
+	
 	public ParkingLot(Long id,
 			@Size(max = 50, message = "Name shouldn't be exceed 50 character") @NotBlank(message = "Name should not be empty") String parkingLotName,
 			@Min(0) Long numberSlot, @Min(0) Long numberSlotRemaining, @Max(10) Long status, Merchant merchant,
 			@NotNull(message = "Latitude shouldn't be empty") Double lat,
 			@NotNull(message = "Longitude shouldn't be empty") Double lng, String timeOpen, String timeClose,
-			String city, String district, String ward, String street, String number, List<ParkingLotImage> images) {
+			String city, String district, String ward, String street, String number, Long area, Long hasRoof,
+			Long reviewPoint, Long cleanLevel, List<ParkingLotImage> images) {
 		super();
 		this.id = id;
 		this.parkingLotName = parkingLotName;
@@ -100,7 +114,41 @@ public class ParkingLot implements Serializable {
 		this.ward = ward;
 		this.street = street;
 		this.number = number;
+		this.area = area;
+		this.hasRoof = hasRoof;
+		this.reviewPoint = reviewPoint;
+		this.cleanLevel = cleanLevel;
 		this.images = images;
+	}
+
+
+	public ParkingLot(Long id,
+			@Size(max = 50, message = "Name shouldn't be exceed 50 character") @NotBlank(message = "Name should not be empty") String parkingLotName,
+			@Min(0) Long numberSlot, @Min(0) Long numberSlotRemaining, @Max(10) Long status, Merchant merchant,
+			@NotNull(message = "Latitude shouldn't be empty") Double lat,
+			@NotNull(message = "Longitude shouldn't be empty") Double lng, String timeOpen, String timeClose,
+			String city, String district, String ward, String street, String number, Long area, Long hasRoof,
+			Long reviewPoint, Long cleanLevel) {
+		super();
+		this.id = id;
+		this.parkingLotName = parkingLotName;
+		this.numberSlot = numberSlot;
+		this.numberSlotRemaining = numberSlotRemaining;
+		this.status = status;
+		this.merchant = merchant;
+		this.lat = lat;
+		this.lng = lng;
+		this.timeOpen = timeOpen;
+		this.timeClose = timeClose;
+		this.city = city;
+		this.district = district;
+		this.ward = ward;
+		this.street = street;
+		this.number = number;
+		this.area = area;
+		this.hasRoof = hasRoof;
+		this.reviewPoint = reviewPoint;
+		this.cleanLevel = cleanLevel;
 	}
 
 	public Long getId() {
@@ -234,5 +282,42 @@ public class ParkingLot implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
+
+
+	public Long getArea() {
+		return area;
+	}
+
+
+	public void setArea(Long area) {
+		this.area = area;
+	}
+
+
+	public Long getHasRoof() {
+		return hasRoof;
+	}
+
+
+	public void setHasRoof(Long hasRoof) {
+		this.hasRoof = hasRoof;
+	}
+
+
+	public Long getReviewPoint() {
+		return reviewPoint;
+	}
+
+
+	public void setReviewPoint(Long reviewPoint) {
+		this.reviewPoint = reviewPoint;
+	}
+
+	public Long getCleanLevel() {
+		return cleanLevel;
+	}
+
+	public void setCleanLevel(Long cleanLevel) {
+		this.cleanLevel = cleanLevel;
+	}
 }

@@ -1,6 +1,7 @@
 package com.parking.service.impl;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,9 +76,8 @@ public class CheckOutServiceImpl implements CheckOutService{
 	
 		Transaction transaction = new Transaction(TransactionConstant.PAID,ticket, Timestamp.from(TimeUtils.now()), "Đã thanh toán");
 		transactionRepository.save(transaction);
-		parkingLotRepository.decreaseNumberSlotRemainingBy1(ticket.getParkingLot().getId());
-		ticket.setCheckOutTime(Timestamp.from(TimeUtils.now()));
-		ticketRepository.save(ticket);
+		parkingLotRepository.increaseNumberSlotRemainingBy1(ticket.getParkingLot().getId());
+		ticketRepository.setCheckOutTime(Timestamp.from(Instant.now()), id);
 		socketService.sendCheckOutSucessfull(ticket.getUser().getId());
 		return new ResponseObject(HttpStatus.OK, "Checkout thành công", null);
 	}

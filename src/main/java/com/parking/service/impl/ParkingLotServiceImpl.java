@@ -78,8 +78,9 @@ public class ParkingLotServiceImpl implements ParkingLotService{
 	}
 
 	@Override
-	public ResponseObject search(String keyword ) {
-		List<ParkingLot> parkingLots = parkingLotRepository.search(keyword);
+	public ResponseObject search(ParkingLotSearch request ) {
+		request.setKeyword(AddressUtils.formart(request.getKeyword()));
+		List<ParkingLot> parkingLots = parkingLotRepository.search(request);
 		for(ParkingLot parkingLot: parkingLots)
 		{
 			ImageUtils.decompressImage(parkingLot.getImages());

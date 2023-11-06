@@ -44,14 +44,8 @@ public class PriceTicketServiceImpl implements PriceTicketService {
 	@Transactional
 	public ResponseObject insert(PriceTicketRequest request) {
 		try {
-			Instant nowInstant = Instant.now();
-			Timestamp now = Timestamp.from(nowInstant);
-			PriceTicket priceTicket = priceTicketRepository.findByParkingLotIdAndVehicleTypeId(request.getParkingLotId(), request.getVehicleTypeId());
-			if(ObjectUtils.isNotEmpty(priceTicket))
-			{
-				priceTicketRepository.updateExpiredTime(priceTicket.getId(), now);
-			}
-			priceTicketRepository.insert(request.getParkingLotId(), request.getVehicleTypeId(), now,request.getPrice());
+			System.out.println(request.getParkingLotId() + " " + request.getVehicleTypeId()+" "+ request.getPrice());
+			priceTicketRepository.insert(request.getParkingLotId(), request.getVehicleTypeId(),request.getPrice());
 			return new ResponseObject(HttpStatus.OK, "Thêm giá vé thành công", null);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -19,10 +19,17 @@ public class TicketController {
 	@Autowired
 	private TicketService ticketService;
 	
-	@PostMapping("/user")
+	@PostMapping("/user/unpaid")
 	public ResponseEntity<?> doGetTicketUnPaidTicket(@RequestBody IdRequest request)
 	{
 		ResponseObject responseObject = ticketService.getUnpaidTicket(request.getId());
+		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
+	}
+	
+	@PostMapping("/user/history")
+	public ResponseEntity<?> doGetHistoryTicket(@RequestBody IdRequest request)
+	{
+		ResponseObject responseObject = ticketService.getHistoryTicketOfUser(request.getId());
 		return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
 	}
 }

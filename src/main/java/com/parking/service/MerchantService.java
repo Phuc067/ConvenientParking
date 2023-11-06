@@ -8,10 +8,15 @@ import com.parking.model.ResponseObject;
 
 public interface MerchantService {
 
-	public List<Merchant> getAll();
-	public Merchant getById(Long id);
-	public ResponseObject edit(Merchant merchant);
-	public ResponseObject getByUsername(String username);
-	public ResponseObject insert(MerchantRequest merchant);		
-	}
+	List<Merchant> getAll();
 
+	Merchant getById(Long id);
+
+	ResponseObject edit(Merchant merchant);
+
+	ResponseObject getByUsername(String username);
+
+	ResponseObject insert(MerchantRequest merchant);
+
+	ResponseObject getReportInYear(Long parkingLotId, Long year);
+}

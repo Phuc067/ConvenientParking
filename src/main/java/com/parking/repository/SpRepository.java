@@ -9,7 +9,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.parking.dto.merchant.ReportResponse;
 import com.parking.dto.priceTicket.PriceTicketResponse;
+import com.parking.dto.ticket.HistoryTicket;
 import com.parking.dto.ticket.TicketResponse;
 import com.parking.utils.TimeUtils;
 
@@ -63,6 +65,53 @@ public class SpRepository {
 			ticket.setVehicleTypeId(rs.getLong(6));
 			ticket.setParkingLotId(rs.getLong(7));
 			return ticket;
+		}
+    	
+    }
+    
+    public List<ReportResponse> getReportInYear(Long parkingLotId, Long year)
+    {
+    	String proc = "[SP_revenue_of_the_year]";
+    	return jdbcTemplate.query("{call " + proc  + "(?, ?)}", 
+    			new Object[] {parkingLotId, year},
+    			new ReportMapper()
+    	);
+    }
+    
+    public static final class ReportMapper implements RowMapper<ReportResponse>
+    {
+
+		@Override
+		public ReportResponse mapRow(ResultSet rs, int rowNum) throws SQLException {
+			ReportResponse reportResponse = new ReportResponse();
+			reportResponse.setMonth(rs.getLong(1));
+			reportResponse.setTotal(rs.getDouble(2));
+			return reportResponse;
+		}
+    	
+    }
+    
+    public List<HistoryTicket> getHistoryTicket(Long userId)
+    {
+    	String proc = "[SP_GET_HISTORY_TICKET_OF_USER]";
+    	return jdbcTemplate.query("{call " + proc  + "(?)}", 
+    			new Object[] {userId},
+    			new HistoryTicketMapper()
+    	);
+    }
+    
+    public static final class HistoryTicketMapper implements RowMapper<HistoryTicket>
+    {
+
+		@Override
+		public HistoryTicket mapRow(ResultSet rs, int rowNum) throws SQLException {
+			HistoryTicket historyTicket = new HistoryTicket();
+			historyTicket.setId(rs.getLong(1));
+			historyTicket.setCheckInTime(TimeUtils.getGMT_7(rs.getTimestamp(2)));
+			historyTicket.setCheckOutTime(TimeUtils.getGMT_7(rs.getTimestamp(3)));
+			historyTicket.setLicensePlate(rs.getString(4));
+			historyTicket.setParkingLotName(rs.getString(5));
+			return historyTicket;
 		}
     	
     }
