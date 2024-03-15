@@ -15,7 +15,7 @@ public interface ParkingLotImageService {
 	@Transactional
 	ResponseObject  upload(Long parkingLotId, MultipartFile file) ;
 
-	List<ParkingLotImage> download(long parkingLotId);
+	ResponseObject download(long parkingLotId);
 	
 	ResponseObject  uploadImageToDB(Long parkingLotId, String string) throws IOException ;
 

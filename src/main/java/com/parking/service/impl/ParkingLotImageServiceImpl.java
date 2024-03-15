@@ -39,14 +39,15 @@ public class ParkingLotImageServiceImpl implements ParkingLotImageService {
 //	}
 
 	@Override
-	public List<ParkingLotImage> download(long parkingLotId) {
+	public ResponseObject download(long parkingLotId) {
 		List<ParkingLotImage> parkingLotImages = parkingLotImageRepository.findByParkingLotId(parkingLotId);
 		if (ObjectUtils.isNotEmpty(parkingLotImages)) {
 			for (ParkingLotImage parkingLotImage : parkingLotImages) {
 				parkingLotImage.setData(ImageUtils.decompressImage(parkingLotImage.getData()) );
 			}
-			return parkingLotImages;
-		} else return null;
+			return new ResponseObject(HttpStatus.OK,"Lấy danh sách hình ảnh thành công", parkingLotImages);
+		} 
+		else return new ResponseObject(HttpStatus.NO_CONTENT,"Không tìm thấy hình ảnh", null);
 
 	}
 

@@ -46,10 +46,6 @@ public class ParkingApplication {
 //		parkingLotSearchService.setParkingLotSearchServiceImpl(parkingLots);
 //		int suggest = parkingLotSearchService.suggestParkingLot(10.806511904215052, 106.70339679765308);
 //		System.out.println(suggest);
-//		ParkingLotSearch parkingLotSearch = new ParkingLotSearch(3L,"Le");
-//		List<ParkingLot> parkingLots = parkingLotRepository.search(parkingLotSearch);
-//		for(ParkingLot parkingLot: parkingLots){
-//			System.out.println(parkingLot.getParkingLotName());
-//		}
+//	
 	}
 }

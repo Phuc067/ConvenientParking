@@ -21,4 +21,8 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	@Modifying(clearAutomatically = true)
 	@Query(value = "INSERT INTO EndUsers(firstName, lastName, gender, phone, momoId, loginId) VALUES(:#{#user.firstName}, :#{#user.lastName}, :#{#user.gender}, :#{#user.phone}, :#{#user.momoId}, :#{#user.loginId})", nativeQuery = true)
 	void insert(@Param("user") UserInsert user);
+	
+	@Modifying(clearAutomatically = true)
+	@Query(value = "INSERT INTO EndUsers(loginId) Values(?1)", nativeQuery = true)
+	void createNew(Long loginId);
 }

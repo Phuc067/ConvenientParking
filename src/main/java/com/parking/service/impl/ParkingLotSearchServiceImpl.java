@@ -161,4 +161,24 @@ public class ParkingLotSearchServiceImpl implements ParkingLotSearchService {
             return Double.compare(this.score, other.score);
         }
     }
+    
+//    private List<double[]> loadDataset(String csvFilePath) {
+//        List<double[]> dataset = new ArrayList<>();
+//
+//        try (CSVReader reader = new CSVReader(new FileReader(csvFilePath))) {
+//            String[] nextLine;
+//            while ((nextLine = reader.readNext()) != null) {
+//                double[] features = new double[nextLine.length - 1];
+//                for (int i = 0; i < features.length; i++) {
+//                    features[i] = Double.parseDouble(nextLine[i]);
+//                }
+//                dataset.add(features);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        return dataset;
+//    }
+//}
 }

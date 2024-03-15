@@ -111,8 +111,6 @@
 			<artifactId>deeplearning4j-nn</artifactId>
 			 <version>1.0.0-M2.1</version>
 		</dependency>
-	
-
 	</dependencies>
 
 	<build>

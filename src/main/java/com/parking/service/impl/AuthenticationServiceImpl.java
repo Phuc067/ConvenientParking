@@ -23,6 +23,7 @@ import com.parking.model.AuthenticationResponse;
 import com.parking.model.ResponseObject;
 import com.parking.repository.LoginRepository;
 import com.parking.repository.RoleRepository;
+import com.parking.repository.UserRepository;
 import com.parking.service.EmailSenderService;
 import com.parking.service.JwtService;
 import com.parking.service.RefreshTokenService;
@@ -36,6 +37,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@Autowired
 	private LoginRepository loginRepository;
 
+	@Autowired
+	private UserRepository userRepository;
+	
 	@Autowired
 	private EmailSenderService emailSenderService;
 
@@ -71,6 +75,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@Override
 	@Transactional
 	public ResponseObject register(RegisterRequest registerDto) throws MessagingException {
+		
+//		if(registerDto.getRole()==null)
+//		{
+//			registerDto.setRole("USER");
+//		}
 		if (ObjectUtils.isNotEmpty(loginRepository.findByUsername(registerDto.getUsername()))) {
 			return new ResponseObject(HttpStatus.CONFLICT, "Tên tài khoản đã tồn tại", null);
 		}
@@ -88,6 +97,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		Role role = roleRepository.findByName(registerDto.getRole());
 		login.setRole(role);
 		loginRepository.save(login);
+		userRepository.createNew(loginRepository.getMaxId());
 		return new ResponseObject(HttpStatus.CREATED,
 				"Tạo tài khoản thành công.", null);
 	}

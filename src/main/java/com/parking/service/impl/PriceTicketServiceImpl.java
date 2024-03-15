@@ -42,10 +42,10 @@ public class PriceTicketServiceImpl implements PriceTicketService {
 
 	@Override
 	@Transactional
-	public ResponseObject insert(PriceTicketRequest request) {
+	public ResponseObject insert(Long parkingLotId, PriceTicketRequest request) {
 		try {
-			System.out.println(request.getParkingLotId() + " " + request.getVehicleTypeId()+" "+ request.getPrice());
-			priceTicketRepository.insert(request.getParkingLotId(), request.getVehicleTypeId(),request.getPrice());
+			System.out.println(parkingLotId + " " + request.getVehicleTypeId()+" "+ request.getPrice());
+			priceTicketRepository.insert(parkingLotId, request.getVehicleTypeId(),request.getPrice());
 			return new ResponseObject(HttpStatus.OK, "Thêm giá vé thành công", null);
 		} catch (Exception e) {
 			e.printStackTrace();

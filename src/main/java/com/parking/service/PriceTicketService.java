@@ -7,6 +7,6 @@ public interface PriceTicketService {
 
 	ResponseObject getByParkingLotId(Long parkingLotId);
 
-	ResponseObject insert(PriceTicketRequest request);
+	ResponseObject insert( Long id,PriceTicketRequest request);
 
 }

@@ -18,6 +18,9 @@ public interface LoginRepository extends JpaRepository<Login, Long> {
 	
 	Login findByEmail(String email);
 	
+	@Query(value = "SELECT MAX(ID) FROM Logins", nativeQuery = true)
+	Long getMaxId();
+	
 	@Modifying(clearAutomatically = true)
 	@Query(value = "INSERT INTO logins(username, password, email, verificationCode, status, roleId) VALUES (?1, ?2, ?3, ?4, 0, ?5)", nativeQuery = true)
 	Login insert(String username,String password,String email, String verificationCode ,Long roleId);
@@ -40,4 +43,6 @@ public interface LoginRepository extends JpaRepository<Login, Long> {
 	void setPassword(String username, String password);
 
 	User save(User user);
+	
+	
 }

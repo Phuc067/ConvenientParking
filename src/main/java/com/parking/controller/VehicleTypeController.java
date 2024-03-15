@@ -10,7 +10,7 @@ import com.parking.model.ResponseObject;
 import com.parking.service.VehicleTypeService;
 
 @RestController
-@RequestMapping(value = "/api/vehicle-type")
+@RequestMapping(value = "/api/vehicle-types")
 public class VehicleTypeController {
 	
 	

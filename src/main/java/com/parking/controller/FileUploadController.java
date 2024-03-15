@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -18,7 +20,8 @@ import com.parking.exception.StorageFileNotFoundException;
 import com.parking.service.StorageService;
 
 
-@Controller
+@RestController
+@RequestMapping(value = "/api/files")
 public class FileUploadController {
 
 	@Autowired
@@ -28,19 +31,7 @@ public class FileUploadController {
 		this.storageService = storageService;
 	}
 
-	@GetMapping("/")
-	public String doGetChatRomm()
-	{
-		return "index";
-	}
 	
-//	@GetMapping("/")
-//	public String listUploadedFiles(Model model) throws IOException {
-//
-//		model.addAttribute("files", storageService.loadAll().map(path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class, "serveFile", path.getFileName().toString()).build().toUri().toString()).collect(Collectors.toList()));
-//
-//		return "uploadForm";
-//	}
 
 	@GetMapping("/files/{filename:.+}")
 	@ResponseBody
@@ -51,7 +42,7 @@ public class FileUploadController {
 				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
 
-	@PostMapping("/")
+	@PostMapping("")
 	public String handleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
 
 		storageService.store(file);
